@@ -1,4 +1,4 @@
-rootProject.name = "WriteBox"
+rootProject.name = "WhatCampus"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {

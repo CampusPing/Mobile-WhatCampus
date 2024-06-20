@@ -67,7 +67,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.writer.writebox"
+    namespace = "com.campus.whatcampus"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -75,7 +75,7 @@ android {
     sourceSets["main"].resources.srcDirs("src/commonMain/resources")
 
     defaultConfig {
-        applicationId = "com.writer.writebox"
+        applicationId = "com.campus.whatcampus"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
