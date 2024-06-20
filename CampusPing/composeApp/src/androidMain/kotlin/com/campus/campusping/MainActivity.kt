@@ -1,4 +1,4 @@
-package com.writer.writebox
+package com.campus.campusping
 
 import App
 import android.os.Bundle
