@@ -13,8 +13,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.painterResource
-import writebox.composeapp.generated.resources.Res
-import writebox.composeapp.generated.resources.compose_multiplatform
+import whatcampus.composeapp.generated.resources.Res
+import whatcampus.composeapp.generated.resources.compose_multiplatform
 
 @Composable
 fun App() {
