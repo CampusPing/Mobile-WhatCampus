@@ -68,6 +68,12 @@ private val WhatcamThemeLightColorScheme = lightColorScheme(
     scrim = Black,
 )
 
+object WhatCamTheme {
+    val typography: WhatcamTypography
+        @Composable
+        get() = LocalTypography.current
+}
+
 @Composable
 fun WhatcamTheme(
     isDarkTheme: Boolean = isSystemInDarkTheme(),
