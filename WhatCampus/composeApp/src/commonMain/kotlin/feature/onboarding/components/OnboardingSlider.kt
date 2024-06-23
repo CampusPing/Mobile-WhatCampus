@@ -1,5 +1,7 @@
 package feature.onboarding.components
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,6 +19,7 @@ import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
@@ -24,11 +27,11 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import core.designsystem.theme.LightGray
+import core.designsystem.theme.WhatcamTheme
 import feature.onboarding.OnboardingSliderItem
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import core.designsystem.theme.LightGray
-import core.designsystem.theme.WhatcamTheme
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -47,7 +50,15 @@ internal fun OnboardingSlider(
             state = pagerState,
             contentPadding = contentPadding,
         ) { page ->
-            OnboardingItem(sliderItem = sliderItems[page])
+            val onboardingImageSize by animateFloatAsState(
+                targetValue = if (pagerState.currentPage == page) 1f else 0.8f,
+                animationSpec = tween(durationMillis = 300)
+            )
+
+            OnboardingItem(
+                imageSize = onboardingImageSize,
+                sliderItem = sliderItems[page]
+            )
         }
 
         HorizontalSlidingIndicator(
@@ -59,6 +70,7 @@ internal fun OnboardingSlider(
 
 @Composable
 private fun OnboardingItem(
+    imageSize: Float,
     sliderItem: OnboardingSliderItem,
 ) {
     val image = painterResource(sliderItem.imageRes)
@@ -72,7 +84,11 @@ private fun OnboardingItem(
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(2F),
+                .aspectRatio(2F)
+                .graphicsLayer {
+                    scaleX = imageSize
+                    scaleY = imageSize
+                },
         )
         Text(
             text = stringResource(sliderItem.descriptionRes),
