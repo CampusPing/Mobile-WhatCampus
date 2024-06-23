@@ -1,4 +1,4 @@
-package feature.onboarding.component
+package feature.onboarding.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
