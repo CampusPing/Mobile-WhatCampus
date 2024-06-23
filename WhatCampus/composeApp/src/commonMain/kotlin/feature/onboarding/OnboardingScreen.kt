@@ -38,7 +38,7 @@ internal fun OnboardingScreen(
     ) {
         Text(
             text = stringResource(Res.string.onboarding_title),
-            style = WhatcamTheme.typography.titleLargeBL,
+            style = WhatcamTheme.typography.headlineMediumM,
             modifier = Modifier.padding(horizontalPadding),
         )
 
