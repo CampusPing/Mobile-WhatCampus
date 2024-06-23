@@ -14,9 +14,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import core.designsystem.theme.WhatcamTheme
 import feature.onboarding.components.OnboardingSlider
 import org.jetbrains.compose.resources.stringResource
-import core.designsystem.theme.WhatcamTheme
 import whatcampus.composeapp.generated.resources.Res
 import whatcampus.composeapp.generated.resources.onboarding_start
 import whatcampus.composeapp.generated.resources.onboarding_title
@@ -46,7 +46,6 @@ internal fun OnboardingScreen(
             modifier = Modifier.weight(1F),
             sliderItems = sliderItems,
             pagerState = pagerState,
-            contentPadding = horizontalPadding,
         )
 
         OnboardingCompleteButton(

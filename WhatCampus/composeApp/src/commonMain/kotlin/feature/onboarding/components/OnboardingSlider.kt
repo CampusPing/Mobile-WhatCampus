@@ -40,7 +40,6 @@ internal fun OnboardingSlider(
     modifier: Modifier = Modifier,
     sliderItems: List<OnboardingSliderItem>,
     pagerState: PagerState,
-    contentPadding: PaddingValues,
 ) {
     Column(
         modifier = modifier,
@@ -49,7 +48,6 @@ internal fun OnboardingSlider(
     ) {
         HorizontalPager(
             state = pagerState,
-            contentPadding = contentPadding,
         ) { page ->
             val onboardingImageSize by animateFloatAsState(
                 targetValue = if (pagerState.currentPage == page) 1f else 0.8f,
@@ -88,7 +86,7 @@ private fun OnboardingItem(
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(2F)
+                .aspectRatio(2.3f)
                 .graphicsLayer {
                     scaleX = imageSize
                     scaleY = imageSize
