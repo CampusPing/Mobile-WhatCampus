@@ -27,8 +27,8 @@ import androidx.compose.ui.unit.dp
 import feature.onboarding.OnboardingSliderItem
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import theme.LightGray
-import theme.WhatcamTheme
+import core.designsystem.theme.LightGray
+import core.designsystem.theme.WhatcamTheme
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

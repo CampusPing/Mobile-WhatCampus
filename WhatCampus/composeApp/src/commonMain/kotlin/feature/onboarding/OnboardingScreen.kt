@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import feature.onboarding.components.OnboardingSlider
 import org.jetbrains.compose.resources.stringResource
-import theme.WhatcamTheme
+import core.designsystem.theme.WhatcamTheme
 import whatcampus.composeapp.generated.resources.Res
 import whatcampus.composeapp.generated.resources.onboarding_start
 import whatcampus.composeapp.generated.resources.onboarding_title

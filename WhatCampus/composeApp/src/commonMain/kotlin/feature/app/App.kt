@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import feature.app.components.WhatcamNavHost
 import feature.app.navigation.rememberWhatcamNavigator
-import theme.WhatcamTheme
+import core.designsystem.theme.WhatcamTheme
 
 @Composable
 fun App() {
