@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -39,7 +40,6 @@ internal fun OnboardingSlider(
     modifier: Modifier = Modifier,
     sliderItems: List<OnboardingSliderItem>,
     pagerState: PagerState,
-    contentPadding: PaddingValues,
 ) {
     Column(
         modifier = modifier,
@@ -48,7 +48,6 @@ internal fun OnboardingSlider(
     ) {
         HorizontalPager(
             state = pagerState,
-            contentPadding = contentPadding,
         ) { page ->
             val onboardingImageSize by animateFloatAsState(
                 targetValue = if (pagerState.currentPage == page) 1f else 0.8f,
@@ -63,19 +62,22 @@ internal fun OnboardingSlider(
 
         HorizontalSlidingIndicator(
             pagerState = pagerState,
-            modifier = Modifier.padding(top = 40.dp),
+            modifier = Modifier.padding(top = 12.dp),
         )
     }
 }
 
 @Composable
 private fun OnboardingItem(
+    modifier: Modifier = Modifier,
     imageSize: Float,
     sliderItem: OnboardingSliderItem,
 ) {
     val image = painterResource(sliderItem.imageRes)
 
     Column(
+        modifier = modifier.fillMaxWidth()
+            .fillMaxHeight(0.65f),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceEvenly,
     ) {
@@ -84,7 +86,7 @@ private fun OnboardingItem(
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(2F)
+                .aspectRatio(2.3f)
                 .graphicsLayer {
                     scaleX = imageSize
                     scaleY = imageSize
@@ -92,9 +94,8 @@ private fun OnboardingItem(
         )
         Text(
             text = stringResource(sliderItem.descriptionRes),
-            style = WhatcamTheme.typography.labelLargeB,
+            style = WhatcamTheme.typography.titleMediumR,
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(top = 40.dp)
         )
     }
 }
