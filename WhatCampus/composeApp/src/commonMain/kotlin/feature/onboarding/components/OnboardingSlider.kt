@@ -92,7 +92,7 @@ private fun OnboardingItem(
         )
         Text(
             text = stringResource(sliderItem.descriptionRes),
-            style = WhatcamTheme.typography.labelLargeB,
+            style = WhatcamTheme.typography.titleMediumR,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 40.dp)
         )
