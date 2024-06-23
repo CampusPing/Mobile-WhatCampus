@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import feature.app.navigation.WhatcamNavigator
 import feature.onboarding.navigation.onboardingNavGraph
+import feature.university.navigation.universityNavGraph
 
 @Composable
 internal fun WhatcamNavHost(
@@ -14,7 +15,10 @@ internal fun WhatcamNavHost(
         startDestination = navigator.startDestination.route,
     ) {
         onboardingNavGraph(
-            onboardingComplete = {}
+            onboardingComplete = { navigator.navigateUniversitySelectivity() }
+        )
+        universityNavGraph(
+
         )
     }
 }
