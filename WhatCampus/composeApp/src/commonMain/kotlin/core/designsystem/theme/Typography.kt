@@ -89,18 +89,18 @@ internal val Typography = WhatcamTypography(
         lineHeight = 28.sp,
     ),
     titleMediumBL = SansSerifStyle.copy(
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
+        fontSize = 19.sp,
+        lineHeight = 30.sp,
         fontWeight = FontWeight.Black,
     ),
     titleMediumB = SansSerifStyle.copy(
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
+        fontSize = 19.sp,
+        lineHeight = 30.sp,
         fontWeight = FontWeight.Bold,
     ),
     titleMediumR = SansSerifStyle.copy(
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
+        fontSize = 19.sp,
+        lineHeight = 30.sp,
     ),
     titleSmallB = SansSerifStyle.copy(
         fontSize = 14.sp,
