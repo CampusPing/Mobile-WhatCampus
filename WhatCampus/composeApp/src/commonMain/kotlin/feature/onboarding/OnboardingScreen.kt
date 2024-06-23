@@ -14,27 +14,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import feature.onboarding.component.OnboardingSlider
+import feature.onboarding.components.OnboardingSlider
 import org.jetbrains.compose.resources.stringResource
 import theme.WhatcamTheme
 import whatcampus.composeapp.generated.resources.Res
 import whatcampus.composeapp.generated.resources.onboarding_start
 import whatcampus.composeapp.generated.resources.onboarding_title
 
-@Composable
-internal fun OnboardingRoute(
-    modifier: Modifier = Modifier,
-    onboardingComplete: () -> Unit,
-) {
-    OnboardingScreen(
-        modifier = modifier,
-        onboardingComplete = onboardingComplete,
-    )
-}
-
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun OnboardingScreen(
+internal fun OnboardingScreen(
     modifier: Modifier = Modifier,
     onboardingComplete: () -> Unit,
 ) {
@@ -45,7 +34,7 @@ private fun OnboardingScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(top = 60.dp, bottom = 40.dp)
+            .padding(top = 40.dp, bottom = 40.dp)
     ) {
         Text(
             text = stringResource(Res.string.onboarding_title),
