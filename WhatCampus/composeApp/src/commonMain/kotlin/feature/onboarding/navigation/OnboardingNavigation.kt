@@ -1,5 +1,6 @@
 package feature.onboarding.navigation
 
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -12,10 +13,12 @@ fun NavController.navigateOnboarding() {
 }
 
 fun NavGraphBuilder.onboardingNavGraph(
+    modifier: Modifier = Modifier,
     onboardingComplete: () -> Unit,
 ) {
     composable(Route.OnboardingRoute.route) {
         OnboardingScreen(
+            modifier = modifier,
             onboardingComplete = onboardingComplete,
         )
     }

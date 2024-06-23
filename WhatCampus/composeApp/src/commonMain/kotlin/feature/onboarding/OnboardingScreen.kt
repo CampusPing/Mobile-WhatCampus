@@ -33,8 +33,6 @@ internal fun OnboardingScreen(
 
     Column(
         modifier = modifier
-            .fillMaxSize()
-            .padding(top = 40.dp, bottom = 40.dp)
     ) {
         Text(
             text = stringResource(Res.string.onboarding_title),

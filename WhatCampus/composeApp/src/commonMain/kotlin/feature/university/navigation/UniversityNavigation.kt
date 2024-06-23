@@ -1,5 +1,6 @@
 package feature.university.navigation
 
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -11,8 +12,12 @@ fun NavController.navigateUniversitySelectivity() {
     navigateSingleTop(Route.UniversitySelectivityRoute.route)
 }
 
-fun NavGraphBuilder.universityNavGraph() {
+fun NavGraphBuilder.universityNavGraph(
+    modifier: Modifier = Modifier,
+) {
     composable(Route.UniversitySelectivityRoute.route) {
-        UniversitySelectivityScreen()
+        UniversitySelectivityScreen(
+            modifier = modifier,
+        )
     }
 }
