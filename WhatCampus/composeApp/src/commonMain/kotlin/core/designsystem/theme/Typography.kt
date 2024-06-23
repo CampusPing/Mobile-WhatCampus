@@ -1,4 +1,4 @@
-package theme
+package core.designsystem.theme
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
@@ -129,20 +129,32 @@ internal val Typography = WhatcamTypography(
         fontSize = 14.sp,
         lineHeight = 20.sp,
     ),
+    labelLargeB = SansSerifStyle.copy(
+        fontSize = 16.sp,
+        lineHeight = 24.sp,
+        letterSpacing = 0.5.sp,
+        fontWeight = FontWeight.Bold,
+    ),
     labelLargeM = SansSerifStyle.copy(
-        fontSize = 12.sp,
+        fontSize = 16.sp,
         lineHeight = 16.sp,
         fontWeight = FontWeight.Medium,
     ),
     labelMediumR = SansSerifStyle.copy(
-        fontSize = 12.sp,
+        fontSize = 14.sp,
         lineHeight = 16.sp,
     ),
     labelSmallM = SansSerifStyle.copy(
-        fontSize = 11.sp,
+        fontSize = 12.sp,
         lineHeight = 16.sp,
         fontWeight = FontWeight.Medium,
         letterSpacing = (-0.2).sp,
+    ),
+    bodyLargeB = SansSerifStyle.copy(
+        fontSize = 16.sp,
+        lineHeight = 24.sp,
+        letterSpacing = 0.5.sp,
+        fontWeight = FontWeight.Bold,
     ),
     bodyLargeR = SansSerifStyle.copy(
         fontSize = 16.sp,
@@ -189,10 +201,12 @@ data class WhatcamTypography(
     val titleSmallR: TextStyle,
     val titleSmallR140: TextStyle,
 
+    val labelLargeB: TextStyle,
     val labelLargeM: TextStyle,
     val labelMediumR: TextStyle,
     val labelSmallM: TextStyle,
 
+    val bodyLargeB: TextStyle,
     val bodyLargeR: TextStyle,
     val bodyMediumR: TextStyle,
     val bodySmallR: TextStyle,
@@ -225,8 +239,10 @@ val LocalTypography = staticCompositionLocalOf {
         titleSmallM140 = SansSerifStyle,
         titleSmallR = SansSerifStyle,
         titleSmallR140 = SansSerifStyle,
+        labelLargeB = SansSerifStyle,
         labelLargeM = SansSerifStyle,
         labelMediumR = SansSerifStyle,
+        bodyLargeB = SansSerifStyle,
         bodyLargeR = SansSerifStyle,
         bodyMediumR = SansSerifStyle,
         bodySmallR = SansSerifStyle,

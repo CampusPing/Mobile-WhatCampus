@@ -1,6 +1,6 @@
 package com.campus.whatcampus
 
-import App
+import feature.app.App
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent

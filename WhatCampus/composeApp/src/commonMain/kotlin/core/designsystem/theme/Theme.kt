@@ -1,7 +1,8 @@
-package theme
+package core.designsystem.theme
 
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
@@ -68,10 +69,13 @@ private val WhatcamThemeLightColorScheme = lightColorScheme(
     scrim = Black,
 )
 
-object WhatCamTheme {
+object WhatcamTheme {
     val typography: WhatcamTypography
         @Composable
         get() = LocalTypography.current
+    val colors: ColorScheme
+        @Composable
+        get() = if (isSystemInDarkTheme()) WhatcamThemeDarkColorScheme else WhatcamThemeLightColorScheme
 }
 
 @Composable
