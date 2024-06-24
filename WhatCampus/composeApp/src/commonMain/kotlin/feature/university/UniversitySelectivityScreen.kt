@@ -4,7 +4,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -53,6 +56,7 @@ internal fun UniversitySelectivityScreen(
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun UniversitySelectivityScreen(
     modifier: Modifier = Modifier,
@@ -62,38 +66,44 @@ private fun UniversitySelectivityScreen(
 ) {
     var universityQuery by rememberSaveable { mutableStateOf("") }
 
-    Column(
-        modifier = modifier
-            .padding(horizontalPadding)
-    ) {
-        Text(
-            text = stringResource(Res.string.university_title),
-            style = WhatcamTheme.typography.headlineMediumM,
-            color = Mint01,
-        )
+    Scaffold(
+        modifier = modifier,
+        topBar = { TopAppBar(title = { }) }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .padding(top = paddingValues.calculateTopPadding())
+                .padding(horizontalPadding)
+        ) {
+            Text(
+                text = stringResource(Res.string.university_title),
+                style = WhatcamTheme.typography.headlineMediumM,
+                color = Mint01,
+            )
 
-        Spacer(modifier = Modifier.padding(4.dp))
+            Spacer(modifier = Modifier.padding(4.dp))
 
-        Text(
-            text = stringResource(Res.string.university_desc),
-            style = WhatcamTheme.typography.bodyLargeR,
-            color = Graphite,
-        )
+            Text(
+                text = stringResource(Res.string.university_desc),
+                style = WhatcamTheme.typography.bodyLargeR,
+                color = Graphite,
+            )
 
-        Spacer(modifier = Modifier.padding(20.dp))
+            Spacer(modifier = Modifier.padding(20.dp))
 
 
-        SearchBar(
-            value = universityQuery,
-            onValueChange = { query -> universityQuery = query },
-            hint = stringResource(Res.string.university_search_hint)
-        )
+            SearchBar(
+                value = universityQuery,
+                onValueChange = { query -> universityQuery = query },
+                hint = stringResource(Res.string.university_search_hint)
+            )
 
-        UniversityList(
-            universities = uiState.universities,
-            selectedUniversity = uiState.selectedUniversity,
-            onClickUniversity = onClickUniversity,
-        )
+            UniversityList(
+                universities = uiState.universities,
+                selectedUniversity = uiState.selectedUniversity,
+                onClickUniversity = onClickUniversity,
+            )
+        }
     }
 }
 

@@ -12,7 +12,7 @@ import feature.university.navigation.navigateUniversitySelectivity
 internal class WhatcamNavigator(
     val navController: NavHostController,
 ) {
-    val startDestination: Route = Route.UniversitySelectivityRoute
+    val startDestination: Route = Route.OnboardingRoute
 
     private val currentDestination: NavDestination?
         @Composable get() = navController

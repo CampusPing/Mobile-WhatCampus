@@ -19,7 +19,7 @@ internal fun WhatcamNavHost(
 ) {
     val initialScreensModifier = Modifier
         .fillMaxSize()
-        .padding(top = 40.dp, bottom = 40.dp)
+        .padding(top = 8.dp, bottom = 40.dp)
 
     KoinContext {
         val universityViewModel = koinViewModel<UniversityViewModel>()
