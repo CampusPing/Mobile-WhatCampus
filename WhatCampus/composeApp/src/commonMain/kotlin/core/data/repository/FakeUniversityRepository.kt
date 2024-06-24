@@ -18,31 +18,6 @@ class FakeUniversityRepository : UniversityRepository {
             name = "상명대학교 (천안)",
             departments = persistentListOf()
         ),
-        University(
-            id = 2L,
-            name = "동양미래대학교",
-            departments = persistentListOf()
-        ),
-        University(
-            id = 3L,
-            name = "상명대학교 (서울)",
-            departments = persistentListOf()
-        ),
-        University(
-            id = 4L,
-            name = "상명대학교 (서울)",
-            departments = persistentListOf()
-        ),
-        University(
-            id = 5L,
-            name = "상명대학교 (서울)",
-            departments = persistentListOf()
-        ),
-        University(
-            id = 6L,
-            name = "상명대학교 (서울)",
-            departments = persistentListOf()
-        ),
     )
 
     override fun flowUniversity(): Flow<List<University>> {
