@@ -81,7 +81,7 @@ private fun UniversitySelectivityScreen(
                 color = Mint01,
             )
 
-            Spacer(modifier = Modifier.padding(4.dp))
+            Spacer(modifier = Modifier.padding(top = 8.dp))
 
             Text(
                 text = stringResource(Res.string.university_desc),
@@ -89,14 +89,15 @@ private fun UniversitySelectivityScreen(
                 color = Graphite,
             )
 
-            Spacer(modifier = Modifier.padding(20.dp))
-
+            Spacer(modifier = Modifier.padding(top = 40.dp))
 
             SearchBar(
                 value = universityQuery,
                 onValueChange = { query -> universityQuery = query },
                 hint = stringResource(Res.string.university_search_hint)
             )
+
+            Spacer(modifier = Modifier.padding(top = 20.dp))
 
             UniversityList(
                 universities = uiState.universities,

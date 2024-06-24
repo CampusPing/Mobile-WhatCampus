@@ -17,10 +17,6 @@ import org.koin.compose.KoinContext
 internal fun WhatcamNavHost(
     navigator: WhatcamNavigator,
 ) {
-    val initialScreensModifier = Modifier
-        .fillMaxSize()
-        .padding(top = 8.dp, bottom = 40.dp)
-
     KoinContext {
         val universityViewModel = koinViewModel<UniversityViewModel>()
 
@@ -29,11 +25,9 @@ internal fun WhatcamNavHost(
             startDestination = navigator.startDestination.route,
         ) {
             onboardingNavGraph(
-                modifier = initialScreensModifier,
                 onboardingComplete = { navigator.navigateUniversitySelectivity() }
             )
             universityNavGraph(
-                modifier = initialScreensModifier,
                 viewModel = universityViewModel,
                 onClickUniversity = { },
             )
