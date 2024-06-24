@@ -4,8 +4,6 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -17,19 +15,17 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import core.designsystem.theme.Graphite
 import core.designsystem.theme.LightGray
 import core.designsystem.theme.Mint01
 import core.designsystem.theme.WhatcamTheme
 import core.designsystem.theme.White
 import core.model.University
-import feature.university.toEmoji
 
 @Composable
 internal fun UniversityList(
@@ -85,21 +81,11 @@ private fun UniversityItem(
         onClick = { onClickUniversity(university) },
         shape = RoundedCornerShape(size = 16.dp),
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Text(
-                text = university.toEmoji(),
-                fontSize = 26.sp,
-            )
-
-            Spacer(modifier = Modifier.padding(4.dp))
-
-            Text(
-                text = university.name,
-                style = WhatcamTheme.typography.bodyLargeB,
-                color = Graphite,
-            )
-        }
+        Text(
+            text = university.name,
+            style = WhatcamTheme.typography.bodyLargeB,
+            color = Graphite,
+            textAlign = TextAlign.Center,
+        )
     }
 }
