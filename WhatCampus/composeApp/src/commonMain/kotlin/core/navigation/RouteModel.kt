@@ -5,4 +5,5 @@ enum class Route(
 ) {
     OnboardingRoute("onboarding"),
     UniversitySelectivityRoute("universitySelectivity"),
+    DepartmentSelectivityRoute("departmentSelectivity"),
 }
