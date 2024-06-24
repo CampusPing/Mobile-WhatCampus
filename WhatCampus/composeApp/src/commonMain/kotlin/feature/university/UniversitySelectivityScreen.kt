@@ -31,6 +31,7 @@ import whatcampus.composeapp.generated.resources.university_title
 internal fun UniversitySelectivityScreen(
     modifier: Modifier = Modifier,
     viewModel: UniversityViewModel = koinViewModel<UniversityViewModel>(),
+    onClickUniversity: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateMultiplatform()
     val horizontalPadding = PaddingValues(horizontal = 20.dp)
@@ -44,7 +45,10 @@ internal fun UniversitySelectivityScreen(
             modifier = modifier,
             horizontalPadding = horizontalPadding,
             uiState = uiState as UniversityUiState.Success,
-            onClickUniversity = viewModel::selectUniversity,
+            onClickUniversity = { university ->
+                viewModel.selectUniversity(university)
+                onClickUniversity()
+            },
         )
     }
 

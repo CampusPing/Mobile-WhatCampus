@@ -30,6 +30,7 @@ internal fun WhatcamNavHost(
             )
             universityNavGraph(
                 modifier = initialScreensModifier,
+                onClickUniversity = { }
             )
         }
     }

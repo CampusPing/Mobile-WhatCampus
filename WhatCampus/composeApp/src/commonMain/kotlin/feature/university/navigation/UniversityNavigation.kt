@@ -14,10 +14,12 @@ fun NavController.navigateUniversitySelectivity() {
 
 fun NavGraphBuilder.universityNavGraph(
     modifier: Modifier = Modifier,
+    onClickUniversity: () -> Unit,
 ) {
     composable(Route.UniversitySelectivityRoute.route) {
         UniversitySelectivityScreen(
             modifier = modifier,
+            onClickUniversity = onClickUniversity,
         )
     }
 }
