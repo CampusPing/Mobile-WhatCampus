@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import core.designsystem.theme.Graphite
 import core.designsystem.theme.Mint01
 import core.designsystem.theme.WhatcamTheme
+import core.di.koinViewModel
 import feature.university.components.SearchBar
 import feature.university.components.UniversityList
 import org.jetbrains.compose.resources.stringResource
@@ -23,6 +24,7 @@ import whatcampus.composeapp.generated.resources.university_title
 @Composable
 internal fun UniversitySelectivityScreen(
     modifier: Modifier = Modifier,
+    viewModel: UniversityViewModel = koinViewModel<UniversityViewModel>(),
 ) {
     val horizontalPadding = PaddingValues(horizontal = 20.dp)
     val (universityQuery, setUniversityQuery) = mutableStateOf("")

@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import feature.app.navigation.WhatcamNavigator
 import feature.onboarding.navigation.onboardingNavGraph
 import feature.university.navigation.universityNavGraph
+import org.koin.compose.KoinContext
 
 @Composable
 internal fun WhatcamNavHost(
@@ -18,16 +19,18 @@ internal fun WhatcamNavHost(
         .fillMaxSize()
         .padding(top = 40.dp, bottom = 40.dp)
 
-    NavHost(
-        navController = navigator.navController,
-        startDestination = navigator.startDestination.route,
-    ) {
-        onboardingNavGraph(
-            modifier = initialScreensModifier,
-            onboardingComplete = { navigator.navigateUniversitySelectivity() }
-        )
-        universityNavGraph(
-            modifier = initialScreensModifier,
-        )
+    KoinContext {
+        NavHost(
+            navController = navigator.navController,
+            startDestination = navigator.startDestination.route,
+        ) {
+            onboardingNavGraph(
+                modifier = initialScreensModifier,
+                onboardingComplete = { navigator.navigateUniversitySelectivity() }
+            )
+            universityNavGraph(
+                modifier = initialScreensModifier,
+            )
+        }
     }
 }
