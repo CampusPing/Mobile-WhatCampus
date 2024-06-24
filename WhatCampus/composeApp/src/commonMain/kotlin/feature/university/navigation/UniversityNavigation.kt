@@ -57,7 +57,7 @@ fun NavGraphBuilder.universityNavGraph(
         UniversityCompleteScreen(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 8.dp),
+                .padding(top = 8.dp, bottom = 40.dp),
             onClickComplete = onClickComplete,
             onClickBack = onClickBack,
         )
