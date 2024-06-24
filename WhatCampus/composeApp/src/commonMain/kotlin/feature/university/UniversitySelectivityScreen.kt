@@ -6,15 +6,21 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import core.common.extensions.collectAsStateMultiplatform
 import core.designsystem.theme.Graphite
 import core.designsystem.theme.Mint01
 import core.designsystem.theme.WhatcamTheme
 import core.di.koinViewModel
+import core.model.University
 import feature.university.components.SearchBar
 import feature.university.components.UniversityList
+import feature.university.model.UniversityUiState
 import org.jetbrains.compose.resources.stringResource
 import whatcampus.composeapp.generated.resources.Res
 import whatcampus.composeapp.generated.resources.university_desc
@@ -26,8 +32,32 @@ internal fun UniversitySelectivityScreen(
     modifier: Modifier = Modifier,
     viewModel: UniversityViewModel = koinViewModel<UniversityViewModel>(),
 ) {
+    val uiState by viewModel.uiState.collectAsStateMultiplatform()
     val horizontalPadding = PaddingValues(horizontal = 20.dp)
-    val (universityQuery, setUniversityQuery) = mutableStateOf("")
+
+    when (uiState) {
+        UniversityUiState.Loading -> {
+            // TODO: 로딩 화면 구현
+        }
+
+        is UniversityUiState.Success -> UniversitySelectivityScreen(
+            modifier = modifier,
+            horizontalPadding = horizontalPadding,
+            uiState = uiState as UniversityUiState.Success,
+            onClickUniversity = viewModel::selectUniversity,
+        )
+    }
+
+}
+
+@Composable
+private fun UniversitySelectivityScreen(
+    modifier: Modifier = Modifier,
+    horizontalPadding: PaddingValues,
+    uiState: UniversityUiState.Success,
+    onClickUniversity: (University) -> Unit,
+) {
+    var universityQuery by rememberSaveable { mutableStateOf("") }
 
     Column(
         modifier = modifier
@@ -52,12 +82,14 @@ internal fun UniversitySelectivityScreen(
 
         SearchBar(
             value = universityQuery,
-            onValueChange = setUniversityQuery,
+            onValueChange = { query -> universityQuery = query },
             hint = stringResource(Res.string.university_search_hint)
         )
 
         UniversityList(
-            onClickUniversity = {}
+            universities = uiState.universities,
+            selectedUniversity = uiState.selectedUniversity,
+            onClickUniversity = onClickUniversity,
         )
     }
 }

@@ -34,8 +34,8 @@ import feature.university.toEmoji
 @Composable
 internal fun UniversityList(
     modifier: Modifier = Modifier,
-    universities: List<University> = emptyList(),
-    selectedUniversity: University? = null,
+    universities: List<University>,
+    selectedUniversity: University?,
     onClickUniversity: (University) -> Unit,
 ) {
     LazyColumn(

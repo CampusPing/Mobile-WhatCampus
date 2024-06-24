@@ -6,7 +6,8 @@ import kotlinx.collections.immutable.persistentListOf
 sealed interface UniversityUiState {
     data object Loading : UniversityUiState
 
-    data class Universities(
+    data class Success(
         val universities: List<University> = persistentListOf(),
+        val selectedUniversity: University? = null,
     ) : UniversityUiState
 }
