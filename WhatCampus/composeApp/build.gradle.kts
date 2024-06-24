@@ -35,6 +35,7 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.androidx.lifecycle.runtime.compose)
 
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
@@ -59,6 +60,7 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.landscapist.coil3)
             implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.kotlinx.collections.immutable)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
@@ -112,7 +114,7 @@ dependencies {
 }
 
 tasks.withType<KotlinJvmCompile>().configureEach {
-    if (name != "kspCommonMainKotlinMetadata" ) {
+    if (name != "kspCommonMainKotlinMetadata") {
         dependsOn("kspCommonMainKotlinMetadata")
     }
 }

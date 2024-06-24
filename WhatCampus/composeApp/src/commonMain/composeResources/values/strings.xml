@@ -8,4 +8,9 @@
     <string name="onboarding_bookmark_desc">장학금, 수강신청처럼 중요한 공지가 있나요?\n중요한 공지는 왓캠에 저장해두세요</string>
     <string name="onboarding_chat_desc">공지를 이해하기 어려우신가요?\n학우들에게 실시간으로 묻고 답해보세요!</string>
     <string name="onboarding_start">시작할게요! 🚀</string>
+
+    <!--  University  -->
+    <string name="university_title">대학교</string>
+    <string name="university_desc">왓캠에서 공지를 받고 싶은\n대학교를 선택해보세요</string>
+    <string name="university_search_hint">대학교를 입력해보세요!</string>
 </resources>

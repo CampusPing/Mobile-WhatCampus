@@ -37,6 +37,7 @@ private val WhatcamThemeDarkColorScheme = darkColorScheme(
     outline = DarkGray,
     outlineVariant = Cosmos,
     scrim = Black,
+    background = Graphite,
 )
 
 private val WhatcamThemeLightColorScheme = lightColorScheme(
@@ -57,7 +58,7 @@ private val WhatcamThemeLightColorScheme = lightColorScheme(
     onError = White,
     errorContainer = Red01,
     onErrorContainer = Red06,
-    surface = PaperGray,
+    surface = White,
     onSurface = DuskGray,
     onSurfaceVariant = DarkGray,
     surfaceDim = PaleGray,
@@ -67,6 +68,7 @@ private val WhatcamThemeLightColorScheme = lightColorScheme(
     outline = LightGray,
     outlineVariant = DarkGray,
     scrim = Black,
+    background = White,
 )
 
 object WhatcamTheme {
