@@ -6,8 +6,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
+import core.di.koinViewModel
 import feature.app.navigation.WhatcamNavigator
 import feature.onboarding.navigation.onboardingNavGraph
+import feature.university.UniversityViewModel
 import feature.university.navigation.universityNavGraph
 import org.koin.compose.KoinContext
 
@@ -20,6 +22,8 @@ internal fun WhatcamNavHost(
         .padding(top = 40.dp, bottom = 40.dp)
 
     KoinContext {
+        val universityViewModel = koinViewModel<UniversityViewModel>()
+
         NavHost(
             navController = navigator.navController,
             startDestination = navigator.startDestination.route,
@@ -30,7 +34,8 @@ internal fun WhatcamNavHost(
             )
             universityNavGraph(
                 modifier = initialScreensModifier,
-                onClickUniversity = { }
+                viewModel = universityViewModel,
+                onClickUniversity = { },
             )
         }
     }

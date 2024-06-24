@@ -16,7 +16,6 @@ import core.common.extensions.collectAsStateMultiplatform
 import core.designsystem.theme.Graphite
 import core.designsystem.theme.Mint01
 import core.designsystem.theme.WhatcamTheme
-import core.di.koinViewModel
 import core.model.University
 import feature.university.components.SearchBar
 import feature.university.components.UniversityList
@@ -30,7 +29,7 @@ import whatcampus.composeapp.generated.resources.university_title
 @Composable
 internal fun UniversitySelectivityScreen(
     modifier: Modifier = Modifier,
-    viewModel: UniversityViewModel = koinViewModel<UniversityViewModel>(),
+    viewModel: UniversityViewModel,
     onClickUniversity: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateMultiplatform()
