@@ -20,9 +20,9 @@ class FakeUniversityRepository : UniversityRepository {
         ),
     )
 
-    override fun flowUniversity(): Flow<List<University>> {
+    override fun flowUniversity(query: String): Flow<List<University>> {
         return flow {
-            emit(universities)
+            emit(universities.filter { it.name.contains(query) })
         }
     }
 }

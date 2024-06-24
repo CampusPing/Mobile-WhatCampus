@@ -5,7 +5,7 @@ import core.model.University
 import kotlinx.coroutines.flow.Flow
 
 class DefaultUniversityRepository : UniversityRepository {
-    override fun flowUniversity(): Flow<List<University>> {
+    override fun flowUniversity(query: String): Flow<List<University>> {
         TODO("Not yet implemented")
     }
 }

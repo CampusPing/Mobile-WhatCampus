@@ -4,5 +4,5 @@ import core.model.University
 import kotlinx.coroutines.flow.Flow
 
 interface UniversityRepository {
-    fun flowUniversity(): Flow<List<University>>
+    fun flowUniversity(query: String): Flow<List<University>>
 }

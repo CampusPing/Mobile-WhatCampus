@@ -10,9 +10,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import core.common.extensions.collectAsStateMultiplatform
@@ -36,6 +33,8 @@ internal fun UniversitySelectivityScreen(
     onClickUniversity: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateMultiplatform()
+    val universityQuery by viewModel.universitySearchQuery.collectAsStateMultiplatform()
+
     val horizontalPadding = PaddingValues(horizontal = 20.dp)
 
     when (uiState) {
@@ -47,6 +46,8 @@ internal fun UniversitySelectivityScreen(
             modifier = modifier,
             horizontalPadding = horizontalPadding,
             uiState = uiState as UniversityUiState.Success,
+            searchQuery = universityQuery,
+            onSearchQueryChange = viewModel::searchUniversity,
             onClickUniversity = { university ->
                 viewModel.selectUniversity(university)
                 onClickUniversity()
@@ -62,10 +63,10 @@ private fun UniversitySelectivityScreen(
     modifier: Modifier = Modifier,
     horizontalPadding: PaddingValues,
     uiState: UniversityUiState.Success,
+    searchQuery: String,
+    onSearchQueryChange: (String) -> Unit,
     onClickUniversity: (University) -> Unit,
 ) {
-    var universityQuery by rememberSaveable { mutableStateOf("") }
-
     Scaffold(
         modifier = modifier,
         topBar = { TopAppBar(title = { }) }
@@ -92,8 +93,8 @@ private fun UniversitySelectivityScreen(
             Spacer(modifier = Modifier.padding(top = 40.dp))
 
             SearchBar(
-                value = universityQuery,
-                onValueChange = { query -> universityQuery = query },
+                value = searchQuery,
+                onValueChange = onSearchQueryChange,
                 hint = stringResource(Res.string.university_search_hint)
             )
 

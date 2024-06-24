@@ -7,6 +7,6 @@ import kotlinx.coroutines.flow.Flow
 data class GetUniversityUseCase(
     private val repository: UniversityRepository,
 ) {
-    operator fun invoke(): Flow<List<University>> =
-        repository.flowUniversity()
+    operator fun invoke(query: String): Flow<List<University>> =
+        repository.flowUniversity(query = query)
 }
