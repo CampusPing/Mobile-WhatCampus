@@ -1,6 +1,6 @@
 package feature.university
 
-import core.domain.University
+import core.model.University
 
 internal enum class UniversityEmoji(
     val emoji: String,

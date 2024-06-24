@@ -28,7 +28,7 @@ import core.designsystem.theme.LightGray
 import core.designsystem.theme.Mint01
 import core.designsystem.theme.WhatcamTheme
 import core.designsystem.theme.White
-import core.domain.University
+import core.model.University
 import feature.university.toEmoji
 
 @Composable

@@ -1,4 +1,4 @@
-package core.domain
+package core.model
 
 data class University(
     val id: Long,
