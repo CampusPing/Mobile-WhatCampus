@@ -18,4 +18,9 @@
     <string name="department_title">학과 📢</string>
     <string name="department_desc">더 세밀하게 공지를 전달드릴게요\n학과를 선택해보세요</string>
     <string name="department_search_hint">학과를 입력해보세요!</string>
+
+    <!--  UniversityComplete  -->
+    <string name="university_complete_title">대학교 선택 완료 🎉</string>
+    <string name="university_complete_desc">이제부터 선택한 대학교의\n공지를 받아보실 수 있어요!</string>
+    <string name="university_complete_start">완료 ✅</string>
 </resources>

@@ -7,9 +7,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import core.common.extensions.navigateSingleTop
 import core.navigation.Route
 import feature.university.DepartmentSelectivityScreen
+import feature.university.UniversityCompleteScreen
 import feature.university.UniversitySelectivityScreen
 import feature.university.UniversityViewModel
 
@@ -21,11 +21,16 @@ fun NavController.navigateDepartmentSelectivity() {
     navigate(Route.DepartmentSelectivityRoute.route)
 }
 
+fun NavController.navigateUniversityComplete() {
+    navigate(Route.UniversityCompleteRoute.route)
+}
+
 fun NavGraphBuilder.universityNavGraph(
     viewModel: UniversityViewModel,
     onClickBack: () -> Unit,
     onClickUniversity: () -> Unit,
     onClickDepartment: () -> Unit,
+    onClickComplete: () -> Unit,
 ) {
     composable(Route.UniversitySelectivityRoute.route) {
         UniversitySelectivityScreen(
@@ -44,6 +49,16 @@ fun NavGraphBuilder.universityNavGraph(
                 .padding(top = 8.dp),
             viewModel = viewModel,
             onClickDepartment = onClickDepartment,
+            onClickBack = onClickBack,
+        )
+    }
+
+    composable(Route.UniversityCompleteRoute.route) {
+        UniversityCompleteScreen(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 8.dp),
+            onClickComplete = onClickComplete,
             onClickBack = onClickBack,
         )
     }
