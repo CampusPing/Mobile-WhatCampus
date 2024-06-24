@@ -42,7 +42,10 @@ internal fun UniversityList(
         modifier = modifier,
         contentPadding = PaddingValues(vertical = 20.dp)
     ) {
-        items(universities) { university ->
+        items(
+            items = universities,
+            key = { university -> university.id }
+        ) { university ->
             val borderWidth by animateDpAsState(
                 targetValue = if (university == selectedUniversity) (2.5).dp else (1.5).dp
             )
