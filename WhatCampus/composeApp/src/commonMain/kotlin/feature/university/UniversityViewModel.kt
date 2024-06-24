@@ -5,6 +5,7 @@ package feature.university
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import core.domain.usecase.GetUniversityUseCase
+import core.model.Department
 import core.model.University
 import feature.university.model.UniversityUiState
 import kotlinx.collections.immutable.toPersistentList
@@ -33,6 +34,9 @@ class UniversityViewModel(
 
     private val _universitySearchQuery: MutableStateFlow<String> = MutableStateFlow("")
     val universitySearchQuery = _universitySearchQuery.asStateFlow()
+
+    private val _departmentSearchQuery: MutableStateFlow<String> = MutableStateFlow("")
+    val departmentSearchQuery = _departmentSearchQuery.asStateFlow()
 
     init {
         universitySearchQuery
@@ -73,6 +77,19 @@ class UniversityViewModel(
 
     fun searchUniversity(query: String) {
         _universitySearchQuery.value = query
+    }
+
+    fun selectDepartment(department: Department) {
+        val state = uiState.value
+        if (state !is UniversityUiState.Success) return
+
+        _uiState.update {
+            state.copy(selectedDepartment = department)
+        }
+    }
+
+    fun searchDepartment(query: String) {
+        _departmentSearchQuery.value = query
     }
 
     companion object {

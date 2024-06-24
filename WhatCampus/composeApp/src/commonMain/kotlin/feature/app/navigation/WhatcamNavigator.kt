@@ -7,6 +7,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import core.navigation.Route
+import feature.university.navigation.navigateDepartmentSelectivity
+import feature.university.navigation.navigateUniversityComplete
 import feature.university.navigation.navigateUniversitySelectivity
 
 internal class WhatcamNavigator(
@@ -18,8 +20,20 @@ internal class WhatcamNavigator(
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
+    fun navigateUp() {
+        navController.navigateUp()
+    }
+
     fun navigateUniversitySelectivity() {
         navController.navigateUniversitySelectivity()
+    }
+
+    fun navigateDepartmentSelectivity() {
+        navController.navigateDepartmentSelectivity()
+    }
+
+    fun navigateUniversityComplete() {
+        navController.navigateUniversityComplete()
     }
 }
 
