@@ -3,6 +3,7 @@ package feature.university.components
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
@@ -11,8 +12,10 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import core.designsystem.theme.DuskGray
+import core.designsystem.theme.Graphite
 import core.designsystem.theme.LightGray
 import core.designsystem.theme.Mint01
 import core.designsystem.theme.WhatcamTheme
@@ -25,6 +28,7 @@ internal fun SearchBar(
     onValueChange: (String) -> Unit,
     hint: String,
 ) {
+
     OutlinedTextField(
         modifier = modifier
             .fillMaxWidth()
@@ -32,6 +36,8 @@ internal fun SearchBar(
         value = value,
         onValueChange = onValueChange,
         shape = RoundedCornerShape(size = 16.dp),
+        maxLines = 1,
+        keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Search),
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.Search,
@@ -39,7 +45,9 @@ internal fun SearchBar(
             )
         },
         colors = OutlinedTextFieldDefaults.colors(
+            focusedTextColor = Graphite,
             unfocusedContainerColor = White,
+            focusedContainerColor = White,
             unfocusedBorderColor = LightGray,
             focusedBorderColor = Mint01,
             focusedLeadingIconColor = Mint01,
