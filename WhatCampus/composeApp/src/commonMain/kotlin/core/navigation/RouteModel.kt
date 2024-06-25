@@ -7,4 +7,5 @@ enum class Route(
     UniversitySelectivityRoute("universitySelectivity"),
     DepartmentSelectivityRoute("departmentSelectivity"),
     UniversityCompleteRoute("universityComplete"),
+    MainRoute("main"),
 }

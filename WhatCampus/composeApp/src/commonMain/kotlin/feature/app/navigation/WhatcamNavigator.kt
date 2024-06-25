@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import core.navigation.Route
+import feature.main.navigation.navigateMain
 import feature.university.navigation.navigateDepartmentSelectivity
 import feature.university.navigation.navigateUniversityComplete
 import feature.university.navigation.navigateUniversitySelectivity
@@ -14,7 +15,8 @@ import feature.university.navigation.navigateUniversitySelectivity
 internal class WhatcamNavigator(
     val navController: NavHostController,
 ) {
-    val startDestination: Route = Route.OnboardingRoute
+//    val startDestination: Route = Route.OnboardingRoute
+    val startDestination: Route = Route.MainRoute
 
     private val currentDestination: NavDestination?
         @Composable get() = navController
@@ -34,6 +36,10 @@ internal class WhatcamNavigator(
 
     fun navigateUniversityComplete() {
         navController.navigateUniversityComplete()
+    }
+
+    fun navigateMain() {
+        navController.navigateMain()
     }
 }
 

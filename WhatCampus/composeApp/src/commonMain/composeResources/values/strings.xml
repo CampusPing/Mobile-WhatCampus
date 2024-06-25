@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My awesome app</string>
+    <string name="app_name">왓캠퍼스</string>
 
     <!--  Onboarding  -->
     <string name="onboarding_title">캠퍼스 소식,\n이제는 왓캠 하나로 끝!</string>
@@ -23,4 +23,10 @@
     <string name="university_complete_title">대학교 선택 완료 🎉</string>
     <string name="university_complete_desc">이제부터 선택한 대학교의\n공지를 받아보실 수 있어요!</string>
     <string name="university_complete_start">완료 ✅</string>
+
+    <!--  Main  -->
+    <string name="notice_tab_title">공지</string>
+    <string name="bookmark_tab_title">북마크</string>
+    <string name="chat_tab_title">채팅</string>
+    <string name="campusmap_tab_title">캠퍼스맵</string>
 </resources>
