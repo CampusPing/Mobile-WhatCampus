@@ -1,6 +1,6 @@
 package feature.main
 
-import core.navigation.MainRoute
+import feature.main.navigation.MainRoute
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 import whatcampus.composeapp.generated.resources.Res
@@ -13,7 +13,7 @@ import whatcampus.composeapp.generated.resources.ic_chat
 import whatcampus.composeapp.generated.resources.ic_notice
 import whatcampus.composeapp.generated.resources.notice_tab_title
 
-internal enum class MainTab(
+enum class MainTab(
     val iconRes: DrawableResource,
     val titleRes: StringResource,
     val route: MainRoute,
