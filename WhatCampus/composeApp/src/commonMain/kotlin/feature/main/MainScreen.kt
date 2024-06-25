@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import feature.main.components.MainBottomAppBar
 import feature.main.navigation.MainRoute
 import feature.main.navigation.rememberMainNavigator
+import feature.notice.NoticeScreen
 
 @Composable
 internal fun MainScreen(
@@ -26,7 +27,7 @@ internal fun MainScreen(
             startDestination = navigator.startDestination.route,
         ) {
             composable(MainRoute.NOTICE.route) {
-//                NoticeScreen()
+                NoticeScreen()
             }
             composable(MainRoute.BOOKMARK.route) {
 //                BookmarkScreen()
