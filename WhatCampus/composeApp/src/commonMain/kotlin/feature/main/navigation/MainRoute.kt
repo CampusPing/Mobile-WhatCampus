@@ -6,5 +6,11 @@ enum class MainRoute(
     NOTICE("notice"),
     BOOKMARK("bookmark"),
     CHAT("chat"),
-    CAMPUS_MAP("campusMap"),
+    CAMPUS_MAP("campusMap");
+
+    companion object {
+        fun of(route: String): MainRoute = entries.first { mainRoute ->
+            mainRoute.route == route
+        }
+    }
 }

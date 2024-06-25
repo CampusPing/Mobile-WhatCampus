@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My awesome app</string>
+    <string name="app_name">왓캠퍼스</string>
 
     <!--  Onboarding  -->
     <string name="onboarding_title">캠퍼스 소식,\n이제는 왓캠 하나로 끝!</string>
