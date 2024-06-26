@@ -32,6 +32,7 @@ internal fun NoticeCategoryList(
 
     Row(
         modifier = modifier
+            .background(color = White)
             .fillMaxWidth()
             .horizontalScroll(state = scrollState)
             .padding(horizontal = 8.dp, vertical = 4.dp)

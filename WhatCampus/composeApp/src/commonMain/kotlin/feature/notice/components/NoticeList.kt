@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
@@ -38,12 +39,14 @@ private val horizontalPadding = 12.dp
 @Composable
 internal fun NoticeList(
     modifier: Modifier = Modifier,
+    listState: LazyListState,
     notices: List<Notice>,
     onClickItem: (Notice) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier,
         contentPadding = PaddingValues(top = 56.dp),
+        state = listState,
     ) {
         itemsIndexed(
             items = notices,

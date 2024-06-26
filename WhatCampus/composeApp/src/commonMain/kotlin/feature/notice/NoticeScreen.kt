@@ -1,10 +1,14 @@
 package feature.notice
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import core.common.extensions.collectAsStateMultiplatform
@@ -50,18 +54,29 @@ private fun NoticeScreen(
         Box(
             modifier = Modifier.padding(paddingValues)
         ) {
-            NoticeCategoryList(
-                modifier = Modifier.padding(top = 8.dp),
-                noticeCategories = uiState.noticeCategories,
-                selectedCategory = uiState.selectedCategory,
-                onClickCategory = onClickCategory,
-            )
+            val noticeListScrollState = rememberLazyListState()
+
+            val isAtTop by remember {
+                derivedStateOf {
+                    noticeListScrollState.firstVisibleItemIndex < 2
+                }
+            }
 
             NoticeList(
-                modifier = Modifier.padding(top = 8.dp),
+                listState = noticeListScrollState,
                 notices = uiState.notices,
                 onClickItem = {},
             )
+
+            AnimatedVisibility(
+                visible = isAtTop,
+            ) {
+                NoticeCategoryList(
+                    noticeCategories = uiState.noticeCategories,
+                    selectedCategory = uiState.selectedCategory,
+                    onClickCategory = onClickCategory,
+                )
+            }
         }
     }
 }
