@@ -1,5 +1,6 @@
 package feature.notice.model
 
+import core.model.Notice
 import core.model.NoticeCategory
 import kotlinx.collections.immutable.persistentListOf
 
@@ -9,5 +10,6 @@ sealed class NoticeUiState {
     data class Success(
         val noticeCategories: List<NoticeCategory> = persistentListOf(),
         val selectedCategory: NoticeCategory? = noticeCategories.firstOrNull(),
+        val notices: List<Notice> = persistentListOf(),
     ) : NoticeUiState()
 }

@@ -1,6 +1,6 @@
 package feature.notice
 
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -11,6 +11,7 @@ import core.common.extensions.collectAsStateMultiplatform
 import core.di.koinViewModel
 import core.model.NoticeCategory
 import feature.notice.components.NoticeCategoryList
+import feature.notice.components.NoticeList
 import feature.notice.components.NoticeTopAppBar
 import feature.notice.model.NoticeUiState
 
@@ -30,8 +31,6 @@ fun NoticeScreen(
             onClickCategory = { noticeViewModel.selectCategory(it) },
         )
     }
-
-
 }
 
 @Composable
@@ -48,7 +47,7 @@ private fun NoticeScreen(
             )
         }
     ) { paddingValues ->
-        Column(
+        Box(
             modifier = Modifier.padding(paddingValues)
         ) {
             NoticeCategoryList(
@@ -56,6 +55,12 @@ private fun NoticeScreen(
                 noticeCategories = uiState.noticeCategories,
                 selectedCategory = uiState.selectedCategory,
                 onClickCategory = onClickCategory,
+            )
+
+            NoticeList(
+                modifier = Modifier.padding(top = 8.dp),
+                notices = uiState.notices,
+                onClickItem = {},
             )
         }
     }
