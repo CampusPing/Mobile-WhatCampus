@@ -22,7 +22,7 @@ import core.designsystem.theme.White
 import core.model.NoticeCategory
 
 @Composable
-internal fun NoticeCategoryList(
+internal fun NoticeCategoryBar(
     modifier: Modifier = Modifier,
     noticeCategories: List<NoticeCategory>,
     selectedCategory: NoticeCategory? = noticeCategories.firstOrNull(),

@@ -10,11 +10,10 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import core.common.extensions.collectAsStateMultiplatform
 import core.di.koinViewModel
 import core.model.NoticeCategory
-import feature.notice.components.NoticeCategoryList
+import feature.notice.components.NoticeCategoryBar
 import feature.notice.components.NoticeList
 import feature.notice.components.NoticeTopAppBar
 import feature.notice.model.NoticeUiState
@@ -71,7 +70,7 @@ private fun NoticeScreen(
             AnimatedVisibility(
                 visible = isAtTop,
             ) {
-                NoticeCategoryList(
+                NoticeCategoryBar(
                     noticeCategories = uiState.noticeCategories,
                     selectedCategory = uiState.selectedCategory,
                     onClickCategory = onClickCategory,
