@@ -10,7 +10,8 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -18,6 +19,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import core.designsystem.theme.Graphite
 import core.designsystem.theme.Gray
+import core.designsystem.theme.PaleGray
 import core.designsystem.theme.WhatcamTheme
 import core.model.Notice
 import kotlinx.datetime.LocalDateTime
@@ -25,6 +27,13 @@ import kotlinx.datetime.format
 import kotlinx.datetime.format.DateTimeFormat
 import kotlinx.datetime.format.FormatStringsInDatetimeFormats
 import kotlinx.datetime.format.byUnicodePattern
+
+@OptIn(FormatStringsInDatetimeFormats::class)
+private val noticeDatetimeFormatter: DateTimeFormat<LocalDateTime> = LocalDateTime.Format {
+    byUnicodePattern("yyyy/MM/dd")
+}
+
+private val horizontalPadding = 12.dp
 
 @Composable
 internal fun NoticeList(
@@ -36,21 +45,20 @@ internal fun NoticeList(
         modifier = modifier,
         contentPadding = PaddingValues(top = 56.dp),
     ) {
-        items(
+        itemsIndexed(
             items = notices,
-            key = { notice -> notice.id },
-        ) { notice ->
+            key = { _, notice -> notice.id },
+        ) { index, notice ->
             NoticeItem(
                 notice = notice,
                 onClick = { onClickItem(notice) },
             )
+
+            if (index < notices.size - 1) {
+                NoticeDivider()
+            }
         }
     }
-}
-
-@OptIn(FormatStringsInDatetimeFormats::class)
-private val noticeDatetimeFormatter: DateTimeFormat<LocalDateTime> = LocalDateTime.Format {
-    byUnicodePattern("yyyy/MM/dd")
 }
 
 @Composable
@@ -63,7 +71,7 @@ private fun NoticeItem(
         modifier = modifier
             .clickable(onClick = onClick)
             .fillMaxWidth()
-            .padding(horizontal = 12.dp, vertical = 16.dp)
+            .padding(horizontal = horizontalPadding, vertical = 16.dp)
             .heightIn(min = 48.dp, max = 80.dp),
         verticalArrangement = Arrangement.SpaceBetween,
     ) {
@@ -83,4 +91,15 @@ private fun NoticeItem(
             color = Gray,
         )
     }
+}
+
+@Composable
+private fun NoticeDivider(
+    modifier: Modifier = Modifier,
+) {
+    HorizontalDivider(
+        modifier = modifier.padding(horizontal = horizontalPadding),
+        thickness = 2.dp,
+        color = PaleGray,
+    )
 }
