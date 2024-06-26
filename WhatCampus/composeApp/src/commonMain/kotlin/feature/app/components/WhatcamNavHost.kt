@@ -33,7 +33,7 @@ internal fun WhatcamNavHost(
                 onClickComplete = { navigator.navigateMain() },
             )
             mainNavGraph(
-                onNoticeClick = { notice -> navigator.navigateNoticeDetail(notice.url) }
+                onNoticeClick = navigator::navigateNoticeDetail
             )
             noticeDetailNavGraph()
         }

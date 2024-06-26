@@ -6,6 +6,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import core.model.Notice
 import core.navigation.Route
 import feature.main.navigation.navigateMain
 import feature.notice.navigation.navigateNoticeDetail
@@ -43,8 +44,11 @@ internal class WhatcamNavigator(
         navController.navigateMain()
     }
 
-    fun navigateNoticeDetail(noticeUrl: String) {
-        navController.navigateNoticeDetail(noticeUrl = noticeUrl)
+    fun navigateNoticeDetail(notice: Notice) {
+        navController.navigateNoticeDetail(
+            noticeId = notice.id,
+            noticeUrl = notice.url,
+        )
     }
 }
 

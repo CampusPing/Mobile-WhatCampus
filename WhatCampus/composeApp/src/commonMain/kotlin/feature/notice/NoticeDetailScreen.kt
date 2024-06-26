@@ -6,6 +6,7 @@ import androidx.compose.ui.Modifier
 @Composable
 internal fun NoticeDetailScreen(
     modifier: Modifier = Modifier,
+    noticeId: Long,
     noticeUrl: String,
 ) {
     // WebView
