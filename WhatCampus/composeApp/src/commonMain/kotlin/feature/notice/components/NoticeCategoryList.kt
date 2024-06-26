@@ -24,7 +24,7 @@ import core.model.NoticeCategory
 internal fun NoticeCategoryList(
     modifier: Modifier = Modifier,
     noticeCategories: List<NoticeCategory>,
-    selectedCategory: NoticeCategory,
+    selectedCategory: NoticeCategory? = noticeCategories.firstOrNull(),
     onClickCategory: (NoticeCategory) -> Unit,
 ) {
     val scrollState = rememberScrollState()
