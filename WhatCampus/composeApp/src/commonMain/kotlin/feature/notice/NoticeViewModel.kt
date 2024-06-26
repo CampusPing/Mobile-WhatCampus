@@ -49,6 +49,7 @@ class NoticeViewModel(
     fun selectCategory(category: NoticeCategory) {
         val state = uiState.value
         if (state !is NoticeUiState.Success) return
+        if (category == state.selectedCategory) return
 
         _uiState.update {
             state.copy(selectedCategory = category)
