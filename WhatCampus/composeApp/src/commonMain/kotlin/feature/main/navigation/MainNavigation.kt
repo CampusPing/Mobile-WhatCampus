@@ -5,8 +5,10 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import core.model.Notice
 import core.navigation.Route
 import feature.main.MainScreen
+import feature.notice.navigation.noticeDetailNavGraph
 
 fun NavController.navigateMain() {
     navigate(Route.MainRoute.route) {
@@ -21,10 +23,13 @@ fun NavController.navigateMain() {
     }
 }
 
-fun NavGraphBuilder.mainNavGraph() {
+fun NavGraphBuilder.mainNavGraph(
+    onNoticeClick: (Notice) -> Unit,
+) {
     composable(Route.MainRoute.route) {
         MainScreen(
             modifier = Modifier.fillMaxSize(),
+            onNoticeClick = onNoticeClick,
         )
     }
 }

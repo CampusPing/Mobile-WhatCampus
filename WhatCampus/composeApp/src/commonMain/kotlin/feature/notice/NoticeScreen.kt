@@ -16,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import core.common.extensions.collectAsStateMultiplatform
 import core.di.koinViewModel
+import core.model.Notice
 import core.model.NoticeCategory
 import feature.notice.components.NoticeCategoryBar
 import feature.notice.components.NoticeList
@@ -25,6 +26,7 @@ import feature.notice.model.NoticeUiState
 @Composable
 fun NoticeScreen(
     noticeViewModel: NoticeViewModel = koinViewModel(),
+    onNoticeClick: (Notice) -> Unit,
 ) {
     val uiState by noticeViewModel.uiState.collectAsStateMultiplatform()
 
@@ -36,6 +38,7 @@ fun NoticeScreen(
         is NoticeUiState.Success -> NoticeScreen(
             uiState = uiState as NoticeUiState.Success,
             onClickCategory = { noticeViewModel.selectCategory(it) },
+            onNoticeClick = onNoticeClick,
         )
     }
 }
@@ -44,6 +47,7 @@ fun NoticeScreen(
 private fun NoticeScreen(
     uiState: NoticeUiState.Success,
     onClickCategory: (NoticeCategory) -> Unit,
+    onNoticeClick: (Notice) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -68,7 +72,7 @@ private fun NoticeScreen(
             NoticeList(
                 listState = noticeListScrollState,
                 notices = uiState.notices,
-                onClickItem = {},
+                onClickItem = onNoticeClick,
             )
 
             AnimatedVisibility(
