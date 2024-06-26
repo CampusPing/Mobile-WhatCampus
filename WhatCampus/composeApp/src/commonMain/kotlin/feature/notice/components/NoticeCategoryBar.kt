@@ -60,7 +60,7 @@ private fun NoticeCategoryTab(
 
     Card(
         modifier = modifier
-            .shadow(elevation = 8.dp, shape = RoundedCornerShape(16.dp))
+            .shadow(elevation = 6.dp, shape = RoundedCornerShape(16.dp))
             .background(color = cardColor, shape = RoundedCornerShape(16.dp))
             .clickable { onClick() }
             .padding(horizontal = 20.dp, vertical = 8.dp),
