@@ -24,7 +24,9 @@ fun NavController.navigateNoticeDetail(
     navigateSingleTop(route = routeWithArgs)
 }
 
-fun NavGraphBuilder.noticeDetailNavGraph() {
+fun NavGraphBuilder.noticeDetailNavGraph(
+    onClickBack: () -> Unit,
+) {
     composable(
         route = "${Route.NoticeDetail.route}/{$NOTICE_ID_ARGUMENT}/{$NOTICE_URL_ARGUMENT}",
         arguments = listOf(
@@ -45,6 +47,7 @@ fun NavGraphBuilder.noticeDetailNavGraph() {
             modifier = Modifier.fillMaxSize(),
             noticeId = noticeId ?: 0,
             noticeUrl = noticeUrl ?: "https://www.google.com/",
+            onClickBack = onClickBack,
         )
     }
 }

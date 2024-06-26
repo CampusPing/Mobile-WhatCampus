@@ -35,7 +35,9 @@ internal fun WhatcamNavHost(
             mainNavGraph(
                 onNoticeClick = navigator::navigateNoticeDetail
             )
-            noticeDetailNavGraph()
+            noticeDetailNavGraph(
+                onClickBack = { navigator.navigateUp() },
+            )
         }
     }
 }
