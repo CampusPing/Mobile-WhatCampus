@@ -140,6 +140,10 @@ internal val Typography = WhatcamTypography(
         lineHeight = 16.sp,
         fontWeight = FontWeight.Medium,
     ),
+    labelLargeR = SansSerifStyle.copy(
+        fontSize = 16.sp,
+        lineHeight = 16.sp,
+    ),
     labelMediumR = SansSerifStyle.copy(
         fontSize = 14.sp,
         lineHeight = 16.sp,
@@ -203,6 +207,7 @@ data class WhatcamTypography(
 
     val labelLargeB: TextStyle,
     val labelLargeM: TextStyle,
+    val labelLargeR: TextStyle,
     val labelMediumR: TextStyle,
     val labelSmallM: TextStyle,
 
@@ -241,6 +246,7 @@ val LocalTypography = staticCompositionLocalOf {
         titleSmallR140 = SansSerifStyle,
         labelLargeB = SansSerifStyle,
         labelLargeM = SansSerifStyle,
+        labelLargeR = SansSerifStyle,
         labelMediumR = SansSerifStyle,
         bodyLargeB = SansSerifStyle,
         bodyLargeR = SansSerifStyle,
