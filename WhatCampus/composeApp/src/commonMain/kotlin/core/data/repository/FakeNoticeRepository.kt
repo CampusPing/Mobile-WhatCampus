@@ -30,6 +30,11 @@ class FakeNoticeRepository : NoticeRepository {
         Notice(2, "공지사항입니다!", LocalDateTime(2024, 6, 5, 0, 0, 0), "https://www.naver.com"),
         Notice(3, "공지사항입니다!", Clock.System.now().toLocalDateTime(currentSystemDefault()), "https://www.naver.com"),
         Notice(4, "공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!", Clock.System.now().toLocalDateTime(currentSystemDefault()), "https://www.naver.com"),
+        Notice(5, "공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!", Clock.System.now().toLocalDateTime(currentSystemDefault()), "https://www.naver.com"),
+        Notice(6, "공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!", Clock.System.now().toLocalDateTime(currentSystemDefault()), "https://www.naver.com"),
+        Notice(7, "공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!", Clock.System.now().toLocalDateTime(currentSystemDefault()), "https://www.naver.com"),
+        Notice(8, "공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!", Clock.System.now().toLocalDateTime(currentSystemDefault()), "https://www.naver.com"),
+        Notice(9, "공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!", Clock.System.now().toLocalDateTime(currentSystemDefault()), "https://www.naver.com"),
     )
 
     override fun flowNoticeCategory(universityId: Long): Flow<List<NoticeCategory>> {
