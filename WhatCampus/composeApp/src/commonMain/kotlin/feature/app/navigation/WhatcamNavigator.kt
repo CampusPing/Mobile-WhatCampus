@@ -45,10 +45,7 @@ internal class WhatcamNavigator(
     }
 
     fun navigateNoticeDetail(notice: Notice) {
-        navController.navigateNoticeDetail(
-            noticeId = notice.id,
-            noticeUrl = notice.url,
-        )
+        navController.navigateNoticeDetail(notice = notice)
     }
 }
 
