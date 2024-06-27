@@ -1,7 +1,12 @@
 package feature.notice.navigation
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.EaseIn
+import androidx.compose.animation.core.EaseOut
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -52,7 +57,9 @@ fun NavGraphBuilder.noticeDetailNavGraph(
                 type = NavType.StringType
                 nullable = false
             }
-        )
+        ),
+        enterTransition = { slidingStartEnterTransition() },
+        exitTransition = { slidingEndOutTransition() },
     ) { backStackEntry ->
         val noticeId = backStackEntry.arguments?.getLong(NOTICE_ID_ARGUMENT)
         val noticeTitle = backStackEntry.arguments?.getString(NOTICE_TITLE_ARGUMENT)
@@ -74,3 +81,13 @@ fun NavGraphBuilder.noticeDetailNavGraph(
         )
     }
 }
+
+private fun AnimatedContentTransitionScope<NavBackStackEntry>.slidingStartEnterTransition() = slideIntoContainer(
+    animationSpec = tween(300, easing = EaseIn),
+    towards = AnimatedContentTransitionScope.SlideDirection.Start
+)
+
+private fun AnimatedContentTransitionScope<NavBackStackEntry>.slidingEndOutTransition() = slideOutOfContainer(
+    animationSpec = tween(300, easing = EaseOut),
+    towards = AnimatedContentTransitionScope.SlideDirection.End
+)
