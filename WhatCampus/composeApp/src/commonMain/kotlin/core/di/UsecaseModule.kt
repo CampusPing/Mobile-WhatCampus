@@ -1,6 +1,7 @@
 package core.di
 
 import core.domain.usecase.BookmarkNoticeUseCase
+import core.domain.usecase.GetAllBookmarkedNoticesUseCase
 import core.domain.usecase.GetAllNoticeCategoryUseCase
 import core.domain.usecase.GetAllNoticeUseCase
 import core.domain.usecase.GetUniversityUseCase
@@ -16,6 +17,9 @@ val usecaseModule = module {
     }
     single {
         GetAllNoticeUseCase(get())
+    }
+    single {
+        GetAllBookmarkedNoticesUseCase(get())
     }
     single {
         BookmarkNoticeUseCase(get())

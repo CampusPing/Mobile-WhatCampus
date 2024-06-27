@@ -1,12 +1,14 @@
 package core.data.repository
 
 import core.database.dao.NoticeDao
+import core.database.mapper.toNotice
 import core.database.mapper.toNoticeEntity
 import core.domain.repository.NoticeRepository
 import core.model.Notice
 import core.model.NoticeCategory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone.Companion.currentSystemDefault
@@ -81,6 +83,13 @@ class FakeNoticeRepository(
         return flow {
             emit(notices)
         }
+    }
+
+    override fun flowBookmarkedNotices(): Flow<List<Notice>> {
+        return noticeDao.getAll()
+            .map { noticeEntities ->
+                noticeEntities.map { entity -> entity.toNotice() }
+            }
     }
 
     override fun bookmarkNotice(notice: Notice): Flow<Unit> {
