@@ -22,8 +22,8 @@ abstract class WhatcamDatabase : RoomDatabase(), DB {
     }
 
     companion object {
-        const val DATABASE_NAME = "whatcam.db"
-        const val DATABASE_VERSION = 3
+        internal const val DATABASE_NAME = "whatcam.db"
+        internal const val DATABASE_VERSION = 3
     }
 }
 
