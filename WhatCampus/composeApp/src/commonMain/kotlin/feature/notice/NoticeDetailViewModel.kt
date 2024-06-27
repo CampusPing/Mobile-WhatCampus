@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -27,7 +28,7 @@ class NoticeDetailViewModel(
     private val unbookmarkNoticeUseCase: UnbookmarkNoticeUseCase,
 ) : ViewModel() {
 
-    private val _uiState: MutableStateFlow<NoticeDetailUiState> = MutableStateFlow(NoticeDetailUiState.Success())
+    private val _uiState: MutableStateFlow<NoticeDetailUiState> = MutableStateFlow(NoticeDetailUiState())
     val uiState: StateFlow<NoticeDetailUiState> = _uiState.asStateFlow()
 
     private val _currentNotice: MutableStateFlow<Notice?> = MutableStateFlow(null)
@@ -37,7 +38,7 @@ class NoticeDetailViewModel(
             .filterNotNull()
             .flatMapLatest { notice ->
                 isBookmarkedNoticeUseCase(notice).map { isBookmarked ->
-                    NoticeDetailUiState.Success(bookmarkedNotice = if (isBookmarked) notice else null)
+                    NoticeDetailUiState(bookmarkedNotice = if (isBookmarked) notice else null)
                 }
             }
             .onEach { newState -> _uiState.value = newState }
@@ -51,11 +52,14 @@ class NoticeDetailViewModel(
     fun toggleBookmark(notice: Notice) {
         viewModelScope.launch {
             val isBookmarked = isBookmarkedNoticeUseCase(notice).first()
-
             if (isBookmarked) {
                 unbookmarkNoticeUseCase(notice).collect()
             } else {
                 bookmarkNoticeUseCase(notice).collect()
+            }
+
+            _uiState.update { state ->
+                state.copy(bookmarkedNotice = if (state.isBookmarked) null else notice)
             }
         }
     }

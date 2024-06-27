@@ -37,19 +37,13 @@ internal fun NoticeDetailScreen(
     val uiState by viewModel.uiState.collectAsStateMultiplatform()
     viewModel.setup(notice)
 
-    when (val state = uiState) {
-        NoticeDetailUiState.Loading -> {
-            // Loading state
-        }
-
-        is NoticeDetailUiState.Success -> NoticeDetailScreen(
-            modifier = modifier,
-            noticeUrl = notice.url,
-            onClickBack = onClickBack,
-            onClickBookmark = { viewModel.toggleBookmark(notice) },
-            isBookmarked = state.isBookmarked,
-        )
-    }
+    NoticeDetailScreen(
+        modifier = modifier,
+        noticeUrl = notice.url,
+        onClickBack = onClickBack,
+        onClickBookmark = { viewModel.toggleBookmark(notice) },
+        isBookmarked = uiState.isBookmarked,
+    )
 }
 
 @Composable
