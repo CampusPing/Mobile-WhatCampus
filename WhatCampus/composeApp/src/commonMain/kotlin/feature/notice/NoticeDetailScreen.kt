@@ -21,7 +21,6 @@ import core.designsystem.theme.WhatcamTheme
 import core.di.koinViewModel
 import core.model.Notice
 import feature.notice.components.WebView
-import feature.notice.model.NoticeDetailUiState
 import org.jetbrains.compose.resources.stringResource
 import whatcampus.composeapp.generated.resources.Res
 import whatcampus.composeapp.generated.resources.bookmark_tab_title
@@ -29,7 +28,7 @@ import whatcampus.composeapp.generated.resources.university_title
 
 @Composable
 internal fun NoticeDetailScreen(
-    viewModel: NoticeDetailViewModel = koinViewModel(),
+    viewModel: NoticeDetailViewModel = koinViewModel<NoticeDetailViewModel>(),
     modifier: Modifier = Modifier,
     notice: Notice,
     onClickBack: () -> Unit,
