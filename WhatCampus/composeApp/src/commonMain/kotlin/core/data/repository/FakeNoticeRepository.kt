@@ -85,7 +85,7 @@ class FakeNoticeRepository(
 
     override fun bookmarkNotice(notice: Notice): Flow<Unit> {
         return flow {
-            emit(noticeDao.upsert(notice = notice.toNoticeEntity()))
+            emit(noticeDao.insert(notice = notice.toNoticeEntity()))
         }
     }
 

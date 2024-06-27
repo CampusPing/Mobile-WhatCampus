@@ -13,7 +13,7 @@ fun getWhatcamDatabase(): WhatcamDatabase {
         name = dbFile,
         factory = { WhatcamDatabase::class.instantiateImpl() }
     )
-        .fallbackToDestructiveMigrationOnDowngrade(true)
+        .fallbackToDestructiveMigration(true)
         .setDriver(BundledSQLiteDriver())
         .setQueryCoroutineContext(Dispatchers.IO)
         .build()
