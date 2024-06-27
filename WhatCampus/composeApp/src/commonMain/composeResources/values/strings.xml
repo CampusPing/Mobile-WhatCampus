@@ -29,4 +29,8 @@
     <string name="bookmark_tab_title">북마크</string>
     <string name="chat_tab_title">채팅</string>
     <string name="campusmap_tab_title">캠퍼스맵</string>
+
+    <!--  NoticeDetail  -->
+    <string name="share_notice">공지 공유하기</string>
+
 </resources>
