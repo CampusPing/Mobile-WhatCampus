@@ -17,6 +17,7 @@ actual class KoinInitializer(
                 repositoryModule,
                 usecaseModule,
                 daoModule,
+                utilModule,
             )
         }
     }
