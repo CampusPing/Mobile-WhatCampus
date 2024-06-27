@@ -13,10 +13,6 @@ plugins {
 }
 
 kotlin {
-    sourceSets.commonMain {
-        kotlin.srcDir("build/generated/ksp/metadata")
-    }
-
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
@@ -45,27 +41,31 @@ kotlin {
             implementation(libs.koin.androidx.compose)
             implementation(libs.kotlinx.coroutines.android)
         }
-        commonMain.dependencies {
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material3)
-            implementation(compose.ui)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
+        commonMain {
+            kotlin.srcDir("build/generated/ksp/metadata")
 
-            api(libs.koin.core)
-            implementation(libs.koin.compose)
-            implementation(libs.lifecycle.viewmodel)
-            implementation(libs.navigation.compose)
-            implementation(libs.room.runtime)
-            implementation(libs.sqlite.bundled)
-            implementation(libs.richeditor.compose)
-            implementation(libs.ktor.client.core)
-            implementation(libs.kotlinx.serialization.json)
-            implementation(libs.landscapist.coil3)
-            implementation(libs.kotlinx.coroutines.core)
-            implementation(libs.kotlinx.collections.immutable)
-            implementation(libs.kotlinx.datetime)
+            dependencies {
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material3)
+                implementation(compose.ui)
+                implementation(compose.components.resources)
+                implementation(compose.components.uiToolingPreview)
+
+                api(libs.koin.core)
+                implementation(libs.koin.compose)
+                implementation(libs.lifecycle.viewmodel)
+                implementation(libs.navigation.compose)
+                implementation(libs.room.runtime)
+                implementation(libs.sqlite.bundled)
+                implementation(libs.richeditor.compose)
+                implementation(libs.ktor.client.core)
+                implementation(libs.kotlinx.serialization.json)
+                implementation(libs.landscapist.coil3)
+                implementation(libs.kotlinx.coroutines.core)
+                implementation(libs.kotlinx.collections.immutable)
+                implementation(libs.kotlinx.datetime)
+            }
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
