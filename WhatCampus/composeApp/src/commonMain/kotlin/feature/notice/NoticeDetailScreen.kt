@@ -35,6 +35,7 @@ internal fun NoticeDetailScreen(
     onClickBack: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateMultiplatform()
+    viewModel.setup(notice)
 
     when (val state = uiState) {
         NoticeDetailUiState.Loading -> {

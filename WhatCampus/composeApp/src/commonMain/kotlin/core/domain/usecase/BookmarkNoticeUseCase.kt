@@ -9,10 +9,10 @@ import kotlinx.coroutines.flow.map
 data class BookmarkNoticeUseCase(
     private val repository: NoticeRepository,
 ) {
-    operator fun invoke(notice: Notice): Flow<Boolean> {
+    operator fun invoke(notice: Notice): Flow<Notice?> {
         return repository
             .bookmarkNotice(notice)
-            .map { true }
-            .catch { emit(false) }
+            .map { notice as Notice? }
+            .catch { emit(null) }
     }
 }

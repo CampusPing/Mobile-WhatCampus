@@ -5,6 +5,7 @@ import core.domain.usecase.GetAllBookmarkedNoticesUseCase
 import core.domain.usecase.GetAllNoticeCategoryUseCase
 import core.domain.usecase.GetAllNoticeUseCase
 import core.domain.usecase.GetUniversityUseCase
+import core.domain.usecase.IsBookmarkedNoticeUseCase
 import core.domain.usecase.UnbookmarkNoticeUseCase
 import org.koin.dsl.module
 
@@ -20,6 +21,9 @@ val usecaseModule = module {
     }
     single {
         GetAllBookmarkedNoticesUseCase(get())
+    }
+    single {
+        IsBookmarkedNoticeUseCase(get())
     }
     single {
         BookmarkNoticeUseCase(get())

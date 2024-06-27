@@ -9,10 +9,10 @@ import kotlinx.coroutines.flow.map
 data class UnbookmarkNoticeUseCase(
     private val repository: NoticeRepository,
 ) {
-    operator fun invoke(notice: Notice): Flow<Boolean> {
+    operator fun invoke(notice: Notice): Flow<Notice?> {
         return repository
             .unbookmarkNotice(notice)
-            .map { true }
-            .catch { emit(false) }
+            .map { null }
+            .catch { emit(null) }
     }
 }
