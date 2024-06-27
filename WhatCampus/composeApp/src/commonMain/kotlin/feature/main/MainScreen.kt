@@ -35,7 +35,9 @@ internal fun MainScreen(
                 )
             }
             composable(MainRoute.BOOKMARK.route) {
-                BookmarkScreen()
+                BookmarkScreen(
+                    onNoticeClick = {}
+                )
             }
             composable(MainRoute.CHAT.route) {
 //                ChatScreen()
