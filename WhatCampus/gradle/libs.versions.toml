@@ -24,6 +24,7 @@ lifecycleViewModel = "2.8.1"
 koin = "3.6.0-alpha3"
 koinCompose = "3.6.0-alpha3"
 koinComposeMultiplatform = "1.2.0-alpha3"
+napier = "2.7.1"
 navigationCompose = "2.7.0-alpha03"
 richeditorCompose = "1.0.0-rc05"
 room = "2.7.0-alpha03"
@@ -55,6 +56,7 @@ koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", versi
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koinComposeMultiplatform" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+napier = { module = "io.github.aakira:napier", version.ref = "napier" }
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 richeditor-compose = { module = "com.mohamedrejeb.richeditor:richeditor-compose", version.ref = "richeditorCompose" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }

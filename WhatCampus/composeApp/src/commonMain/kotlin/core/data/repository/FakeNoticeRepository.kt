@@ -1,16 +1,22 @@
 package core.data.repository
 
+import core.database.dao.NoticeDao
+import core.database.mapper.toNotice
+import core.database.mapper.toNoticeEntity
 import core.domain.repository.NoticeRepository
 import core.model.Notice
 import core.model.NoticeCategory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone.Companion.currentSystemDefault
 import kotlinx.datetime.toLocalDateTime
 
-class FakeNoticeRepository : NoticeRepository {
+class FakeNoticeRepository(
+    private val noticeDao: NoticeDao,
+) : NoticeRepository {
     private val noticeCategories = listOf(
         NoticeCategory(1, "학과"),
         NoticeCategory(2, "학사"),
@@ -29,12 +35,42 @@ class FakeNoticeRepository : NoticeRepository {
         Notice(1, "공지사항입니다!", LocalDateTime(2024, 6, 2, 0, 0, 0), "https://www.naver.com"),
         Notice(2, "공지사항입니다!", LocalDateTime(2024, 6, 5, 0, 0, 0), "https://www.naver.com"),
         Notice(3, "공지사항입니다!", Clock.System.now().toLocalDateTime(currentSystemDefault()), "https://www.naver.com"),
-        Notice(4, "공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!", Clock.System.now().toLocalDateTime(currentSystemDefault()), "https://www.naver.com"),
-        Notice(5, "공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!", Clock.System.now().toLocalDateTime(currentSystemDefault()), "https://www.naver.com"),
-        Notice(6, "공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!", Clock.System.now().toLocalDateTime(currentSystemDefault()), "https://www.naver.com"),
-        Notice(7, "공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!", Clock.System.now().toLocalDateTime(currentSystemDefault()), "https://www.naver.com"),
-        Notice(8, "공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!", Clock.System.now().toLocalDateTime(currentSystemDefault()), "https://www.naver.com"),
-        Notice(9, "공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!", Clock.System.now().toLocalDateTime(currentSystemDefault()), "https://www.naver.com"),
+        Notice(
+            4,
+            "공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!",
+            Clock.System.now().toLocalDateTime(currentSystemDefault()),
+            "https://www.naver.com"
+        ),
+        Notice(
+            5,
+            "공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!",
+            Clock.System.now().toLocalDateTime(currentSystemDefault()),
+            "https://www.naver.com"
+        ),
+        Notice(
+            6,
+            "공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!",
+            Clock.System.now().toLocalDateTime(currentSystemDefault()),
+            "https://www.naver.com"
+        ),
+        Notice(
+            7,
+            "공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!",
+            Clock.System.now().toLocalDateTime(currentSystemDefault()),
+            "https://www.naver.com"
+        ),
+        Notice(
+            8,
+            "공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!",
+            Clock.System.now().toLocalDateTime(currentSystemDefault()),
+            "https://www.naver.com"
+        ),
+        Notice(
+            9,
+            "공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!공지사항입니다!",
+            Clock.System.now().toLocalDateTime(currentSystemDefault()),
+            "https://www.naver.com"
+        ),
     )
 
     override fun flowNoticeCategory(universityId: Long): Flow<List<NoticeCategory>> {
@@ -46,6 +82,25 @@ class FakeNoticeRepository : NoticeRepository {
     override fun flowNotices(noticeCategoryId: Long): Flow<List<Notice>> {
         return flow {
             emit(notices)
+        }
+    }
+
+    override fun flowBookmarkedNotices(): Flow<List<Notice>> {
+        return noticeDao.getAll()
+            .map { noticeEntities ->
+                noticeEntities.map { entity -> entity.toNotice() }
+            }
+    }
+
+    override fun bookmarkNotice(notice: Notice): Flow<Unit> {
+        return flow {
+            emit(noticeDao.insert(notice = notice.toNoticeEntity()))
+        }
+    }
+
+    override fun unbookmarkNotice(notice: Notice): Flow<Unit> {
+        return flow {
+            emit(noticeDao.delete(notice = notice.toNoticeEntity()))
         }
     }
 }

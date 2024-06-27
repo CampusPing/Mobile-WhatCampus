@@ -15,7 +15,8 @@ actual class KoinInitializer(
             modules(
                 viewModelModule,
                 repositoryModule,
-                usecaseModule
+                usecaseModule,
+                daoModule,
             )
         }
     }

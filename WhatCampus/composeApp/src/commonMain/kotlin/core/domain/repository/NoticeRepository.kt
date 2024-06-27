@@ -7,4 +7,7 @@ import kotlinx.coroutines.flow.Flow
 interface NoticeRepository {
     fun flowNoticeCategory(universityId: Long): Flow<List<NoticeCategory>>
     fun flowNotices(noticeCategoryId: Long): Flow<List<Notice>>
+    fun flowBookmarkedNotices(): Flow<List<Notice>>
+    fun bookmarkNotice(notice: Notice): Flow<Unit>
+    fun unbookmarkNotice(notice: Notice): Flow<Unit>
 }

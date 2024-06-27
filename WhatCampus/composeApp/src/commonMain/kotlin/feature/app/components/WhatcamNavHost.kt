@@ -5,6 +5,7 @@ import androidx.navigation.compose.NavHost
 import core.di.koinViewModel
 import feature.app.navigation.WhatcamNavigator
 import feature.main.navigation.mainNavGraph
+import feature.notice.navigation.noticeDetailNavGraph
 import feature.onboarding.navigation.onboardingNavGraph
 import feature.university.UniversityViewModel
 import feature.university.navigation.universityNavGraph
@@ -31,7 +32,12 @@ internal fun WhatcamNavHost(
                 onClickDepartment = { navigator.navigateUniversityComplete() },
                 onClickComplete = { navigator.navigateMain() },
             )
-            mainNavGraph()
+            mainNavGraph(
+                onNoticeClick = navigator::navigateNoticeDetail
+            )
+            noticeDetailNavGraph(
+                onClickBack = { navigator.navigateUp() },
+            )
         }
     }
 }

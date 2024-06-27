@@ -11,6 +11,6 @@ val repositoryModule = module {
         FakeUniversityRepository()
     }
     single<NoticeRepository> {
-        FakeNoticeRepository()
+        FakeNoticeRepository(get())
     }
 }

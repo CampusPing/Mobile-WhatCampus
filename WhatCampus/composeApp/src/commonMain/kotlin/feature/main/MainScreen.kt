@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import core.model.Notice
 import feature.main.components.MainBottomAppBar
 import feature.main.navigation.MainRoute
 import feature.main.navigation.rememberMainNavigator
@@ -14,6 +15,7 @@ import feature.notice.NoticeScreen
 @Composable
 internal fun MainScreen(
     modifier: Modifier = Modifier,
+    onNoticeClick: (Notice) -> Unit,
 ) {
     val navigator = rememberMainNavigator()
 
@@ -27,7 +29,9 @@ internal fun MainScreen(
             startDestination = navigator.startDestination.route,
         ) {
             composable(MainRoute.NOTICE.route) {
-                NoticeScreen()
+                NoticeScreen(
+                    onNoticeClick = onNoticeClick,
+                )
             }
             composable(MainRoute.BOOKMARK.route) {
 //                BookmarkScreen()

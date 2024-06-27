@@ -8,4 +8,5 @@ enum class Route(
     DepartmentSelectivityRoute("departmentSelectivity"),
     UniversityCompleteRoute("universityComplete"),
     MainRoute("main"),
+    NoticeDetail("noticeDetail"),
 }

@@ -23,16 +23,8 @@ import core.designsystem.theme.Gray
 import core.designsystem.theme.PaleGray
 import core.designsystem.theme.WhatcamTheme
 import core.model.Notice
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.format
-import kotlinx.datetime.format.DateTimeFormat
-import kotlinx.datetime.format.FormatStringsInDatetimeFormats
-import kotlinx.datetime.format.byUnicodePattern
-
-@OptIn(FormatStringsInDatetimeFormats::class)
-private val noticeDatetimeFormatter: DateTimeFormat<LocalDateTime> = LocalDateTime.Format {
-    byUnicodePattern("yyyy/MM/dd")
-}
+import feature.notice.format
+import feature.notice.noticeDateFormatter
 
 private val horizontalPadding = 12.dp
 
@@ -89,7 +81,7 @@ private fun NoticeItem(
         Spacer(modifier = Modifier.size(16.dp))
 
         Text(
-            text = notice.datetime.format(noticeDatetimeFormatter),
+            text = notice.datetime.format(formatter = noticeDateFormatter),
             style = WhatcamTheme.typography.bodyMediumR,
             color = Gray,
         )
