@@ -8,7 +8,7 @@ import kotlinx.datetime.LocalDateTime
 
 @Entity(tableName = TABLE_NAME)
 data class NoticeEntity(
-    @PrimaryKey(autoGenerate = true) val id: Long,
+    @PrimaryKey val id: Long,
     val title: String,
     val datetime: LocalDateTime,
     val url: String,
