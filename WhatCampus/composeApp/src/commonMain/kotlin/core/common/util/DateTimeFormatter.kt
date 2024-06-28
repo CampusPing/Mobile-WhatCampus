@@ -1,6 +1,6 @@
 @file:OptIn(FormatStringsInDatetimeFormats::class)
 
-package feature.notice
+package core.common.util
 
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.format
@@ -9,17 +9,17 @@ import kotlinx.datetime.format.FormatStringsInDatetimeFormats
 import kotlinx.datetime.format.byUnicodePattern
 
 internal fun LocalDateTime.format(
-    formatter: DateTimeFormat<LocalDateTime> = noticeDatetimeFormatter,
+    formatter: DateTimeFormat<LocalDateTime> = defaultDatetimeFormatter,
 ): String = format(formatter)
 
 internal fun String.parse(
-    formatter: DateTimeFormat<LocalDateTime> = noticeDatetimeFormatter,
+    formatter: DateTimeFormat<LocalDateTime> = defaultDateFormatter,
 ): LocalDateTime = LocalDateTime.parse(this, formatter)
 
-internal val noticeDatetimeFormatter: DateTimeFormat<LocalDateTime> = LocalDateTime.Format {
+internal val defaultDatetimeFormatter: DateTimeFormat<LocalDateTime> = LocalDateTime.Format {
     byUnicodePattern("yyyy/MM/dd HH:mm:ss")
 }
 
-internal val noticeDateFormatter: DateTimeFormat<LocalDateTime> = LocalDateTime.Format {
+internal val defaultDateFormatter: DateTimeFormat<LocalDateTime> = LocalDateTime.Format {
     byUnicodePattern("yyyy/MM/dd")
 }

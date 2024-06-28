@@ -18,13 +18,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import core.common.util.defaultDateFormatter
+import core.common.util.defaultDatetimeFormatter
+import core.common.util.format
 import core.designsystem.theme.Graphite
 import core.designsystem.theme.Gray
 import core.designsystem.theme.PaleGray
 import core.designsystem.theme.WhatcamTheme
 import core.model.Notice
-import feature.notice.format
-import feature.notice.noticeDateFormatter
 
 private val horizontalPadding = 12.dp
 
@@ -81,7 +82,7 @@ private fun NoticeItem(
         Spacer(modifier = Modifier.size(16.dp))
 
         Text(
-            text = notice.datetime.format(formatter = noticeDateFormatter),
+            text = notice.datetime.format(formatter = defaultDateFormatter),
             style = WhatcamTheme.typography.bodyMediumR,
             color = Gray,
         )
