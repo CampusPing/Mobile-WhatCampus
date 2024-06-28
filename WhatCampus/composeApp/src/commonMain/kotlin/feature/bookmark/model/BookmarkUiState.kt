@@ -10,4 +10,6 @@ data class BookmarkUiState(
 ) {
     val isAllNoticesMarkedForDelete: Boolean
         get() = markedNoticesForDelete.size == notices.size
+    val isEmptyBookmark: Boolean
+        get() = notices.isEmpty()
 }

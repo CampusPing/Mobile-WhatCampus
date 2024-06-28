@@ -3,6 +3,7 @@ package feature.bookmark
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -109,31 +110,52 @@ private fun BookmarkScreen(
                 onClickUnbookmark = onClickUnbookmark,
                 isEditMode = isEditMode,
                 isAllSelected = isAllSelected,
+                isShowActions = !uiState.isEmptyBookmark,
             )
         },
     ) { paddingValues ->
-        LazyColumn(
-            contentPadding = paddingValues,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            itemsIndexed(
-                items = uiState.notices,
-                key = { _, notice -> notice.id },
-            ) { index, notice ->
-                BookmarkItem(
-                    notice = notice,
-                    onClick = { onClickNotice(notice) },
-                    onClickDelete = onClickNoticeForDelete,
-                    isSelectedForDelete = notice in uiState.markedNoticesForDelete,
-                    isEditMode = isEditMode,
-                )
+        if (uiState.isEmptyBookmark) {
+            EmptyBookmarkScreen()
+        } else {
+            BookmarkList(
+                paddingValues = paddingValues,
+                uiState = uiState,
+                onClickNotice = onClickNotice,
+                onClickNoticeForDelete = onClickNoticeForDelete,
+                isEditMode = isEditMode
+            )
+        }
+    }
+}
 
-                if (index < uiState.notices.size - 1) {
-                    NoticeDivider()
-                }
+@Composable
+private fun BookmarkList(
+    paddingValues: PaddingValues,
+    uiState: BookmarkUiState,
+    onClickNotice: (Notice) -> Unit,
+    onClickNoticeForDelete: (Notice) -> Unit,
+    isEditMode: Boolean,
+) {
+    LazyColumn(
+        contentPadding = paddingValues,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        itemsIndexed(
+            items = uiState.notices,
+            key = { _, notice -> notice.id },
+        ) { index, notice ->
+            BookmarkItem(
+                notice = notice,
+                onClick = { onClickNotice(notice) },
+                onClickDelete = onClickNoticeForDelete,
+                isSelectedForDelete = notice in uiState.markedNoticesForDelete,
+                isEditMode = isEditMode,
+            )
+
+            if (index < uiState.notices.size - 1) {
+                NoticeDivider()
             }
         }
-
     }
 }
 
@@ -147,6 +169,7 @@ private fun BookmarkTopBar(
     onClickUnbookmark: () -> Unit,
     isEditMode: Boolean,
     isAllSelected: Boolean,
+    isShowActions: Boolean,
 ) {
     CenterAlignedTopAppBar(
         modifier = modifier,
@@ -169,26 +192,28 @@ private fun BookmarkTopBar(
             }
         },
         actions = {
-            if (isEditMode) {
-                RadioButton(
-                    selected = isAllSelected,
-                    onClick = onClickSelectAll,
-                )
+            if (isShowActions) {
+                if (isEditMode) {
+                    RadioButton(
+                        selected = isAllSelected,
+                        onClick = onClickSelectAll,
+                    )
 
-                IconButton(onClick = onClickUnbookmark) {
-                    Icon(
-                        imageVector = Icons.Default.Delete,
-                        contentDescription = stringResource(Res.string.unbookmark),
-                        tint = Graphite,
-                    )
-                }
-            } else {
-                IconButton(onClick = onClickEdit) {
-                    Icon(
-                        imageVector = Icons.Default.Edit,
-                        contentDescription = stringResource(Res.string.bookmark_edit),
-                        tint = Graphite,
-                    )
+                    IconButton(onClick = onClickUnbookmark) {
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = stringResource(Res.string.unbookmark),
+                            tint = Graphite,
+                        )
+                    }
+                } else {
+                    IconButton(onClick = onClickEdit) {
+                        Icon(
+                            imageVector = Icons.Default.Edit,
+                            contentDescription = stringResource(Res.string.bookmark_edit),
+                            tint = Graphite,
+                        )
+                    }
                 }
             }
         },
@@ -252,4 +277,11 @@ private fun NoticeDivider(
         thickness = 2.dp,
         color = PaleGray,
     )
+}
+
+@Composable
+private fun EmptyBookmarkScreen(
+    modifier: Modifier = Modifier,
+) {
+
 }
