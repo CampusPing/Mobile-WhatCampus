@@ -103,4 +103,10 @@ class FakeNoticeRepository(
             emit(noticeDao.delete(notice = notice.toNoticeEntity()))
         }
     }
+
+    override suspend fun unbookmarkNotices(notices: List<Notice>) {
+        notices.forEach {
+            noticeDao.delete(notice = it.toNoticeEntity())
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package core.di
 
+import feature.bookmark.BookmarkViewModel
 import feature.notice.NoticeDetailViewModel
 import feature.notice.NoticeViewModel
 import feature.university.UniversityViewModel
@@ -12,4 +13,5 @@ actual val viewModelModule: Module = module {
     singleOf(::UniversityViewModel)
     singleOf(::NoticeViewModel)
     factoryOf(::NoticeDetailViewModel)
+    singleOf(::BookmarkViewModel)
 }
