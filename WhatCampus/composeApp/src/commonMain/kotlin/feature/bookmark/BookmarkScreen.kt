@@ -166,7 +166,7 @@ private fun BookmarkList(
             )
 
             if (index < uiState.notices.size - 1) {
-                NoticeDivider()
+                BookmarkDivider()
             }
         }
     }
@@ -282,7 +282,7 @@ private fun BookmarkItem(
 }
 
 @Composable
-private fun NoticeDivider(
+private fun BookmarkDivider(
     modifier: Modifier = Modifier,
 ) {
     HorizontalDivider(
