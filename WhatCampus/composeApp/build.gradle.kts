@@ -66,6 +66,8 @@ kotlin {
                 implementation(libs.kotlinx.collections.immutable)
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.napier)
+                implementation(libs.ktor.client.core.v300wasm2)
+                implementation(libs.kottie)
             }
         }
         iosMain.dependencies {
