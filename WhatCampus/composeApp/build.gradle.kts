@@ -40,6 +40,7 @@ kotlin {
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
             implementation(libs.kotlinx.coroutines.android)
+            implementation(libs.ktor.engine.android)
         }
         commonMain {
             kotlin.srcDir("build/generated/ksp/metadata")
@@ -59,14 +60,15 @@ kotlin {
                 implementation(libs.room.runtime)
                 implementation(libs.sqlite.bundled)
                 implementation(libs.richeditor.compose)
-                implementation(libs.ktor.client.core)
                 implementation(libs.kotlinx.serialization.json)
-                implementation(libs.landscapist.coil3)
+                implementation(libs.ktor.client.core)
+                implementation(libs.ktor.client.core.v300wasm2)
+                implementation(libs.coil.compose)
+                implementation(libs.coil.network.ktor)
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.kotlinx.collections.immutable)
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.napier)
-                implementation(libs.ktor.client.core.v300wasm2)
                 implementation(libs.kottie)
             }
         }

@@ -4,6 +4,7 @@ import core.domain.usecase.BookmarkNoticeUseCase
 import core.domain.usecase.GetAllBookmarkedNoticesUseCase
 import core.domain.usecase.GetAllNoticeCategoryUseCase
 import core.domain.usecase.GetAllNoticeUseCase
+import core.domain.usecase.GetCampusMapUrlUseCase
 import core.domain.usecase.GetUniversityUseCase
 import core.domain.usecase.IsBookmarkedNoticeUseCase
 import core.domain.usecase.UnbookmarkNoticeUseCase
@@ -34,5 +35,8 @@ val usecaseModule = module {
     }
     single {
         UnbookmarkNoticesUseCase(get())
+    }
+    single {
+        GetCampusMapUrlUseCase(get())
     }
 }
