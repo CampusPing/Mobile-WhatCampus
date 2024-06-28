@@ -44,7 +44,7 @@ internal fun MainScreen(
 //                ChatScreen()
             }
             composable(MainRoute.CAMPUS_MAP.route) {
-//                CampusMapScreen()
+                CampusMapScreen()
             }
         }
     }
