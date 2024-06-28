@@ -1,6 +1,5 @@
 package feature.bookmark
 
-import KottieAnimation
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
@@ -27,15 +25,12 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import core.common.extensions.collectAsStateMultiplatform
@@ -47,17 +42,12 @@ import core.designsystem.theme.PaleGray
 import core.designsystem.theme.WhatcamTheme
 import core.di.koinViewModel
 import core.model.Notice
+import feature.bookmark.components.EmptyBookmarkScreen
 import feature.bookmark.model.BookmarkUiState
-import kottieComposition.KottieCompositionSpec
-import kottieComposition.animateKottieCompositionAsState
-import kottieComposition.rememberKottieComposition
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import whatcampus.composeapp.generated.resources.Res
 import whatcampus.composeapp.generated.resources.bookmark_cancel
 import whatcampus.composeapp.generated.resources.bookmark_edit
-import whatcampus.composeapp.generated.resources.bookmark_empty_content
-import whatcampus.composeapp.generated.resources.bookmark_empty_title
 import whatcampus.composeapp.generated.resources.bookmark_title
 import whatcampus.composeapp.generated.resources.unbookmark
 
@@ -126,9 +116,7 @@ private fun BookmarkScreen(
         },
     ) { paddingValues ->
         if (uiState.isEmptyBookmark) {
-            EmptyBookmarkScreen(
-                modifier = Modifier.padding(paddingValues),
-            )
+            EmptyBookmarkScreen(modifier = Modifier.padding(paddingValues))
         } else {
             BookmarkList(
                 paddingValues = paddingValues,
@@ -290,56 +278,4 @@ private fun BookmarkDivider(
         thickness = 2.dp,
         color = PaleGray,
     )
-}
-
-@OptIn(ExperimentalResourceApi::class)
-@Composable
-private fun EmptyBookmarkScreen(
-    modifier: Modifier = Modifier,
-) {
-    var emptyAnimation by remember { mutableStateOf("") }
-    val composition = rememberKottieComposition(
-        spec = KottieCompositionSpec.File(emptyAnimation)
-    )
-    val animationState by animateKottieCompositionAsState(
-        composition = composition,
-        speed = 0.4f,
-        iterations = Int.MAX_VALUE,
-    )
-
-    LaunchedEffect(Unit) {
-        emptyAnimation = Res.readBytes("files/anim_empty.json").decodeToString()
-    }
-
-    Column(
-        modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        KottieAnimation(
-            composition = composition,
-            progress = { animationState.progress },
-            modifier = Modifier
-                .fillMaxSize(0.5f)
-                .sizeIn(300.dp, 300.dp),
-        )
-
-        Spacer(modifier = Modifier.size(32.dp))
-
-        Text(
-            text = stringResource(Res.string.bookmark_empty_title),
-            style = WhatcamTheme.typography.titleLargeB,
-            color = Graphite,
-            textAlign = TextAlign.Center,
-        )
-
-        Spacer(modifier = Modifier.size(8.dp))
-
-        Text(
-            text = stringResource(Res.string.bookmark_empty_content),
-            style = WhatcamTheme.typography.bodyLargeR,
-            color = Gray,
-            textAlign = TextAlign.Center,
-        )
-    }
 }
