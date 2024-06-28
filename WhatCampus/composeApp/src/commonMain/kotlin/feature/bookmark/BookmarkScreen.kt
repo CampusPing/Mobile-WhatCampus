@@ -12,15 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -42,14 +34,9 @@ import core.designsystem.theme.PaleGray
 import core.designsystem.theme.WhatcamTheme
 import core.di.koinViewModel
 import core.model.Notice
+import feature.bookmark.components.BookmarkTopBar
 import feature.bookmark.components.EmptyBookmarkScreen
 import feature.bookmark.model.BookmarkUiState
-import org.jetbrains.compose.resources.stringResource
-import whatcampus.composeapp.generated.resources.Res
-import whatcampus.composeapp.generated.resources.bookmark_cancel
-import whatcampus.composeapp.generated.resources.bookmark_edit
-import whatcampus.composeapp.generated.resources.bookmark_title
-import whatcampus.composeapp.generated.resources.unbookmark
 
 private val horizontalPadding = 12.dp
 
@@ -158,67 +145,6 @@ private fun BookmarkList(
             }
         }
     }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun BookmarkTopBar(
-    modifier: Modifier = Modifier,
-    onClickEdit: () -> Unit,
-    onClickCancel: () -> Unit,
-    onClickSelectAll: () -> Unit,
-    onClickUnbookmark: () -> Unit,
-    isEditMode: Boolean,
-    isAllSelected: Boolean,
-    isShowActions: Boolean,
-) {
-    CenterAlignedTopAppBar(
-        modifier = modifier,
-        title = {
-            Text(
-                text = stringResource(Res.string.bookmark_title),
-                style = WhatcamTheme.typography.titleMediumB,
-                color = Graphite,
-            )
-        },
-        navigationIcon = {
-            if (isEditMode) {
-                IconButton(onClick = onClickCancel) {
-                    Icon(
-                        imageVector = Icons.Default.Close,
-                        contentDescription = stringResource(Res.string.bookmark_cancel),
-                        tint = Graphite,
-                    )
-                }
-            }
-        },
-        actions = {
-            if (isShowActions) {
-                if (isEditMode) {
-                    RadioButton(
-                        selected = isAllSelected,
-                        onClick = onClickSelectAll,
-                    )
-
-                    IconButton(onClick = onClickUnbookmark) {
-                        Icon(
-                            imageVector = Icons.Default.Delete,
-                            contentDescription = stringResource(Res.string.unbookmark),
-                            tint = Graphite,
-                        )
-                    }
-                } else {
-                    IconButton(onClick = onClickEdit) {
-                        Icon(
-                            imageVector = Icons.Default.Edit,
-                            contentDescription = stringResource(Res.string.bookmark_edit),
-                            tint = Graphite,
-                        )
-                    }
-                }
-            }
-        },
-    )
 }
 
 @Composable
