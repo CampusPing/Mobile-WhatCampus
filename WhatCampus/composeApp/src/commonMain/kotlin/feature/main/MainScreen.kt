@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import core.model.Notice
 import feature.bookmark.BookmarkScreen
+import feature.campusmap.CampusMapScreen
 import feature.main.components.MainBottomAppBar
 import feature.main.navigation.MainRoute
 import feature.main.navigation.rememberMainNavigator
@@ -36,7 +37,7 @@ internal fun MainScreen(
             }
             composable(MainRoute.BOOKMARK.route) {
                 BookmarkScreen(
-                    onNoticeClick = {}
+                    onNoticeClick = onNoticeClick,
                 )
             }
             composable(MainRoute.CHAT.route) {
