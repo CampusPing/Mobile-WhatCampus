@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -46,6 +47,7 @@ import whatcampus.composeapp.generated.resources.Res
 import whatcampus.composeapp.generated.resources.bookmark_cancel
 import whatcampus.composeapp.generated.resources.bookmark_edit
 import whatcampus.composeapp.generated.resources.bookmark_title
+import whatcampus.composeapp.generated.resources.unbookmark
 
 private val horizontalPadding = 12.dp
 
@@ -72,6 +74,10 @@ internal fun BookmarkScreen(
                 viewModel.markAllNoticesForDelete()
             }
         },
+        onClickUnbookmark = {
+            isEditMode = false
+            viewModel.unbookmarkNotices()
+        },
         isEditMode = isEditMode,
         isAllSelected = uiState.isAllNoticesMarkedForDelete,
         onClickNotice = onNoticeClick,
@@ -86,6 +92,7 @@ private fun BookmarkScreen(
     onClickEdit: () -> Unit,
     onClickCancel: () -> Unit,
     onClickSelectAll: () -> Unit,
+    onClickUnbookmark: () -> Unit,
     isEditMode: Boolean,
     isAllSelected: Boolean,
     onClickNotice: (Notice) -> Unit,
@@ -99,6 +106,7 @@ private fun BookmarkScreen(
                 onClickEdit = onClickEdit,
                 onClickCancel = onClickCancel,
                 onClickSelectAll = onClickSelectAll,
+                onClickUnbookmark = onClickUnbookmark,
                 isEditMode = isEditMode,
                 isAllSelected = isAllSelected,
             )
@@ -136,6 +144,7 @@ private fun BookmarkTopBar(
     onClickEdit: () -> Unit,
     onClickCancel: () -> Unit,
     onClickSelectAll: () -> Unit,
+    onClickUnbookmark: () -> Unit,
     isEditMode: Boolean,
     isAllSelected: Boolean,
 ) {
@@ -165,6 +174,14 @@ private fun BookmarkTopBar(
                     selected = isAllSelected,
                     onClick = onClickSelectAll,
                 )
+
+                IconButton(onClick = onClickUnbookmark) {
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = stringResource(Res.string.unbookmark),
+                        tint = Graphite,
+                    )
+                }
             } else {
                 IconButton(onClick = onClickEdit) {
                     Icon(

@@ -38,4 +38,5 @@
     <string name="bookmark_edit">편집</string>
     <string name="bookmark_cancel">취소</string>
     <string name="bookmark_select_all">전체 선택</string>
+    <string name="unbookmark">북마크 해제</string>
 </resources>
