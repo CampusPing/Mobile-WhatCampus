@@ -39,4 +39,6 @@
     <string name="bookmark_cancel">취소</string>
     <string name="bookmark_select_all">전체 선택</string>
     <string name="unbookmark">북마크 해제</string>
+    <string name="bookmark_empty_title">북마크된 공지가 없어요</string>
+    <string name="bookmark_empty_content">중요한 공지를 놓치지 않도록 북마크해 두세요!</string>
 </resources>
