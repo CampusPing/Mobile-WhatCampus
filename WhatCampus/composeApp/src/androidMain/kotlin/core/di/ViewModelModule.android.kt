@@ -1,6 +1,7 @@
 package core.di
 
 import feature.bookmark.BookmarkViewModel
+import feature.campusmap.CampusMapViewModel
 import feature.notice.NoticeDetailViewModel
 import feature.notice.NoticeViewModel
 import feature.university.UniversityViewModel
@@ -13,4 +14,5 @@ actual val viewModelModule: Module = module {
     viewModelOf(::NoticeViewModel)
     viewModelOf(::NoticeDetailViewModel)
     viewModelOf(::BookmarkViewModel)
+    viewModelOf(::CampusMapViewModel)
 }
