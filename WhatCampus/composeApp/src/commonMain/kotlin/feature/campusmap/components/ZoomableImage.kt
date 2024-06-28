@@ -95,7 +95,10 @@ fun ZoomableImage(
         if (isShowZoomScale) {
             ZoomScale(
                 scale = scale,
-                onClick = { scale = 1f },
+                onClick = {
+                    scale = 1f
+                    offset = Offset.Zero
+                },
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
                     .padding(16.dp)
