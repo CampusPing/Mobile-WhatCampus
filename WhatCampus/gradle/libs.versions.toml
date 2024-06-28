@@ -20,7 +20,7 @@ kotlinxCollectionsImmutable = "0.3.7"
 kotlinxDatetime = "0.6.0"
 kottie = "1.8.6"
 ktorClientCore = "3.0.0-wasm2"
-landscapistCoil3 = "2.3.4"
+coil3 = "3.0.0-alpha06"
 lifecycleRuntimeCompose = "2.8.2"
 lifecycleViewModel = "2.8.1"
 koin = "3.6.0-alpha3"
@@ -53,7 +53,6 @@ kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collec
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 kottie = { module = "io.github.ismai117:kottie", version.ref = "kottie" }
 ktor-client-core-v300wasm2 = { module = "io.ktor:ktor-client-core", version.ref = "ktorClientCore" }
-landscapist-coil3 = { module = "com.github.skydoves:landscapist-coil3", version.ref = "landscapistCoil3" }
 lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel", version.ref = "lifecycleViewModel" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinCompose" }
@@ -68,10 +67,12 @@ room-runtime-android = { module = "androidx.room:room-runtime-android", version.
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
-ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil3" }
+coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor", version.ref = "coil3" }
+ktor-engine-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
