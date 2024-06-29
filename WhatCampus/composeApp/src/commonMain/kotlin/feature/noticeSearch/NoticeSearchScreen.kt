@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import core.di.koinViewModel
 import core.model.Notice
+import feature.noticeSearch.components.NoticeSearchTopBar
 
 @Composable
 internal fun NoticeSearchScreen(
@@ -15,7 +16,10 @@ internal fun NoticeSearchScreen(
     onClickNotice: (Notice) -> Unit,
 ) {
     Scaffold(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize(),
+        topBar = {
+            NoticeSearchTopBar(onClickBack = onClickBack)
+        }
     ) {
 
     }
