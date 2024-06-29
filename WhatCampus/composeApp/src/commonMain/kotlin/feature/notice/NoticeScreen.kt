@@ -27,6 +27,7 @@ import feature.notice.model.NoticeUiState
 fun NoticeScreen(
     noticeViewModel: NoticeViewModel = koinViewModel(),
     onNoticeClick: (Notice) -> Unit,
+    onClickNoticeSearch: () -> Unit,
 ) {
     val uiState by noticeViewModel.uiState.collectAsStateMultiplatform()
 
@@ -39,6 +40,7 @@ fun NoticeScreen(
             uiState = uiState as NoticeUiState.Success,
             onClickCategory = { noticeViewModel.selectCategory(it) },
             onNoticeClick = onNoticeClick,
+            onClickNoticeSearch = onClickNoticeSearch,
         )
     }
 }
@@ -48,11 +50,12 @@ private fun NoticeScreen(
     uiState: NoticeUiState.Success,
     onClickCategory: (NoticeCategory) -> Unit,
     onNoticeClick: (Notice) -> Unit,
+    onClickNoticeSearch: () -> Unit,
 ) {
     Scaffold(
         topBar = {
             NoticeTopAppBar(
-                onClickSearch = {},
+                onClickSearch = onClickNoticeSearch,
                 onClickNotification = {},
                 onClickProfile = {},
             )

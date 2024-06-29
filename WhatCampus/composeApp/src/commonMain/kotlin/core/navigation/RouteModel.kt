@@ -9,4 +9,5 @@ enum class Route(
     UniversityCompleteRoute("universityComplete"),
     MainRoute("main"),
     NoticeDetail("noticeDetail"),
+    NoticeSearch("noticeSearch"),
 }
