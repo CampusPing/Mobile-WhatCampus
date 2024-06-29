@@ -2,9 +2,10 @@ package core.di
 
 import core.domain.usecase.BookmarkNoticeUseCase
 import core.domain.usecase.GetAllBookmarkedNoticesUseCase
-import core.domain.usecase.GetAllNoticeCategoryUseCase
-import core.domain.usecase.GetAllNoticeUseCase
 import core.domain.usecase.GetCampusMapUrlUseCase
+import core.domain.usecase.GetFilteredNoticesUseCase
+import core.domain.usecase.GetNoticeCategoriesByUniversityIdUseCase
+import core.domain.usecase.GetNoticesByCategoryIdUseCase
 import core.domain.usecase.GetUniversityUseCase
 import core.domain.usecase.IsBookmarkedNoticeUseCase
 import core.domain.usecase.UnbookmarkNoticeUseCase
@@ -16,10 +17,10 @@ val usecaseModule = module {
         GetUniversityUseCase(get())
     }
     single {
-        GetAllNoticeCategoryUseCase(get())
+        GetNoticeCategoriesByUniversityIdUseCase(get())
     }
     single {
-        GetAllNoticeUseCase(get())
+        GetNoticesByCategoryIdUseCase(get())
     }
     single {
         GetAllBookmarkedNoticesUseCase(get())
@@ -38,5 +39,8 @@ val usecaseModule = module {
     }
     single {
         GetCampusMapUrlUseCase(get())
+    }
+    single {
+        GetFilteredNoticesUseCase(get(), get())
     }
 }

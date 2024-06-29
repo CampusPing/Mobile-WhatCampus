@@ -10,6 +10,7 @@ import core.model.Notice
 import core.navigation.Route
 import feature.main.navigation.navigateMain
 import feature.notice.navigation.navigateNoticeDetail
+import feature.noticeSearch.navigation.navigateNoticeSearch
 import feature.university.navigation.navigateDepartmentSelectivity
 import feature.university.navigation.navigateUniversityComplete
 import feature.university.navigation.navigateUniversitySelectivity
@@ -46,6 +47,10 @@ internal class WhatcamNavigator(
 
     fun navigateNoticeDetail(notice: Notice) {
         navController.navigateNoticeDetail(notice = notice)
+    }
+
+    fun navigateNoticeSearch() {
+        navController.navigateNoticeSearch()
     }
 }
 

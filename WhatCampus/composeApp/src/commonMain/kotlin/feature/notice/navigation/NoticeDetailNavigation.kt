@@ -36,7 +36,11 @@ fun NavController.navigateNoticeDetail(notice: Notice) {
             "/${notice.title}" +
             "/${notice.datetime.format(formatter = defaultDatetimeFormatter).encodeBase64()}" +
             "/${notice.url.encodeBase64()}"
-    navigateSingleTop(route = routeWithArgs)
+
+    navigateSingleTop(
+        route = routeWithArgs,
+        isPopUpToStartDestination = false,
+    )
 }
 
 fun NavGraphBuilder.noticeDetailNavGraph(

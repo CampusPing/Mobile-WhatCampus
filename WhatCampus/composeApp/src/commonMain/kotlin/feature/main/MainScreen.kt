@@ -18,6 +18,7 @@ import feature.notice.NoticeScreen
 internal fun MainScreen(
     modifier: Modifier = Modifier,
     onNoticeClick: (Notice) -> Unit,
+    onClickNoticeSearch: () -> Unit,
 ) {
     val navigator = rememberMainNavigator()
 
@@ -33,6 +34,7 @@ internal fun MainScreen(
             composable(MainRoute.NOTICE.route) {
                 NoticeScreen(
                     onNoticeClick = onNoticeClick,
+                    onClickNoticeSearch = onClickNoticeSearch,
                 )
             }
             composable(MainRoute.BOOKMARK.route) {

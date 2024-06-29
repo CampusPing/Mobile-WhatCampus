@@ -5,12 +5,12 @@ import core.model.Notice
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-data class GetAllNoticeUseCase(
+data class GetNoticesByCategoryIdUseCase(
     private val repository: NoticeRepository,
 ) {
-    operator fun invoke(noticeCategoryId: Long): Flow<List<Notice>> {
+    operator fun invoke(id: Long): Flow<List<Notice>> {
         return repository
-            .flowNotices(noticeCategoryId = noticeCategoryId)
+            .flowNotices(noticeCategoryId = id)
             .map { notices -> notices.sortedByDescending { it.datetime } }
     }
 }
