@@ -1,5 +1,6 @@
 package feature.noticeSearch
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import core.common.extensions.collectAsStateMultiplatform
 import core.di.koinViewModel
 import core.model.Notice
+import feature.noticeSearch.components.EmptyNoticeSearchScreen
 import feature.noticeSearch.components.NoticeList
 import feature.noticeSearch.components.NoticeSearchTopBar
 import feature.noticeSearch.model.NoticeSearchUiState
@@ -82,9 +84,15 @@ private fun NoticeSearchScreen(
             hint = stringResource(Res.string.notice_search_hint),
         )
 
-        NoticeList(
-            notices = uiState.searchedNotices,
-            onClickNotice = onClickNotice,
-        )
+        AnimatedVisibility(uiState.isEmptyResult) {
+            EmptyNoticeSearchScreen()
+        }
+
+        AnimatedVisibility(!uiState.isEmptyResult) {
+            NoticeList(
+                notices = uiState.searchedNotices,
+                onClickNotice = onClickNotice,
+            )
+        }
     }
 }
