@@ -4,7 +4,7 @@ import core.domain.repository.NoticeRepository
 import core.model.NoticeCategory
 import kotlinx.coroutines.flow.Flow
 
-data class GetAllNoticeCategoryUseCase(
+data class GetNoticeCategoriesByUniversityIdUseCase(
     private val repository: NoticeRepository,
 ) {
     operator fun invoke(universityId: Long): Flow<List<NoticeCategory>> {

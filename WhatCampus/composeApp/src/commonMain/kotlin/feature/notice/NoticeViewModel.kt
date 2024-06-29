@@ -2,7 +2,7 @@ package feature.notice
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import core.domain.usecase.GetAllNoticeCategoryUseCase
+import core.domain.usecase.GetNoticeCategoriesByUniversityIdUseCase
 import core.domain.usecase.GetNoticesByCategoryIdUseCase
 import core.model.NoticeCategory
 import feature.notice.model.NoticeUiState
@@ -22,7 +22,7 @@ import kotlinx.coroutines.flow.update
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class NoticeViewModel(
-    getAllNoticeCategory: GetAllNoticeCategoryUseCase,
+    getNoticeCategoriesByUniversityId: GetNoticeCategoriesByUniversityIdUseCase,
     getNoticesByCategoryId: GetNoticesByCategoryIdUseCase,
 ) : ViewModel() {
     private val _errorFlow = MutableSharedFlow<Throwable>()
@@ -32,7 +32,7 @@ class NoticeViewModel(
     val uiState: StateFlow<NoticeUiState> = _uiState.asStateFlow()
 
     init {
-        getAllNoticeCategory(universityId = 1)
+        getNoticeCategoriesByUniversityId(universityId = 1)
             .map { noticeCategories ->
                 NoticeUiState.Success(
                     noticeCategories = noticeCategories,

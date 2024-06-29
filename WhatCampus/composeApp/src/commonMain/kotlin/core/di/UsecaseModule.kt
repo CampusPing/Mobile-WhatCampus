@@ -2,7 +2,7 @@ package core.di
 
 import core.domain.usecase.BookmarkNoticeUseCase
 import core.domain.usecase.GetAllBookmarkedNoticesUseCase
-import core.domain.usecase.GetAllNoticeCategoryUseCase
+import core.domain.usecase.GetNoticeCategoriesByUniversityIdUseCase
 import core.domain.usecase.GetNoticesByCategoryIdUseCase
 import core.domain.usecase.GetCampusMapUrlUseCase
 import core.domain.usecase.GetUniversityUseCase
@@ -16,7 +16,7 @@ val usecaseModule = module {
         GetUniversityUseCase(get())
     }
     single {
-        GetAllNoticeCategoryUseCase(get())
+        GetNoticeCategoriesByUniversityIdUseCase(get())
     }
     single {
         GetNoticesByCategoryIdUseCase(get())
