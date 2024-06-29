@@ -54,6 +54,6 @@ class NoticeSearchViewModel(
     }
 
     companion object {
-        private const val SEARCH_DEBOUNCE = 300L
+        private const val SEARCH_DEBOUNCE = 600L
     }
 }
