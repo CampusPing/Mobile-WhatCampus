@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import core.model.Notice
 import feature.bookmark.BookmarkScreen
 import feature.campusmap.CampusMapScreen
+import feature.chat.ChatScreen
 import feature.main.components.MainBottomAppBar
 import feature.main.navigation.MainRoute
 import feature.main.navigation.rememberMainNavigator
@@ -43,7 +44,7 @@ internal fun MainScreen(
                 )
             }
             composable(MainRoute.CHAT.route) {
-//                ChatScreen()
+                ChatScreen()
             }
             composable(MainRoute.CAMPUS_MAP.route) {
                 CampusMapScreen()
