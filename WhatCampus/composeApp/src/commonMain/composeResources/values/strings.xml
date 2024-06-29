@@ -47,4 +47,9 @@
     <string name="notice_search_hint">원하시는 공지를 검색해보세요!</string>
     <string name="notice_empty_title">검색하신 결과가 없어요</string>
     <string name="notice_empty_content">원하시는 공지의 제목을 입력해보세요!</string>
+
+    <!--  Chat  -->
+    <string name="chat_title">왓챗</string>
+    <string name="chat_preparation_title">채팅 기능을 준비하고 있어요 💬</string>
+    <string name="chat_preparation_content">빠른 시일 내에 채팅을 이용할 수 있어요!</string>
 </resources>
