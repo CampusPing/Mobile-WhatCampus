@@ -50,4 +50,6 @@
 
     <!--  Chat  -->
     <string name="chat_title">왓챗</string>
+    <string name="chat_preparation_title">채팅 기능을 준비하고 있어요 💬</string>
+    <string name="chat_preparation_content">빠른 시일 내에 채팅을 이용할 수 있어요!</string>
 </resources>
