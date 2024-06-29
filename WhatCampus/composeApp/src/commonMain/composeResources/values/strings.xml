@@ -44,4 +44,5 @@
 
     <!--  NoticeSearch  -->
     <string name="notice_search_title">공지 검색</string>
+    <string name="notice_search_hint">원하시는 공지를 검색해보세요!</string>
 </resources>
