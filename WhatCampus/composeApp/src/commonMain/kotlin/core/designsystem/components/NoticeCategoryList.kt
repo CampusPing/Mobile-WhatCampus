@@ -1,4 +1,4 @@
-package feature.noticeCategory.components
+package core.designsystem.components
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.BorderStroke
@@ -33,11 +33,12 @@ import whatcampus.composeapp.generated.resources.Res
 import whatcampus.composeapp.generated.resources.notice_category_desc
 
 @Composable
-internal fun NoticeCategoryList(
+fun NoticeCategoryList(
     modifier: Modifier = Modifier,
     noticeCategories: List<NoticeCategory>,
     subscribedNoticeCategories: Set<NoticeCategory>,
     onClickCategory: (NoticeCategory) -> Unit,
+    isShowDescription: Boolean = true,
 ) {
     LazyVerticalGrid(
         modifier = modifier,
@@ -47,15 +48,15 @@ internal fun NoticeCategoryList(
         horizontalArrangement = Arrangement.spacedBy(20.dp),
         state = rememberLazyGridState()
     ) {
-        item(
-            span = { GridItemSpan(maxCurrentLineSpan) }
-        ) {
-            Text(
-                text = stringResource(Res.string.notice_category_desc),
-                style = WhatcamTheme.typography.titleLargeB,
-                color = Graphite,
-                modifier = Modifier.padding(bottom = 28.dp)
-            )
+        if (isShowDescription) {
+            item(span = { GridItemSpan(maxCurrentLineSpan) }) {
+                Text(
+                    text = stringResource(Res.string.notice_category_desc),
+                    style = WhatcamTheme.typography.titleLargeB,
+                    color = Graphite,
+                    modifier = Modifier.padding(bottom = 28.dp)
+                )
+            }
         }
 
         items(
