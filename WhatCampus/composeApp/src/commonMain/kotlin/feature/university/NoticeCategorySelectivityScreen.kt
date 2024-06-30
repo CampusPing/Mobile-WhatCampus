@@ -1,4 +1,4 @@
-package feature.university.navigation
+package feature.university
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,7 +28,6 @@ import core.designsystem.theme.Mint01
 import core.designsystem.theme.WhatcamTheme
 import core.designsystem.theme.White
 import core.model.NoticeCategory
-import feature.university.UniversityViewModel
 import org.jetbrains.compose.resources.stringResource
 import whatcampus.composeapp.generated.resources.Res
 import whatcampus.composeapp.generated.resources.department_title

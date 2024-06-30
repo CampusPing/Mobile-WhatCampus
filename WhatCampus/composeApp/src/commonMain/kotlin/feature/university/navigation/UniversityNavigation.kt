@@ -9,6 +9,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import core.navigation.Route
 import feature.university.DepartmentSelectivityScreen
+import feature.university.NoticeCategorySelectivityScreen
 import feature.university.UniversityCompleteScreen
 import feature.university.UniversitySelectivityScreen
 import feature.university.UniversityViewModel
