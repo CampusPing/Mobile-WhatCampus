@@ -5,7 +5,6 @@ package feature.university
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import core.domain.usecase.GetNoticeCategoriesByUniversityIdUseCase
-import core.domain.usecase.GetSubscribedNoticeCategoriesUseCase
 import core.domain.usecase.GetUniversityUseCase
 import core.domain.usecase.SubscribeNoticeCategoriesUseCase
 import core.model.Department
@@ -13,6 +12,7 @@ import core.model.NoticeCategory
 import core.model.University
 import feature.university.model.UniversityUiState
 import kotlinx.collections.immutable.toPersistentList
+import kotlinx.collections.immutable.toPersistentSet
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -20,7 +20,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
@@ -31,7 +30,6 @@ import kotlinx.coroutines.flow.update
 class UniversityViewModel(
     getUniversityUseCase: GetUniversityUseCase,
     private val getNoticeCategoriesByUniversityId: GetNoticeCategoriesByUniversityIdUseCase,
-    private val getSubscribedNoticeCategories: GetSubscribedNoticeCategoriesUseCase,
     private val subscribeNoticeCategories: SubscribeNoticeCategoriesUseCase,
 ) : ViewModel() {
     private val _errorFlow = MutableSharedFlow<Throwable>()
@@ -67,17 +65,16 @@ class UniversityViewModel(
     }
 
     private fun fetchNoticeCategories(universityId: Long) {
-        combine(
-            getSubscribedNoticeCategories(userId = 1),
-            getNoticeCategoriesByUniversityId(universityId = universityId),
-        ) { subscribedNoticeCategories, noticeCategories ->
-            _uiState.update { state ->
-                state.copy(
-                    noticeCategories = noticeCategories,
-                    selectedNoticeCategories = subscribedNoticeCategories,
-                )
+        getNoticeCategoriesByUniversityId(universityId)
+            .onEach { noticeCategories ->
+                _uiState.update { state ->
+                    state.copy(
+                        noticeCategories = noticeCategories,
+                        selectedNoticeCategories = noticeCategories.toPersistentSet(),
+                    )
+                }
             }
-        }.launchIn(viewModelScope)
+            .launchIn(viewModelScope)
     }
 
     fun selectUniversity(university: University) {
