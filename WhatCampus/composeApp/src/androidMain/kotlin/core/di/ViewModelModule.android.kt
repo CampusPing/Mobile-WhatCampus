@@ -4,6 +4,7 @@ import feature.bookmark.BookmarkViewModel
 import feature.campusmap.CampusMapViewModel
 import feature.notice.NoticeDetailViewModel
 import feature.notice.NoticeViewModel
+import feature.noticeCategory.NoticeCategoryViewModel
 import feature.noticeSearch.NoticeSearchViewModel
 import feature.university.UniversityViewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
@@ -17,4 +18,5 @@ actual val viewModelModule: Module = module {
     viewModelOf(::BookmarkViewModel)
     viewModelOf(::CampusMapViewModel)
     viewModelOf(::NoticeSearchViewModel)
+    viewModelOf(::NoticeCategoryViewModel)
 }

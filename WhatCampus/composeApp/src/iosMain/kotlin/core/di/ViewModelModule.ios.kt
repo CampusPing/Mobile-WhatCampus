@@ -4,6 +4,7 @@ import feature.bookmark.BookmarkViewModel
 import feature.campusmap.CampusMapViewModel
 import feature.notice.NoticeDetailViewModel
 import feature.notice.NoticeViewModel
+import feature.noticeCategory.NoticeCategoryViewModel
 import feature.noticeSearch.NoticeSearchViewModel
 import feature.university.UniversityViewModel
 import org.koin.core.module.Module
@@ -18,4 +19,5 @@ actual val viewModelModule: Module = module {
     singleOf(::BookmarkViewModel)
     singleOf(::CampusMapViewModel)
     factoryOf(::NoticeSearchViewModel)
+    factoryOf(::NoticeCategoryViewModel)
 }
