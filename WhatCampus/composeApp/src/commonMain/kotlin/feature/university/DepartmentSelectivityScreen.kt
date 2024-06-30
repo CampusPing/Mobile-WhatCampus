@@ -40,31 +40,24 @@ internal fun DepartmentSelectivityScreen(
     val uiState by viewModel.uiState.collectAsStateMultiplatform()
     val departmentQuery by viewModel.departmentSearchQuery.collectAsStateMultiplatform()
 
-    when (uiState) {
-        UniversityUiState.Loading -> {
-            // TODO: 로딩 화면 구현
-        }
-
-        is UniversityUiState.Success -> DepartmentSelectivityScreen(
-            modifier = modifier,
-            uiState = uiState as UniversityUiState.Success,
-            searchQuery = departmentQuery,
-            onSearchQueryChange = viewModel::searchDepartment,
-            onClickDepartment = { department ->
-                viewModel.selectDepartment(department)
-                onClickDepartment()
-            },
-            onClickBack = onClickBack,
-        )
-    }
-
+    DepartmentSelectivityScreen(
+        modifier = modifier,
+        uiState = uiState,
+        searchQuery = departmentQuery,
+        onSearchQueryChange = viewModel::searchDepartment,
+        onClickDepartment = { department ->
+            viewModel.selectDepartment(department)
+            onClickDepartment()
+        },
+        onClickBack = onClickBack,
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DepartmentSelectivityScreen(
     modifier: Modifier = Modifier,
-    uiState: UniversityUiState.Success,
+    uiState: UniversityUiState,
     searchQuery: String,
     onSearchQueryChange: (String) -> Unit,
     onClickDepartment: (Department) -> Unit,

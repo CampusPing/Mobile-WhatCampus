@@ -1,7 +1,6 @@
 package feature.university
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -35,34 +34,23 @@ internal fun UniversitySelectivityScreen(
     val uiState by viewModel.uiState.collectAsStateMultiplatform()
     val universityQuery by viewModel.universitySearchQuery.collectAsStateMultiplatform()
 
-    val horizontalPadding = PaddingValues(horizontal = 20.dp)
-
-    when (uiState) {
-        UniversityUiState.Loading -> {
-            // TODO: 로딩 화면 구현
-        }
-
-        is UniversityUiState.Success -> UniversitySelectivityScreen(
-            modifier = modifier,
-            horizontalPadding = horizontalPadding,
-            uiState = uiState as UniversityUiState.Success,
-            searchQuery = universityQuery,
-            onSearchQueryChange = viewModel::searchUniversity,
-            onClickUniversity = { university ->
-                viewModel.selectUniversity(university)
-                onClickUniversity()
-            },
-        )
-    }
-
+    UniversitySelectivityScreen(
+        modifier = modifier,
+        uiState = uiState,
+        searchQuery = universityQuery,
+        onSearchQueryChange = viewModel::searchUniversity,
+        onClickUniversity = { university ->
+            viewModel.selectUniversity(university)
+            onClickUniversity()
+        },
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun UniversitySelectivityScreen(
     modifier: Modifier = Modifier,
-    horizontalPadding: PaddingValues,
-    uiState: UniversityUiState.Success,
+    uiState: UniversityUiState,
     searchQuery: String,
     onSearchQueryChange: (String) -> Unit,
     onClickUniversity: (University) -> Unit,
@@ -74,7 +62,7 @@ private fun UniversitySelectivityScreen(
         Column(
             modifier = Modifier
                 .padding(top = paddingValues.calculateTopPadding())
-                .padding(horizontalPadding)
+                .padding(horizontal = 20.dp)
         ) {
             Text(
                 text = stringResource(Res.string.university_title),
