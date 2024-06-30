@@ -1,9 +1,7 @@
 package feature.university
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -18,7 +16,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import core.common.extensions.collectAsStateMultiplatform
@@ -27,7 +24,6 @@ import core.designsystem.theme.Graphite
 import core.designsystem.theme.Mint01
 import core.designsystem.theme.WhatcamTheme
 import core.designsystem.theme.White
-import core.model.NoticeCategory
 import org.jetbrains.compose.resources.stringResource
 import whatcampus.composeapp.generated.resources.Res
 import whatcampus.composeapp.generated.resources.department_title
@@ -84,45 +80,25 @@ internal fun NoticeCategorySelectivityScreen(
             Spacer(modifier = Modifier.padding(top = 40.dp))
 
             NoticeCategoryList(
+                modifier = Modifier.weight(1f),
                 noticeCategories = uiState.noticeCategories,
-                selectedNoticeCategories = uiState.selectedNoticeCategories,
+                subscribedNoticeCategories = uiState.selectedNoticeCategories,
                 onClickCategory = viewModel::toggleNoticeCategory,
-                onClickSave = onClickSave,
+                isShowDescription = false,
             )
-        }
-    }
-}
 
-@Composable
-private fun NoticeCategoryList(
-    noticeCategories: List<NoticeCategory>,
-    selectedNoticeCategories: Set<NoticeCategory>,
-    onClickCategory: (NoticeCategory) -> Unit,
-    onClickSave: () -> Unit,
-) {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-    ) {
-        NoticeCategoryList(
-            modifier = Modifier.fillMaxSize(),
-            noticeCategories = noticeCategories,
-            subscribedNoticeCategories = selectedNoticeCategories,
-            onClickCategory = onClickCategory,
-            isShowDescription = false,
-        )
-
-        Button(
-            onClick = onClickSave,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(52.dp)
-                .align(Alignment.BottomCenter),
-        ) {
-            Text(
-                text = stringResource(Res.string.onboarding_start),
-                style = WhatcamTheme.typography.bodyLargeB,
-                color = White,
-            )
+            Button(
+                onClick = onClickSave,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(52.dp)
+            ) {
+                Text(
+                    text = stringResource(Res.string.onboarding_start),
+                    style = WhatcamTheme.typography.bodyLargeB,
+                    color = White,
+                )
+            }
         }
     }
 }
