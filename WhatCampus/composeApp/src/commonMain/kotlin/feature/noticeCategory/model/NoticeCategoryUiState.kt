@@ -5,11 +5,11 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentSetOf
 
 data class NoticeCategoryUiState(
-    val noticeCategoryList: List<NoticeCategory> = persistentListOf(),
-    val selectedNoticeCategories: Set<NoticeCategory> = persistentSetOf(),
+    val noticeCategories: List<NoticeCategory> = persistentListOf(),
+    val subscribedNoticeCategories: Set<NoticeCategory> = persistentSetOf(),
 ) {
     fun toggleSelectedNoticeCategory(noticeCategory: NoticeCategory): NoticeCategoryUiState {
-        val selectedNoticeCategories = selectedNoticeCategories.toMutableSet()
+        val selectedNoticeCategories = subscribedNoticeCategories.toMutableSet()
 
         if (noticeCategory in selectedNoticeCategories) {
             selectedNoticeCategories -= noticeCategory
@@ -17,6 +17,6 @@ data class NoticeCategoryUiState(
             selectedNoticeCategories += noticeCategory
         }
 
-        return copy(selectedNoticeCategories = selectedNoticeCategories)
+        return copy(subscribedNoticeCategories = selectedNoticeCategories)
     }
 }

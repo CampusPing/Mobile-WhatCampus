@@ -25,12 +25,14 @@ fun NavController.navigateMain() {
 fun NavGraphBuilder.mainNavGraph(
     onNoticeClick: (Notice) -> Unit,
     onClickNoticeSearch: () -> Unit,
+    onClickProfile: () -> Unit,
 ) {
     composable(Route.MainRoute.route) {
         MainScreen(
             modifier = Modifier.fillMaxSize(),
             onNoticeClick = onNoticeClick,
             onClickNoticeSearch = onClickNoticeSearch,
+            onClickProfile = onClickProfile,
         )
     }
 }

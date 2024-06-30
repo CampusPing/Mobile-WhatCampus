@@ -7,16 +7,18 @@ import core.common.extensions.navigateSingleTop
 import core.navigation.Route
 import feature.noticeCategory.NoticeCategoryScreen
 
-fun NavController.navigateToNoticeCategory() {
+fun NavController.navigateNoticeCategory() {
     navigateSingleTop(Route.NoticeCategory.route)
 }
 
 fun NavGraphBuilder.noticeCategoryNavGraph(
     onClickBack: () -> Unit,
+    onClickSave: (savedMessage: String, actionLabel: String) -> Unit,
 ) {
     composable(Route.NoticeCategory.route) {
         NoticeCategoryScreen(
             onClickBack = onClickBack,
+            onClickSave = onClickSave,
         )
     }
 }

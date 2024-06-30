@@ -20,6 +20,7 @@ internal fun MainScreen(
     modifier: Modifier = Modifier,
     onNoticeClick: (Notice) -> Unit,
     onClickNoticeSearch: () -> Unit,
+    onClickProfile: () -> Unit,
 ) {
     val navigator = rememberMainNavigator()
 
@@ -36,6 +37,7 @@ internal fun MainScreen(
                 NoticeScreen(
                     onNoticeClick = onNoticeClick,
                     onClickNoticeSearch = onClickNoticeSearch,
+                    onClickProfile = onClickProfile,
                 )
             }
             composable(MainRoute.BOOKMARK.route) {

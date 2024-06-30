@@ -36,7 +36,7 @@ import whatcampus.composeapp.generated.resources.notice_category_desc
 internal fun NoticeCategoryList(
     modifier: Modifier = Modifier,
     noticeCategories: List<NoticeCategory>,
-    selectedNoticeCategories: Set<NoticeCategory>,
+    subscribedNoticeCategories: Set<NoticeCategory>,
     onClickCategory: (NoticeCategory) -> Unit,
 ) {
     LazyVerticalGrid(
@@ -64,7 +64,7 @@ internal fun NoticeCategoryList(
         ) { noticeCategory ->
             NoticeCategoryItem(
                 noticeCategory = noticeCategory,
-                isSelected = noticeCategory in selectedNoticeCategories,
+                isSelected = noticeCategory in subscribedNoticeCategories,
                 onClick = { onClickCategory(noticeCategory) }
             )
         }
