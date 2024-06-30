@@ -18,16 +18,16 @@ class FakeNoticeRepository(
     private val noticeDao: NoticeDao,
 ) : NoticeRepository {
     private val noticeCategories = listOf(
-        NoticeCategory(1, "학과"),
-        NoticeCategory(2, "학사"),
-        NoticeCategory(3, "일반"),
-        NoticeCategory(4, "사회봉사"),
-        NoticeCategory(5, "등록/장학"),
-        NoticeCategory(6, "학생생활"),
-        NoticeCategory(7, "글로벌"),
-        NoticeCategory(8, "진로취업"),
-        NoticeCategory(9, "비교과"),
-        NoticeCategory(10, "코로나19"),
+        NoticeCategory(1, "학과", "📚"),
+        NoticeCategory(2, "학사", "🎓"),
+        NoticeCategory(3, "일반", "📰"),
+        NoticeCategory(4, "사회봉사", "🤝"),
+        NoticeCategory(5, "등록/장학", "💰"),
+        NoticeCategory(6, "학생생활", "🏠"),
+        NoticeCategory(7, "글로벌", "🌍"),
+        NoticeCategory(8, "진로취업", "👔"),
+        NoticeCategory(9, "비교과", "🎨"),
+        NoticeCategory(10, "코로나19", "😷"),
     )
 
     private val notices = listOf(
