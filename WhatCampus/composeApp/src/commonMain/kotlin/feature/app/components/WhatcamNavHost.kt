@@ -6,6 +6,7 @@ import core.di.koinViewModel
 import feature.app.navigation.WhatcamNavigator
 import feature.main.navigation.mainNavGraph
 import feature.notice.navigation.noticeDetailNavGraph
+import feature.noticeCategory.navigation.noticeCategoryNavGraph
 import feature.noticeSearch.navigation.noticeSearchNavGraph
 import feature.onboarding.navigation.onboardingNavGraph
 import feature.university.UniversityViewModel
@@ -43,6 +44,9 @@ internal fun WhatcamNavHost(
             noticeSearchNavGraph(
                 onClickBack = { navigator.navigateUp() },
                 onClickNotice = navigator::navigateNoticeDetail
+            )
+            noticeCategoryNavGraph(
+                onClickBack = { navigator.navigateUp() },
             )
         }
     }
