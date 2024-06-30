@@ -66,10 +66,25 @@ class UniversityViewModel(
             .launchIn(viewModelScope)
     }
 
+    private fun fetchNoticeCategories(universityId: Long) {
+        combine(
+            getSubscribedNoticeCategories(userId = 1),
+            getNoticeCategoriesByUniversityId(universityId = universityId),
+        ) { subscribedNoticeCategories, noticeCategories ->
+            _uiState.update { state ->
+                state.copy(
+                    noticeCategories = noticeCategories,
+                    selectedNoticeCategories = subscribedNoticeCategories,
+                )
+            }
+        }.launchIn(viewModelScope)
+    }
+
     fun selectUniversity(university: University) {
         _uiState.update { state ->
             state.copy(selectedUniversity = university)
         }
+        fetchNoticeCategories(universityId = university.id)
     }
 
     fun searchUniversity(query: String) {
@@ -84,6 +99,12 @@ class UniversityViewModel(
 
     fun searchDepartment(query: String) {
         _departmentSearchQuery.value = query
+    }
+
+    fun toggleNoticeCategory(noticeCategory: NoticeCategory) {
+        _uiState.update { state ->
+            state.toggleSelectedNoticeCategory(noticeCategory)
+        }
     }
 
     companion object {

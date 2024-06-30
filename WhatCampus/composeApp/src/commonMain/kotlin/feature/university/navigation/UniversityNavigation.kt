@@ -21,6 +21,10 @@ fun NavController.navigateDepartmentSelectivity() {
     navigate(Route.DepartmentSelectivityRoute.route)
 }
 
+fun NavController.navigateNoticeCategorySelectivity() {
+    navigate(Route.NoticeCategorySelectivityRoute.route)
+}
+
 fun NavController.navigateUniversityComplete() {
     navigate(Route.UniversityCompleteRoute.route)
 }
@@ -30,6 +34,7 @@ fun NavGraphBuilder.universityNavGraph(
     onClickBack: () -> Unit,
     onClickUniversity: () -> Unit,
     onClickDepartment: () -> Unit,
+    onClickSaveNoticeCategory: () -> Unit,
     onClickComplete: () -> Unit,
 ) {
     composable(Route.UniversitySelectivityRoute.route) {
@@ -49,6 +54,17 @@ fun NavGraphBuilder.universityNavGraph(
                 .padding(top = 8.dp),
             viewModel = viewModel,
             onClickDepartment = onClickDepartment,
+            onClickBack = onClickBack,
+        )
+    }
+
+    composable(Route.NoticeCategorySelectivityRoute.route) {
+        NoticeCategorySelectivityScreen(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 8.dp, bottom = 40.dp),
+            viewModel = viewModel,
+            onClickSave = onClickSaveNoticeCategory,
             onClickBack = onClickBack,
         )
     }
