@@ -73,6 +73,8 @@ class FakeNoticeRepository(
         ),
     )
 
+    private val subscribedNoticeCategories = mutableSetOf<NoticeCategory>()
+
     override fun flowNoticeCategory(universityId: Long): Flow<List<NoticeCategory>> {
         return flow {
             emit(noticeCategories)
@@ -107,6 +109,21 @@ class FakeNoticeRepository(
     override suspend fun unbookmarkNotices(notices: List<Notice>) {
         notices.forEach {
             noticeDao.delete(notice = it.toNoticeEntity())
+        }
+    }
+
+    override fun flowSubscribedNoticeCategories(userId: Long): Flow<Set<NoticeCategory>> {
+        return flow {
+            emit(subscribedNoticeCategories.toSet())
+        }
+    }
+
+    override fun subscribeNoticeCategories(noticeCategories: Set<NoticeCategory>): Flow<Unit> {
+        subscribedNoticeCategories.clear()
+        subscribedNoticeCategories.addAll(noticeCategories)
+
+        return flow {
+            emit(Unit)
         }
     }
 }
