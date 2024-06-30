@@ -11,4 +11,6 @@ interface NoticeRepository {
     fun bookmarkNotice(notice: Notice): Flow<Unit>
     fun unbookmarkNotice(notice: Notice): Flow<Unit>
     suspend fun unbookmarkNotices(notices: List<Notice>)
+    fun flowSubscribedNoticeCategories(userId: Long): Flow<Set<NoticeCategory>>
+    fun subscribeNoticeCategories(noticeCategories: Set<NoticeCategory>): Flow<Unit>
 }

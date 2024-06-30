@@ -28,6 +28,7 @@ fun NoticeScreen(
     noticeViewModel: NoticeViewModel = koinViewModel(),
     onNoticeClick: (Notice) -> Unit,
     onClickNoticeSearch: () -> Unit,
+    onClickProfile: () -> Unit,
 ) {
     val uiState by noticeViewModel.uiState.collectAsStateMultiplatform()
 
@@ -41,6 +42,7 @@ fun NoticeScreen(
             onClickCategory = { noticeViewModel.selectCategory(it) },
             onNoticeClick = onNoticeClick,
             onClickNoticeSearch = onClickNoticeSearch,
+            onClickProfile = onClickProfile,
         )
     }
 }
@@ -51,13 +53,14 @@ private fun NoticeScreen(
     onClickCategory: (NoticeCategory) -> Unit,
     onNoticeClick: (Notice) -> Unit,
     onClickNoticeSearch: () -> Unit,
+    onClickProfile: () -> Unit,
 ) {
     Scaffold(
         topBar = {
             NoticeTopAppBar(
                 onClickSearch = onClickNoticeSearch,
                 onClickNotification = {},
-                onClickProfile = {},
+                onClickProfile = onClickProfile,
             )
         }
     ) { paddingValues ->

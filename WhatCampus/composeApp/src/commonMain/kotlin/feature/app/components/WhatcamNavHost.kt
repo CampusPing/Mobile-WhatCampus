@@ -6,6 +6,7 @@ import core.di.koinViewModel
 import feature.app.navigation.WhatcamNavigator
 import feature.main.navigation.mainNavGraph
 import feature.notice.navigation.noticeDetailNavGraph
+import feature.noticeCategory.navigation.noticeCategoryNavGraph
 import feature.noticeSearch.navigation.noticeSearchNavGraph
 import feature.onboarding.navigation.onboardingNavGraph
 import feature.university.UniversityViewModel
@@ -15,6 +16,7 @@ import org.koin.compose.KoinContext
 @Composable
 internal fun WhatcamNavHost(
     navigator: WhatcamNavigator,
+    onShowSnackbar: (message: String, actionLabel: String?) -> Unit,
 ) {
     KoinContext {
         val universityViewModel = koinViewModel<UniversityViewModel>()
@@ -36,6 +38,7 @@ internal fun WhatcamNavHost(
             mainNavGraph(
                 onNoticeClick = navigator::navigateNoticeDetail,
                 onClickNoticeSearch = navigator::navigateNoticeSearch,
+                onClickProfile = navigator::navigateNoticeCategory,
             )
             noticeDetailNavGraph(
                 onClickBack = { navigator.navigateUp() },
@@ -43,6 +46,13 @@ internal fun WhatcamNavHost(
             noticeSearchNavGraph(
                 onClickBack = { navigator.navigateUp() },
                 onClickNotice = navigator::navigateNoticeDetail
+            )
+            noticeCategoryNavGraph(
+                onClickBack = navigator::navigateUp,
+                onClickSave = { savedMessage, actionLabel ->
+                    navigator.navigateUp()
+                    onShowSnackbar(savedMessage, actionLabel)
+                },
             )
         }
     }

@@ -15,6 +15,7 @@ val Graphite = Color(0xFF292929)
 val Purple01 = Color(0xFFB469FF)
 val Purple01A30 = Color(0x4DB469FF)
 
+val LightMint = Color(0xFFF0FCFB)
 val Mint01 = Color(0xFF37DAC1)
 val Mint01A50 = Color(0x8037DAC1)
 val Mint05 = Color(0xFF96FAEB)
