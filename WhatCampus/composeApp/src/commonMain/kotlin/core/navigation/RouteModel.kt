@@ -6,6 +6,7 @@ enum class Route(
     OnboardingRoute("onboarding"),
     UniversitySelectivityRoute("universitySelectivity"),
     DepartmentSelectivityRoute("departmentSelectivity"),
+    NoticeCategorySelectivityRoute("noticeCategorySelectivity"),
     UniversityCompleteRoute("universityComplete"),
     MainRoute("main"),
     NoticeDetail("noticeDetail"),

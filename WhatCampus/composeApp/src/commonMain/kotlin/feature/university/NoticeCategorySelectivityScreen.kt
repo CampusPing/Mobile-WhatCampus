@@ -2,9 +2,12 @@ package feature.university
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -16,53 +19,28 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import core.common.extensions.collectAsStateMultiplatform
+import core.designsystem.components.NoticeCategoryList
 import core.designsystem.theme.Graphite
 import core.designsystem.theme.Mint01
 import core.designsystem.theme.WhatcamTheme
-import core.model.Department
-import feature.university.components.DepartmentList
-import feature.university.components.SearchBar
-import feature.university.model.UniversityUiState
+import core.designsystem.theme.White
 import org.jetbrains.compose.resources.stringResource
 import whatcampus.composeapp.generated.resources.Res
-import whatcampus.composeapp.generated.resources.department_desc
-import whatcampus.composeapp.generated.resources.department_search_hint
 import whatcampus.composeapp.generated.resources.department_title
-import whatcampus.composeapp.generated.resources.university_title
-
-@Composable
-internal fun DepartmentSelectivityScreen(
-    modifier: Modifier = Modifier,
-    viewModel: UniversityViewModel,
-    onClickDepartment: () -> Unit,
-    onClickBack: () -> Unit,
-) {
-    val uiState by viewModel.uiState.collectAsStateMultiplatform()
-    val departmentQuery by viewModel.departmentSearchQuery.collectAsStateMultiplatform()
-
-    DepartmentSelectivityScreen(
-        modifier = modifier,
-        uiState = uiState,
-        searchQuery = departmentQuery,
-        onSearchQueryChange = viewModel::searchDepartment,
-        onClickDepartment = { department ->
-            viewModel.selectDepartment(department)
-            onClickDepartment()
-        },
-        onClickBack = onClickBack,
-    )
-}
+import whatcampus.composeapp.generated.resources.notice_category_selectivity_desc
+import whatcampus.composeapp.generated.resources.notice_category_selectivity_title
+import whatcampus.composeapp.generated.resources.onboarding_start
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun DepartmentSelectivityScreen(
+internal fun NoticeCategorySelectivityScreen(
     modifier: Modifier = Modifier,
-    uiState: UniversityUiState,
-    searchQuery: String,
-    onSearchQueryChange: (String) -> Unit,
-    onClickDepartment: (Department) -> Unit,
+    viewModel: UniversityViewModel,
+    onClickSave: () -> Unit,
     onClickBack: () -> Unit,
 ) {
+    val uiState by viewModel.uiState.collectAsStateMultiplatform()
+
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -72,7 +50,7 @@ private fun DepartmentSelectivityScreen(
                     IconButton(onClick = onClickBack) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = stringResource(Res.string.university_title),
+                            contentDescription = stringResource(Res.string.department_title),
                             tint = Graphite,
                         )
                     }
@@ -86,7 +64,7 @@ private fun DepartmentSelectivityScreen(
                 .padding(horizontal = 20.dp)
         ) {
             Text(
-                text = stringResource(Res.string.department_title),
+                text = stringResource(Res.string.notice_category_selectivity_title),
                 style = WhatcamTheme.typography.headlineMediumM,
                 color = Mint01,
             )
@@ -94,26 +72,33 @@ private fun DepartmentSelectivityScreen(
             Spacer(modifier = Modifier.padding(top = 8.dp))
 
             Text(
-                text = stringResource(Res.string.department_desc),
+                text = stringResource(Res.string.notice_category_selectivity_desc),
                 style = WhatcamTheme.typography.bodyLargeR,
                 color = Graphite,
             )
 
             Spacer(modifier = Modifier.padding(top = 40.dp))
 
-            SearchBar(
-                value = searchQuery,
-                onValueChange = onSearchQueryChange,
-                hint = stringResource(Res.string.department_search_hint)
+            NoticeCategoryList(
+                modifier = Modifier.weight(1f),
+                noticeCategories = uiState.noticeCategories,
+                subscribedNoticeCategories = uiState.selectedNoticeCategories,
+                onClickCategory = viewModel::toggleNoticeCategory,
+                isShowDescription = false,
             )
 
-            Spacer(modifier = Modifier.padding(top = 20.dp))
-
-            DepartmentList(
-                departments = uiState.selectedUniversity?.departments ?: emptyList(),
-                selectedDepartment = uiState.selectedDepartment,
-                onClickDepartment = onClickDepartment,
-            )
+            Button(
+                onClick = onClickSave,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(52.dp)
+            ) {
+                Text(
+                    text = stringResource(Res.string.onboarding_start),
+                    style = WhatcamTheme.typography.bodyLargeB,
+                    color = White,
+                )
+            }
         }
     }
 }

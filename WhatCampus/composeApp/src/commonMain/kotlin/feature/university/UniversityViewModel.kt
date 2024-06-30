@@ -4,11 +4,15 @@ package feature.university
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import core.domain.usecase.GetNoticeCategoriesByUniversityIdUseCase
 import core.domain.usecase.GetUniversityUseCase
+import core.domain.usecase.SubscribeNoticeCategoriesUseCase
 import core.model.Department
+import core.model.NoticeCategory
 import core.model.University
 import feature.university.model.UniversityUiState
 import kotlinx.collections.immutable.toPersistentList
+import kotlinx.collections.immutable.toPersistentSet
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -25,11 +29,13 @@ import kotlinx.coroutines.flow.update
 
 class UniversityViewModel(
     getUniversityUseCase: GetUniversityUseCase,
+    private val getNoticeCategoriesByUniversityId: GetNoticeCategoriesByUniversityIdUseCase,
+    private val subscribeNoticeCategories: SubscribeNoticeCategoriesUseCase,
 ) : ViewModel() {
     private val _errorFlow = MutableSharedFlow<Throwable>()
     val errorFlow = _errorFlow.asSharedFlow()
 
-    private val _uiState = MutableStateFlow<UniversityUiState>(UniversityUiState.Loading)
+    private val _uiState = MutableStateFlow(UniversityUiState())
     val uiState = _uiState.asStateFlow()
 
     private val _universitySearchQuery: MutableStateFlow<String> = MutableStateFlow("")
@@ -39,40 +45,43 @@ class UniversityViewModel(
     val departmentSearchQuery = _departmentSearchQuery.asStateFlow()
 
     init {
+        fetchNoticeCategories(universityId = 1L)
+
         universitySearchQuery
             .debounce(SEARCH_DEBOUNCE)
             .map { query -> query.trim() }
             .flatMapLatest { query ->
-                getUniversityUseCase(query)
-                    .map { universities ->
-                        when (val uiState = uiState.value) {
-                            is UniversityUiState.Success -> uiState.copy(
-                                universities = universities.toPersistentList(),
-                                selectedUniversity = uiState.selectedUniversity,
-                            )
-
-                            UniversityUiState.Loading -> UniversityUiState.Success(
-                                universities = universities.toPersistentList()
-                            )
-                        }
+                getUniversityUseCase(query).onEach { universities ->
+                    _uiState.update { state ->
+                        state.copy(
+                            universities = universities.toPersistentList(),
+                            selectedUniversity = state.selectedUniversity,
+                        )
                     }
+                }
             }
-            .catch { throwable ->
-                _errorFlow.emit(throwable)
-            }
-            .onEach { universityUiState ->
-                _uiState.value = universityUiState
+            .catch { throwable -> _errorFlow.emit(throwable) }
+            .launchIn(viewModelScope)
+    }
+
+    private fun fetchNoticeCategories(universityId: Long) {
+        getNoticeCategoriesByUniversityId(universityId)
+            .onEach { noticeCategories ->
+                _uiState.update { state ->
+                    state.copy(
+                        noticeCategories = noticeCategories,
+                        selectedNoticeCategories = noticeCategories.toPersistentSet(),
+                    )
+                }
             }
             .launchIn(viewModelScope)
     }
 
     fun selectUniversity(university: University) {
-        val state = uiState.value
-        if (state !is UniversityUiState.Success) return
-
-        _uiState.update {
+        _uiState.update { state ->
             state.copy(selectedUniversity = university)
         }
+        fetchNoticeCategories(universityId = university.id)
     }
 
     fun searchUniversity(query: String) {
@@ -80,16 +89,19 @@ class UniversityViewModel(
     }
 
     fun selectDepartment(department: Department) {
-        val state = uiState.value
-        if (state !is UniversityUiState.Success) return
-
-        _uiState.update {
+        _uiState.update { state ->
             state.copy(selectedDepartment = department)
         }
     }
 
     fun searchDepartment(query: String) {
         _departmentSearchQuery.value = query
+    }
+
+    fun toggleNoticeCategory(noticeCategory: NoticeCategory) {
+        _uiState.update { state ->
+            state.toggleSelectedNoticeCategory(noticeCategory)
+        }
     }
 
     companion object {
