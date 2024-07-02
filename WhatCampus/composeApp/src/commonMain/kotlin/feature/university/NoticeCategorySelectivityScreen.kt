@@ -28,8 +28,8 @@ import org.jetbrains.compose.resources.stringResource
 import whatcampus.composeapp.generated.resources.Res
 import whatcampus.composeapp.generated.resources.department_title
 import whatcampus.composeapp.generated.resources.notice_category_selectivity_desc
+import whatcampus.composeapp.generated.resources.notice_category_selectivity_save
 import whatcampus.composeapp.generated.resources.notice_category_selectivity_title
-import whatcampus.composeapp.generated.resources.onboarding_start
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,7 +47,10 @@ internal fun NoticeCategorySelectivityScreen(
             TopAppBar(
                 title = { },
                 navigationIcon = {
-                    IconButton(onClick = onClickBack) {
+                    IconButton(onClick = {
+                        onClickBack()
+                        viewModel.searchDepartment("")
+                    }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = stringResource(Res.string.department_title),
@@ -94,7 +97,7 @@ internal fun NoticeCategorySelectivityScreen(
                     .height(52.dp)
             ) {
                 Text(
-                    text = stringResource(Res.string.onboarding_start),
+                    text = stringResource(Res.string.notice_category_selectivity_save),
                     style = WhatcamTheme.typography.bodyLargeB,
                     color = White,
                 )

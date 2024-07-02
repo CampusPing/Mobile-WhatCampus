@@ -30,7 +30,7 @@ internal fun WhatcamNavHost(
             )
             universityNavGraph(
                 viewModel = universityViewModel,
-                onClickBack = { navigator.navigateUp() },
+                onClickBack = navigator::navigateUp,
                 onClickUniversity = { navigator.navigateDepartmentSelectivity() },
                 onClickDepartment = { navigator.navigateNoticeCategorySelectivity() },
                 onClickSaveNoticeCategory = { navigator.navigateUniversityComplete() },

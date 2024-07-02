@@ -41,9 +41,6 @@ class UniversityViewModel(
     private val _universitySearchQuery: MutableStateFlow<String> = MutableStateFlow("")
     val universitySearchQuery = _universitySearchQuery.asStateFlow()
 
-    private val _departmentSearchQuery: MutableStateFlow<String> = MutableStateFlow("")
-    val departmentSearchQuery = _departmentSearchQuery.asStateFlow()
-
     init {
         fetchNoticeCategories(universityId = 1L)
 
@@ -95,7 +92,9 @@ class UniversityViewModel(
     }
 
     fun searchDepartment(query: String) {
-        _departmentSearchQuery.value = query
+        _uiState.update { state ->
+            state.copy(departmentSearchQuery = query)
+        }
     }
 
     fun toggleNoticeCategory(noticeCategory: NoticeCategory) {
