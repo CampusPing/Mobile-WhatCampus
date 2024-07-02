@@ -9,10 +9,15 @@ import kotlinx.collections.immutable.toPersistentSet
 data class UniversityUiState(
     val universities: List<University> = persistentListOf(),
     val selectedUniversity: University? = null,
+    val departmentSearchQuery: String = "",
     val selectedDepartment: Department? = null,
     val noticeCategories: List<NoticeCategory> = persistentListOf(),
     val selectedNoticeCategories: Set<NoticeCategory> = noticeCategories.toPersistentSet(),
 ) {
+    val filteredDepartments: List<Department>
+        get() = selectedUniversity?.departments.orEmpty()
+            .filter { department -> departmentSearchQuery in department.name }
+
     fun toggleSelectedNoticeCategory(noticeCategory: NoticeCategory): UniversityUiState {
         val selectedNoticeCategories = selectedNoticeCategories.toMutableSet()
 

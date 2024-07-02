@@ -38,18 +38,20 @@ internal fun DepartmentSelectivityScreen(
     onClickBack: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateMultiplatform()
-    val departmentQuery by viewModel.departmentSearchQuery.collectAsStateMultiplatform()
 
     DepartmentSelectivityScreen(
         modifier = modifier,
         uiState = uiState,
-        searchQuery = departmentQuery,
+        searchQuery = uiState.departmentSearchQuery,
         onSearchQueryChange = viewModel::searchDepartment,
         onClickDepartment = { department ->
             viewModel.selectDepartment(department)
             onClickDepartment()
         },
-        onClickBack = onClickBack,
+        onClickBack = {
+            onClickBack()
+            viewModel.searchUniversity("")
+        }
     )
 }
 
@@ -110,7 +112,7 @@ private fun DepartmentSelectivityScreen(
             Spacer(modifier = Modifier.padding(top = 20.dp))
 
             DepartmentList(
-                departments = uiState.selectedUniversity?.departments ?: emptyList(),
+                departments = uiState.filteredDepartments,
                 selectedDepartment = uiState.selectedDepartment,
                 onClickDepartment = onClickDepartment,
             )
