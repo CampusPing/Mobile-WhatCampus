@@ -34,6 +34,7 @@ ksp = "2.0.0-1.0.21"
 sqlite = "2.5.0-SNAPSHOT"
 ktor = "2.3.11"
 kotlinx-serialization = "1.6.3"
+kmpNotifier = "1.0.1"
 
 [libraries]
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycleRuntimeCompose" }
@@ -72,6 +73,7 @@ kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutine
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil3" }
 coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor", version.ref = "coil3" }
 ktor-engine-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
+kmp-notifier = { module = "io.github.mirzemehdi:kmpnotifier", version.ref = "kmpNotifier" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -82,3 +84,4 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 room = { id = "androidx.room", version.ref = "room" }
+googleServices = { id = "com.google.gms.google-services", version = "4.4.2" }

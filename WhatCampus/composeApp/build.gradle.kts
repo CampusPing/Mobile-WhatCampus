@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
     alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.googleServices)
 }
 
 kotlin {
@@ -28,6 +29,7 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+            export(libs.kmp.notifier)
         }
     }
 
@@ -69,6 +71,7 @@ kotlin {
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.napier)
                 implementation(libs.kottie)
+                api(libs.kmp.notifier)
             }
         }
         iosMain.dependencies {
