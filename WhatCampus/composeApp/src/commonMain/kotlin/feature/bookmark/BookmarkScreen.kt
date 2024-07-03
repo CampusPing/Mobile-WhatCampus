@@ -9,12 +9,20 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import core.common.extensions.collectAsStateMultiplatform
+import core.designsystem.components.dialog.WhatcamDialog
+import core.designsystem.components.dialog.rememberDialogState
 import core.di.koinViewModel
 import core.model.Notice
 import feature.bookmark.components.BookmarkList
 import feature.bookmark.components.BookmarkTopBar
 import feature.bookmark.components.EmptyBookmarkScreen
 import feature.bookmark.model.BookmarkUiState
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
+import whatcampus.composeapp.generated.resources.Res
+import whatcampus.composeapp.generated.resources.bookmark_delete_dialog_message
+import whatcampus.composeapp.generated.resources.bookmark_delete_dialog_title
+import whatcampus.composeapp.generated.resources.ic_alert
 
 @Composable
 internal fun BookmarkScreen(
@@ -64,6 +72,8 @@ private fun BookmarkScreen(
     onClickNoticeForDelete: (Notice) -> Unit,
     uiState: BookmarkUiState,
 ) {
+    val dialogState = rememberDialogState()
+
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -71,7 +81,7 @@ private fun BookmarkScreen(
                 onClickEdit = onClickEdit,
                 onClickCancel = onClickCancel,
                 onClickSelectAll = onClickSelectAll,
-                onClickUnbookmark = onClickUnbookmark,
+                onClickUnbookmark = dialogState::showDialog,
                 isEditMode = isEditMode,
                 isAllSelected = isAllSelected,
                 isShowActions = !uiState.isEmptyBookmark,
@@ -87,6 +97,19 @@ private fun BookmarkScreen(
                 onClickNotice = onClickNotice,
                 onClickNoticeForDelete = onClickNoticeForDelete,
                 isEditMode = isEditMode
+            )
+        }
+
+        if (dialogState.isVisible.value) {
+            WhatcamDialog(
+                title = stringResource(Res.string.bookmark_delete_dialog_title),
+                message = stringResource(Res.string.bookmark_delete_dialog_message),
+                icon = painterResource(Res.drawable.ic_alert),
+                onConfirmClick = {
+                    onClickUnbookmark()
+                    dialogState.hideDialog()
+                },
+                onDismissClick = dialogState::hideDialog,
             )
         }
     }
