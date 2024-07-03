@@ -48,6 +48,8 @@
     <string name="unbookmark">북마크 해제</string>
     <string name="bookmark_empty_title">북마크된 공지가 없어요</string>
     <string name="bookmark_empty_content">중요한 공지를 놓치지 않도록 북마크해 두세요!</string>
+    <string name="bookmark_delete_dialog_title">잠시만요!</string>">
+    <string name="bookmark_delete_dialog_message">공지를 북마크에서 삭제할까요?\n북마크를 해제하더라도 공지 탭에서 다시 조회할 수 있어요!</string>
 
     <!--  NoticeSearch  -->
     <string name="notice_search_title">공지 검색</string>
