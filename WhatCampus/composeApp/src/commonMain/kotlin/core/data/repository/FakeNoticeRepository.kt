@@ -118,7 +118,7 @@ class FakeNoticeRepository(
         }
     }
 
-    override fun subscribeNoticeCategories(noticeCategories: Set<NoticeCategory>): Flow<Unit> {
+    override fun subscribeNoticeCategories(userId: Long, noticeCategories: Set<NoticeCategory>): Flow<Unit> {
         subscribedNoticeCategories.clear()
         subscribedNoticeCategories.addAll(noticeCategories)
 

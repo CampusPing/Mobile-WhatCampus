@@ -42,6 +42,9 @@ class NoticeCategoryViewModel(
     }
 
     fun subscribeNoticeCategories() {
-        subscribeNoticeCategories(noticeCategories = uiState.value.subscribedNoticeCategories)
+        subscribeNoticeCategories(
+            userId = 1L,
+            noticeCategories = uiState.value.subscribedNoticeCategories,
+        )
     }
 }
