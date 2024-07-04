@@ -23,9 +23,8 @@ ktorClientCore = "3.0.0-wasm2"
 coil3 = "3.0.0-alpha06"
 lifecycleRuntimeCompose = "2.8.2"
 lifecycleViewModel = "2.8.1"
-koin = "3.6.0-alpha3"
-koinCompose = "3.6.0-alpha3"
-koinComposeMultiplatform = "1.2.0-alpha3"
+koin = "3.5.6"
+koinComposeMultiplatform = "1.1.5"
 napier = "2.7.1"
 navigationCompose = "2.7.0-alpha03"
 richeditorCompose = "1.0.0-rc05"
@@ -57,7 +56,7 @@ kottie = { module = "io.github.ismai117:kottie", version.ref = "kottie" }
 ktor-client-core-v300wasm2 = { module = "io.ktor:ktor-client-core", version.ref = "ktorClientCore" }
 lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel", version.ref = "lifecycleViewModel" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
-koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinCompose" }
+koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koinComposeMultiplatform" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
