@@ -7,9 +7,11 @@ import core.datastore.key.UserKey
 import core.domain.repository.UserRepository
 import core.model.User
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
 class DefaultUserRepository(
+    // private val ktorClient: KtorClient,
     private val dataStore: DataStore<Preferences>,
 ) : UserRepository {
 
@@ -25,14 +27,27 @@ class DefaultUserRepository(
             )
         }
 
-    override suspend fun saveUser(user: User) {
-        dataStore.edit { pref ->
-            pref[UserKey.userId] = user.userId
-            pref[UserKey.universityId] = user.universityId
-            pref[UserKey.universityName] = user.universityName
-            pref[UserKey.departmentId] = user.departmentId
-            pref[UserKey.departmentName] = user.departmentName
-            pref[UserKey.fcmToken] = user.fcmToken
+    override fun createUser(
+        universityId: Long,
+        universityName: String,
+        departmentId: Long,
+        departmentName: String,
+        fcmToken: String,
+    ): Flow<Long> {
+        return flow {
+            // ktorClient.saveUser(user) :: userId를 반환 할 예정
+            emit(1L)
+        }.map { userId ->
+            dataStore.edit { pref ->
+                pref[UserKey.userId] = userId
+                pref[UserKey.universityId] = universityId
+                pref[UserKey.universityName] = universityName
+                pref[UserKey.departmentId] = departmentId
+                pref[UserKey.departmentName] = departmentName
+                pref[UserKey.fcmToken] = fcmToken
+            }
+
+            userId
         }
     }
 }

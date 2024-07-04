@@ -5,5 +5,12 @@ import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
     fun flowUser(): Flow<User>
-    suspend fun saveUser(user: User)
+
+    fun createUser(
+        universityId: Long,
+        universityName: String,
+        departmentId: Long,
+        departmentName: String,
+        fcmToken: String,
+    ): Flow<Long>
 }
