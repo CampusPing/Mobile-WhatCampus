@@ -4,12 +4,15 @@ package feature.university
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mmk.kmpnotifier.notification.NotifierManager
+import core.domain.repository.UserRepository
 import core.domain.usecase.GetNoticeCategoriesByUniversityIdUseCase
 import core.domain.usecase.GetUniversityUseCase
 import core.domain.usecase.SubscribeNoticeCategoriesUseCase
 import core.model.Department
 import core.model.NoticeCategory
 import core.model.University
+import feature.university.model.UniversityUiEvent
 import feature.university.model.UniversityUiState
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.collections.immutable.toPersistentSet
@@ -26,14 +29,16 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class UniversityViewModel(
     getUniversityUseCase: GetUniversityUseCase,
     private val getNoticeCategoriesByUniversityId: GetNoticeCategoriesByUniversityIdUseCase,
     private val subscribeNoticeCategories: SubscribeNoticeCategoriesUseCase,
+    private val userRepository: UserRepository,
 ) : ViewModel() {
-    private val _errorFlow = MutableSharedFlow<Throwable>()
-    val errorFlow = _errorFlow.asSharedFlow()
+    private val _uiEvent = MutableSharedFlow<UniversityUiEvent>()
+    val uiEvent = _uiEvent.asSharedFlow()
 
     private val _uiState = MutableStateFlow(UniversityUiState())
     val uiState = _uiState.asStateFlow()
@@ -57,7 +62,7 @@ class UniversityViewModel(
                     }
                 }
             }
-            .catch { throwable -> _errorFlow.emit(throwable) }
+            .catch { _ -> _uiEvent.emit(UniversityUiEvent.UNIVERTITY_LOAD_FAILED) }
             .launchIn(viewModelScope)
     }
 
@@ -100,6 +105,36 @@ class UniversityViewModel(
     fun toggleNoticeCategory(noticeCategory: NoticeCategory) {
         _uiState.update { state ->
             state.toggleSelectedNoticeCategory(noticeCategory)
+        }
+    }
+
+    fun saveUser() {
+        viewModelScope.launch {
+            val fcmToken = NotifierManager.getPushNotifier().getToken()
+            val selectedUniversity = uiState.value.selectedUniversity
+            val selectedDepartment = uiState.value.selectedDepartment
+
+            if (fcmToken == null || selectedUniversity == null || selectedDepartment == null) {
+                _uiEvent.emit(UniversityUiEvent.USER_SAVE_FAILED)
+                return@launch
+            }
+
+            userRepository.createUser(
+                universityId = selectedUniversity.id,
+                universityName = selectedUniversity.name,
+                departmentId = selectedDepartment.id,
+                departmentName = selectedDepartment.name,
+                fcmToken = fcmToken,
+            ).onEach { userId ->
+                subscribeNoticeCategories(
+                    userId = userId,
+                    noticeCategories = uiState.value.selectedNoticeCategories
+                )
+            }.catch {
+                _uiEvent.emit(UniversityUiEvent.USER_SAVE_FAILED)
+            }.onEach {
+                _uiEvent.emit(UniversityUiEvent.USER_SAVE_SUCCESS)
+            }.launchIn(this)
         }
     }
 
