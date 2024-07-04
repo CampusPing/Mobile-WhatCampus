@@ -72,6 +72,8 @@ kotlin {
                 implementation(libs.napier)
                 implementation(libs.kottie)
                 api(libs.kmp.notifier)
+                api(libs.datastore.preferences)
+                api(libs.datastore)
             }
         }
         iosMain.dependencies {
