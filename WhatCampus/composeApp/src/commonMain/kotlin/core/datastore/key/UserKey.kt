@@ -8,6 +8,6 @@ object UserKey {
     val universityId = longPreferencesKey("universityId")
     val universityName = stringPreferencesKey("universityName")
     val departmentId = longPreferencesKey("departmentId")
-    val departmentName = stringPreferencesKey("userId")
+    val departmentName = stringPreferencesKey("departmentName")
     val fcmToken = stringPreferencesKey("fcmToken")
 }
