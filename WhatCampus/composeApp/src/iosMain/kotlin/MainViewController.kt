@@ -8,9 +8,9 @@ import io.github.aakira.napier.Napier
 fun MainViewController() = ComposeUIViewController(
     configure = {
         KoinInitializer().init()
+        KmpInitializer.init()
     }
 ) {
-    KmpInitializer.init()
     Napier.base(DebugAntilog())
     App()
 }
