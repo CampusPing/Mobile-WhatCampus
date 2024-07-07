@@ -31,7 +31,7 @@ internal fun UserInformation(
         modifier = Modifier
             .fillMaxWidth()
             .height(100.dp)
-            .padding(vertical = 12.dp, horizontal = 16.dp)
+            .padding(vertical = 16.dp, horizontal = 16.dp)
     ) {
         Image(
             modifier = Modifier
