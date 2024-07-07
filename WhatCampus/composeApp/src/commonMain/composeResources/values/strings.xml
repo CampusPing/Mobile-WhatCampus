@@ -71,4 +71,5 @@
 
     <!--  Profile  -->
     <string name="profile_title">프로필 설정</string>
+    <string name="profile_image">프로필 이미지</string>
 </resources>
