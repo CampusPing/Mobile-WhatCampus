@@ -24,6 +24,7 @@ class DefaultUserRepository(
                 departmentId = requireNotNull(pref[UserKey.departmentId]),
                 departmentName = requireNotNull(pref[UserKey.departmentName]),
                 fcmToken = requireNotNull(pref[UserKey.fcmToken]),
+                isPushNotificationAllowed = requireNotNull(pref[UserKey.isPushNotificationAllowed]),
             )
         }
 
@@ -45,6 +46,7 @@ class DefaultUserRepository(
                 pref[UserKey.departmentId] = departmentId
                 pref[UserKey.departmentName] = departmentName
                 pref[UserKey.fcmToken] = fcmToken
+                pref[UserKey.isPushNotificationAllowed] = true
             }
 
             userId

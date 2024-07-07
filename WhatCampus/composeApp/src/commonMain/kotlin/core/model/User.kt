@@ -7,4 +7,5 @@ data class User(
     val departmentId: Long,
     val departmentName: String,
     val fcmToken: String,
+    val isPushNotificationAllowed: Boolean,
 )
