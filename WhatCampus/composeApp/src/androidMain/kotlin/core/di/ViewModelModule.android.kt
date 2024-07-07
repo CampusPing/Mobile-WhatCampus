@@ -6,6 +6,7 @@ import feature.notice.NoticeDetailViewModel
 import feature.notice.NoticeViewModel
 import feature.noticeCategory.NoticeCategoryViewModel
 import feature.noticeSearch.NoticeSearchViewModel
+import feature.profile.ProfileViewModel
 import feature.university.UniversityViewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.Module
@@ -19,4 +20,5 @@ actual val viewModelModule: Module = module {
     viewModelOf(::CampusMapViewModel)
     viewModelOf(::NoticeSearchViewModel)
     viewModelOf(::NoticeCategoryViewModel)
+    viewModelOf(::ProfileViewModel)
 }

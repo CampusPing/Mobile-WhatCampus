@@ -6,6 +6,7 @@ import feature.notice.NoticeDetailViewModel
 import feature.notice.NoticeViewModel
 import feature.noticeCategory.NoticeCategoryViewModel
 import feature.noticeSearch.NoticeSearchViewModel
+import feature.profile.ProfileViewModel
 import feature.university.UniversityViewModel
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.factoryOf
@@ -20,4 +21,5 @@ actual val viewModelModule: Module = module {
     singleOf(::CampusMapViewModel)
     factoryOf(::NoticeSearchViewModel)
     factoryOf(::NoticeCategoryViewModel)
+    factoryOf(::ProfileViewModel)
 }
