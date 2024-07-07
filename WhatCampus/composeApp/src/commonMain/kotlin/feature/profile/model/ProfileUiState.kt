@@ -4,7 +4,7 @@ data class ProfileUiState(
     val user: User,
 )
 
-// 이후에 유저 정보를 저장하는 기능이 추가되면 제거될 클래스입니다.
+// TODO: 이후에 유저 정보를 저장하는 기능이 추가되면 제거될 클래스입니다.
 data class User(
     val userId: Long,
     val universityId: Long,
@@ -12,5 +12,5 @@ data class User(
     val departmentId: Long,
     val departmentName: String,
     val fcmToken: String,
-    val isPushNotificationsAllowed: Boolean,
+    val isPushNotificationAllowed: Boolean,
 )

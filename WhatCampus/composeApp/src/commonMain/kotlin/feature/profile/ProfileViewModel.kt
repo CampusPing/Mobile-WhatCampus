@@ -5,6 +5,7 @@ import feature.profile.model.ProfileUiState
 import feature.profile.model.User
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 class ProfileViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(
@@ -16,9 +17,20 @@ class ProfileViewModel : ViewModel() {
                 departmentId = 1,
                 departmentName = "컴퓨터과학과",
                 fcmToken = "temp-12345",
-                isPushNotificationsAllowed = true,
+                isPushNotificationAllowed = true,
             )
         )
     )
     val uiState = _uiState.asStateFlow()
+
+    // TODO: 이후에 Datastore에서 푸시 알림을 토글하는 기능을 추가할 예정입니다.
+    fun changePushNotificationAllowed(isAllowed: Boolean) {
+        _uiState.update { state ->
+            state.copy(
+                user = state.user.copy(
+                    isPushNotificationAllowed = isAllowed,
+                )
+            )
+        }
+    }
 }

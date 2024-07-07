@@ -13,9 +13,11 @@ import core.designsystem.theme.PaleGray
 import core.di.koinViewModel
 import feature.profile.components.ProfileTopBar
 import feature.profile.components.SettingItem
+import feature.profile.components.SettingSwitch
 import feature.profile.components.UserInformation
 import org.jetbrains.compose.resources.stringResource
 import whatcampus.composeapp.generated.resources.Res
+import whatcampus.composeapp.generated.resources.notice_push_allow_change
 import whatcampus.composeapp.generated.resources.notice_push_category_change
 import whatcampus.composeapp.generated.resources.university_department_change
 
@@ -44,6 +46,12 @@ fun ProfileScreen(
             HorizontalDivider(
                 thickness = 12.dp,
                 color = PaleGray,
+            )
+
+            SettingSwitch(
+                title = stringResource(Res.string.notice_push_allow_change),
+                isChecked = uiState.user.isPushNotificationAllowed,
+                onCheckedChange = viewModel::changePushNotificationAllowed,
             )
 
             SettingItem(
