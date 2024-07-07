@@ -52,4 +52,13 @@ class DefaultUserRepository(
             userId
         }
     }
+
+    override suspend fun clearUser() {
+        dataStore.edit { pref ->
+            val userId = pref[UserKey.userId]
+
+            pref.clear()
+            userId?.let { pref[UserKey.userId] = userId } // 유저 ID는 유지
+        }
+    }
 }

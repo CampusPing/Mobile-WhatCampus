@@ -13,4 +13,6 @@ interface UserRepository {
         departmentName: String,
         fcmToken: String,
     ): Flow<Long>
+
+    suspend fun clearUser()
 }
