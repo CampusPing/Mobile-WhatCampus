@@ -73,6 +73,6 @@
     <string name="profile_title">프로필 설정</string>
     <string name="profile_image">프로필 이미지</string>
     <string name="notice_push_allow_change">푸시 알림 수신 여부</string>
-    <string name="notice_push_category_change">공지 알림 카테고리 변경</string>
+    <string name="notice_push_category_change">푸시 알림 카테고리 변경</string>
     <string name="university_department_change">대학교 / 학과 재설정</string>
 </resources>
