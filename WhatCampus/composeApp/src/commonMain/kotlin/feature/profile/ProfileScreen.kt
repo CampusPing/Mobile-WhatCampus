@@ -26,6 +26,7 @@ fun ProfileScreen(
     modifier: Modifier = Modifier,
     viewModel: ProfileViewModel = koinViewModel(),
     onClickBack: () -> Unit,
+    onClickNoticeCategory: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateMultiplatform()
 
@@ -56,7 +57,7 @@ fun ProfileScreen(
 
             SettingItem(
                 title = stringResource(Res.string.notice_push_category_change),
-                onClick = {},
+                onClick = onClickNoticeCategory,
             )
 
             SettingItem(

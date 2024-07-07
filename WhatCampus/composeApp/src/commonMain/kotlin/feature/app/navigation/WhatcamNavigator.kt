@@ -10,8 +10,8 @@ import core.model.Notice
 import core.navigation.Route
 import feature.main.navigation.navigateMain
 import feature.notice.navigation.navigateNoticeDetail
-import feature.noticeCategory.navigation.navigateNoticeCategory
 import feature.noticeSearch.navigation.navigateNoticeSearch
+import feature.profile.navigation.navigateNoticeCategory
 import feature.profile.navigation.navigateProfile
 import feature.university.navigation.navigateDepartmentSelectivity
 import feature.university.navigation.navigateNoticeCategorySelectivity

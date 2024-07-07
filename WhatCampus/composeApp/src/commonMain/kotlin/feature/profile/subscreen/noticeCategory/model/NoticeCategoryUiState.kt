@@ -1,4 +1,4 @@
-package feature.noticeCategory.model
+package feature.profile.subscreen.noticeCategory.model
 
 import core.model.NoticeCategory
 import kotlinx.collections.immutable.persistentListOf

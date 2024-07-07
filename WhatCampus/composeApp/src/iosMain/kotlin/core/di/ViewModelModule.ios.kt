@@ -4,7 +4,7 @@ import feature.bookmark.BookmarkViewModel
 import feature.campusmap.CampusMapViewModel
 import feature.notice.NoticeDetailViewModel
 import feature.notice.NoticeViewModel
-import feature.noticeCategory.NoticeCategoryViewModel
+import feature.profile.subscreen.noticeCategory.NoticeCategoryViewModel
 import feature.noticeSearch.NoticeSearchViewModel
 import feature.profile.ProfileViewModel
 import feature.university.UniversityViewModel

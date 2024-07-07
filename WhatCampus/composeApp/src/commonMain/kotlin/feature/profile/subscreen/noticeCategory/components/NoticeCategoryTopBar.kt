@@ -1,4 +1,4 @@
-package feature.noticeCategory.components
+package feature.profile.subscreen.noticeCategory.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
