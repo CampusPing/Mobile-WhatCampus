@@ -69,6 +69,6 @@
     <string name="notice_category_saved_message">공지가 올라오면 푸시 알림을 보내드릴게요!</string>
     <string name="notice_category_saved_action_label">확인</string>
 
-    <!--  Setting  -->
-    <string name="setting_title">설정</string>
+    <!--  Profile  -->
+    <string name="profile_title">프로필 설정</string>
 </resources>
