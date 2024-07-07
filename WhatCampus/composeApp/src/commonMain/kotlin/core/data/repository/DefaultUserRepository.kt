@@ -61,4 +61,16 @@ class DefaultUserRepository(
             userId?.let { pref[UserKey.userId] = userId } // 유저 ID는 유지
         }
     }
+
+    override suspend fun updateUser(user: User) {
+        dataStore.edit { pref ->
+            pref[UserKey.userId] = user.userId
+            pref[UserKey.universityId] = user.universityId
+            pref[UserKey.universityName] = user.universityName
+            pref[UserKey.departmentId] = user.departmentId
+            pref[UserKey.departmentName] = user.departmentName
+            pref[UserKey.fcmToken] = user.fcmToken
+            pref[UserKey.isPushNotificationAllowed] = user.isPushNotificationAllowed
+        }
+    }
 }

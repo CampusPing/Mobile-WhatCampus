@@ -15,4 +15,5 @@ interface UserRepository {
     ): Flow<Long>
 
     suspend fun clearUser()
+    suspend fun updateUser(user: User)
 }
