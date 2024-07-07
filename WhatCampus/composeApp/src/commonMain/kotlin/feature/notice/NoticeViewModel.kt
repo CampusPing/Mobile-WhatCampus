@@ -8,6 +8,7 @@ import core.domain.usecase.GetNoticesByCategoryIdUseCase
 import core.model.NoticeCategory
 import feature.notice.model.NoticeUiState
 import feature.notice.model.NoticeWithBookmark
+import kotlinx.collections.immutable.toImmutableSet
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -52,10 +53,14 @@ class NoticeViewModel(
             .filterNotNull()
             .flatMapLatest { noticeCategory -> getNoticesByCategoryId(noticeCategory.id) }
             .combine(getAllBookmarkedNotices()) { notices, bookmarkedNotices ->
+                val bookmarkedNoticeIds = bookmarkedNotices.map { notice -> notice.id }.toImmutableSet()
+                (notices to bookmarkedNoticeIds)
+            }
+            .map { (notices, bookmarkedNoticeIds) ->
                 notices.map { notice ->
                     NoticeWithBookmark(
                         notice = notice,
-                        isBookmarked = bookmarkedNotices.any { bookmarkedNotice -> bookmarkedNotice.id == notice.id }
+                        isBookmarked = notice.id in bookmarkedNoticeIds
                     )
                 }
             }
