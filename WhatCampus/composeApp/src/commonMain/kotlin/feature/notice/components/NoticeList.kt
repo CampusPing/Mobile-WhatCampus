@@ -19,13 +19,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import core.common.util.defaultDateFormatter
-import core.common.util.defaultDatetimeFormatter
 import core.common.util.format
 import core.designsystem.theme.Graphite
 import core.designsystem.theme.Gray
 import core.designsystem.theme.PaleGray
 import core.designsystem.theme.WhatcamTheme
 import core.model.Notice
+import feature.notice.model.NoticeWithBookmark
 
 private val horizontalPadding = 12.dp
 
@@ -33,7 +33,7 @@ private val horizontalPadding = 12.dp
 internal fun NoticeList(
     modifier: Modifier = Modifier,
     listState: LazyListState,
-    notices: List<Notice>,
+    noticesWithBookmark: List<NoticeWithBookmark>,
     onClickItem: (Notice) -> Unit,
 ) {
     LazyColumn(
@@ -42,15 +42,15 @@ internal fun NoticeList(
         state = listState,
     ) {
         itemsIndexed(
-            items = notices,
+            items = noticesWithBookmark,
             key = { _, notice -> notice.id },
-        ) { index, notice ->
+        ) { index, noticeWithBookmark ->
             NoticeItem(
-                notice = notice,
-                onClick = { onClickItem(notice) },
+                noticeWithBookmark = noticeWithBookmark,
+                onClick = { onClickItem(noticeWithBookmark.notice) },
             )
 
-            if (index < notices.size - 1) {
+            if (index < noticesWithBookmark.size - 1) {
                 NoticeDivider()
             }
         }
@@ -60,7 +60,7 @@ internal fun NoticeList(
 @Composable
 private fun NoticeItem(
     modifier: Modifier = Modifier,
-    notice: Notice,
+    noticeWithBookmark: NoticeWithBookmark,
     onClick: () -> Unit,
 ) {
     Column(
@@ -72,7 +72,7 @@ private fun NoticeItem(
         verticalArrangement = Arrangement.SpaceBetween,
     ) {
         Text(
-            text = notice.title,
+            text = noticeWithBookmark.title,
             style = WhatcamTheme.typography.bodyLargeR,
             color = Graphite,
             maxLines = 2,
@@ -82,7 +82,7 @@ private fun NoticeItem(
         Spacer(modifier = Modifier.size(16.dp))
 
         Text(
-            text = notice.datetime.format(formatter = defaultDateFormatter),
+            text = noticeWithBookmark.datetime.format(formatter = defaultDateFormatter),
             style = WhatcamTheme.typography.bodyMediumR,
             color = Gray,
         )

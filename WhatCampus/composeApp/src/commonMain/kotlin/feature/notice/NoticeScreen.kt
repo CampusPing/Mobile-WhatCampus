@@ -17,11 +17,9 @@ import androidx.compose.ui.Modifier
 import core.common.extensions.collectAsStateMultiplatform
 import core.di.koinViewModel
 import core.model.Notice
-import core.model.NoticeCategory
 import feature.notice.components.NoticeCategoryBar
 import feature.notice.components.NoticeList
 import feature.notice.components.NoticeTopAppBar
-import feature.notice.model.NoticeUiState
 
 @Composable
 fun NoticeScreen(
@@ -32,29 +30,6 @@ fun NoticeScreen(
 ) {
     val uiState by noticeViewModel.uiState.collectAsStateMultiplatform()
 
-    when (uiState) {
-        NoticeUiState.Loading -> {
-            // TODO: 로딩 화면 구현
-        }
-
-        is NoticeUiState.Success -> NoticeScreen(
-            uiState = uiState as NoticeUiState.Success,
-            onClickCategory = { noticeViewModel.selectCategory(it) },
-            onNoticeClick = onNoticeClick,
-            onClickNoticeSearch = onClickNoticeSearch,
-            onClickProfile = onClickProfile,
-        )
-    }
-}
-
-@Composable
-private fun NoticeScreen(
-    uiState: NoticeUiState.Success,
-    onClickCategory: (NoticeCategory) -> Unit,
-    onNoticeClick: (Notice) -> Unit,
-    onClickNoticeSearch: () -> Unit,
-    onClickProfile: () -> Unit,
-) {
     Scaffold(
         topBar = {
             NoticeTopAppBar(
@@ -77,7 +52,7 @@ private fun NoticeScreen(
 
             NoticeList(
                 listState = noticeListScrollState,
-                notices = uiState.notices,
+                noticesWithBookmark = uiState.notices,
                 onClickItem = onNoticeClick,
             )
 
@@ -89,7 +64,7 @@ private fun NoticeScreen(
                 NoticeCategoryBar(
                     noticeCategories = uiState.noticeCategories,
                     selectedCategory = uiState.selectedCategory,
-                    onClickCategory = onClickCategory,
+                    onClickCategory = noticeViewModel::selectCategory,
                 )
             }
         }
