@@ -9,6 +9,7 @@ import feature.notice.navigation.noticeDetailNavGraph
 import feature.noticeCategory.navigation.noticeCategoryNavGraph
 import feature.noticeSearch.navigation.noticeSearchNavGraph
 import feature.onboarding.navigation.onboardingNavGraph
+import feature.profile.navigation.profileNavGraph
 import feature.university.UniversityViewModel
 import feature.university.navigation.universityNavGraph
 import org.koin.compose.KoinContext
@@ -39,7 +40,7 @@ internal fun WhatcamNavHost(
             mainNavGraph(
                 onNoticeClick = navigator::navigateNoticeDetail,
                 onClickNoticeSearch = navigator::navigateNoticeSearch,
-                onClickProfile = navigator::navigateNoticeCategory,
+                onClickProfile = navigator::navigateProfile,
             )
             noticeDetailNavGraph(
                 onClickBack = { navigator.navigateUp() },
@@ -54,6 +55,9 @@ internal fun WhatcamNavHost(
                     navigator.navigateUp()
                     onShowSnackbar(savedMessage, actionLabel)
                 },
+            )
+            profileNavGraph(
+                onClickBack = navigator::navigateUp,
             )
         }
     }

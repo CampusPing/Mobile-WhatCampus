@@ -12,4 +12,5 @@ enum class Route(
     NoticeDetail("noticeDetail"),
     NoticeSearch("noticeSearch"),
     NoticeCategory("noticeCategory"),
+    Profile("profile"),
 }

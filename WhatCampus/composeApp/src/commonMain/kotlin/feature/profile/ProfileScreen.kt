@@ -10,6 +10,7 @@ import core.di.koinViewModel
 fun ProfileScreen(
     modifier: Modifier = Modifier,
     viewModel: ProfileViewModel = koinViewModel(),
+    onClickBack: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateMultiplatform()
 
