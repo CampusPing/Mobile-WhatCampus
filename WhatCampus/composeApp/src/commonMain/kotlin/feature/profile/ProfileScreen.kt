@@ -9,17 +9,23 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import core.common.extensions.collectAsStateMultiplatform
+import core.designsystem.components.dialog.WhatcamDialog
+import core.designsystem.components.dialog.rememberDialogState
 import core.designsystem.theme.PaleGray
 import core.di.koinViewModel
 import feature.profile.components.ProfileTopBar
 import feature.profile.components.SettingItem
 import feature.profile.components.SettingSwitch
 import feature.profile.components.UserInformation
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import whatcampus.composeapp.generated.resources.Res
+import whatcampus.composeapp.generated.resources.ic_alert
 import whatcampus.composeapp.generated.resources.notice_push_allow_change
 import whatcampus.composeapp.generated.resources.notice_push_category_change
 import whatcampus.composeapp.generated.resources.university_department_change
+import whatcampus.composeapp.generated.resources.university_department_change_dialog_message
+import whatcampus.composeapp.generated.resources.university_department_change_dialog_title
 
 @Composable
 fun ProfileScreen(
@@ -27,8 +33,10 @@ fun ProfileScreen(
     viewModel: ProfileViewModel = koinViewModel(),
     onClickBack: () -> Unit,
     onClickNoticeCategory: () -> Unit,
+    onClickUniversityChange: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateMultiplatform()
+    val dialogState = rememberDialogState()
 
     Scaffold(
         modifier = modifier,
@@ -62,8 +70,22 @@ fun ProfileScreen(
 
             SettingItem(
                 title = stringResource(Res.string.university_department_change),
-                onClick = {},
+                onClick = dialogState::showDialog,
                 withDivider = false,
+            )
+        }
+
+        if (dialogState.isVisible.value) {
+            WhatcamDialog(
+                title = stringResource(Res.string.university_department_change_dialog_title),
+                message = stringResource(Res.string.university_department_change_dialog_message),
+                icon = painterResource(Res.drawable.ic_alert),
+                onConfirmClick = {
+                    dialogState.hideDialog()
+                    viewModel.clearUser()
+                    onClickUniversityChange()
+                },
+                onDismissClick = dialogState::hideDialog,
             )
         }
     }

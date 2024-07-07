@@ -33,4 +33,9 @@ class ProfileViewModel : ViewModel() {
             )
         }
     }
+
+    // TODO: 이후에 Datastore에서 사용자 정보를 삭제하는 기능을 추가할 예정입니다.
+    fun clearUser() {
+
+    }
 }

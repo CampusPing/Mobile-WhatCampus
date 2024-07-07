@@ -55,6 +55,7 @@ internal fun WhatcamNavHost(
                     navigator.navigateUp()
                     onShowSnackbar(savedMessage, actionLabel)
                 },
+                onClickUniversityChange = navigator::navigateOnboarding,
             )
         }
     }

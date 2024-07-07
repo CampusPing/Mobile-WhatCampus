@@ -24,6 +24,7 @@ fun NavGraphBuilder.profileNavGraph(
     onClickBack: () -> Unit,
     onClickNoticeCategory: () -> Unit,
     onClickSave: (savedMessage: String, actionLabel: String) -> Unit,
+    onClickUniversityChange: () -> Unit,
 ) {
     navigation(
         startDestination = ProfileRouteModel.ProfileMain.route,
@@ -33,6 +34,7 @@ fun NavGraphBuilder.profileNavGraph(
             ProfileScreen(
                 onClickBack = onClickBack,
                 onClickNoticeCategory = onClickNoticeCategory,
+                onClickUniversityChange = onClickUniversityChange,
             )
         }
 

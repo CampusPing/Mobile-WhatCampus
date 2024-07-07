@@ -12,7 +12,11 @@ import core.navigation.Route
 import feature.onboarding.OnboardingScreen
 
 fun NavController.navigateOnboarding() {
-    navigateSingleTop(Route.OnboardingRoute.route)
+    navigateSingleTop(
+        route = Route.OnboardingRoute.route,
+        isPopUpToStartDestination = true,
+        inclusiveStartDestination = true,
+    )
 }
 
 fun NavGraphBuilder.onboardingNavGraph(
