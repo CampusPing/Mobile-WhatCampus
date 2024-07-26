@@ -1,27 +1,32 @@
 package feature.noticeSearch
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import core.common.extensions.collectAsStateMultiplatform
+import core.designsystem.components.LoadingScreen
+import core.designsystem.components.dialog.WhatcamDialog
+import core.designsystem.components.dialog.rememberDialogState
 import core.di.koinViewModel
 import core.model.Notice
 import feature.noticeSearch.components.EmptyNoticeSearchScreen
 import feature.noticeSearch.components.NoticeList
 import feature.noticeSearch.components.NoticeSearchTopBar
+import feature.noticeSearch.components.RecentSearchHistory
 import feature.noticeSearch.model.NoticeSearchUiState
 import feature.university.components.SearchBar
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import whatcampus.composeapp.generated.resources.Res
+import whatcampus.composeapp.generated.resources.ic_alert
+import whatcampus.composeapp.generated.resources.notice_search_clear_dialog_message
+import whatcampus.composeapp.generated.resources.notice_search_clear_dialog_title
 import whatcampus.composeapp.generated.resources.notice_search_hint
 
 @Composable
@@ -33,47 +38,53 @@ internal fun NoticeSearchScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateMultiplatform()
     val searchQuery by viewModel.noticeSearchQuery.collectAsStateMultiplatform()
+    val dialogState = rememberDialogState()
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = { NoticeSearchTopBar(onClickBack = onClickBack) }
     ) { paddingValues ->
-        when (val state = uiState) {
-            NoticeSearchUiState.Loading -> LoadingScreen(
-                modifier = Modifier.padding(paddingValues)
-            )
+        if (uiState.isLoading) {
+            LoadingScreen(modifier = Modifier.padding(paddingValues))
+            return@Scaffold
+        }
 
-            is NoticeSearchUiState.Success -> NoticeSearchScreen(
-                modifier = Modifier.padding(paddingValues),
-                onClickNotice = onClickNotice,
-                uiState = state,
-                query = searchQuery,
-                onQueryChange = viewModel::searchNotice,
+        NoticeSearchScreen(
+            modifier = Modifier.padding(paddingValues),
+            uiState = uiState,
+            onClickNotice = onClickNotice,
+            query = searchQuery,
+            onQueryChange = viewModel::searchNotice,
+            onClickDeleteHistory = viewModel::deleteSearchHistory,
+            onClickClearHistory = dialogState::showDialog,
+        )
+
+        if (dialogState.isVisible.value) {
+            WhatcamDialog(
+                title = stringResource(Res.string.notice_search_clear_dialog_title),
+                message = stringResource(Res.string.notice_search_clear_dialog_message),
+                icon = painterResource(Res.drawable.ic_alert),
+                onConfirmClick = {
+                    viewModel.clearSearchHistories()
+                    dialogState.hideDialog()
+                },
+                onDismissClick = dialogState::hideDialog,
             )
         }
     }
 }
 
 @Composable
-private fun LoadingScreen(
-    modifier: Modifier = Modifier,
-) {
-    Box(
-        modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
-    ) {
-        CircularProgressIndicator()
-    }
-}
-
-@Composable
 private fun NoticeSearchScreen(
     modifier: Modifier = Modifier,
+    uiState: NoticeSearchUiState,
     onClickNotice: (Notice) -> Unit,
-    uiState: NoticeSearchUiState.Success,
     query: String,
     onQueryChange: (String) -> Unit,
+    onClickDeleteHistory: (String) -> Unit,
+    onClickClearHistory: () -> Unit,
 ) {
+
     Column(modifier = modifier) {
         SearchBar(
             modifier = Modifier
@@ -83,6 +94,15 @@ private fun NoticeSearchScreen(
             onValueChange = onQueryChange,
             hint = stringResource(Res.string.notice_search_hint),
         )
+
+        AnimatedVisibility(!uiState.isEmptyHistory) {
+            RecentSearchHistory(
+                searchHistory = uiState.searchHistories,
+                onClickSearchHistory = onQueryChange,
+                onClickDeleteHistory = onClickDeleteHistory,
+                onClickClear = onClickClearHistory,
+            )
+        }
 
         AnimatedVisibility(uiState.isEmptyResult) {
             EmptyNoticeSearchScreen()
