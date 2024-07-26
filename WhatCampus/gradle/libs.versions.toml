@@ -61,7 +61,6 @@ koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koinComp
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 napier = { module = "io.github.aakira:napier", version.ref = "napier" }
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
-richeditor-compose = { module = "com.mohamedrejeb.richeditor:richeditor-compose", version.ref = "richeditorCompose" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-runtime-android = { module = "androidx.room:room-runtime-android", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }

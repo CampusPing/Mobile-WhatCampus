@@ -59,7 +59,6 @@ kotlin {
                 implementation(libs.navigation.compose)
                 implementation(libs.room.runtime)
                 implementation(libs.sqlite.bundled)
-                implementation(libs.richeditor.compose)
                 implementation(libs.kotlinx.serialization.json)
                 implementation(libs.ktor.client.core)
                 implementation(libs.ktor.client.core.v300wasm2)
