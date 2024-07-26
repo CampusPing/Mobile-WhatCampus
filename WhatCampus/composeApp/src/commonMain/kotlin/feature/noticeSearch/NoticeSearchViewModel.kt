@@ -43,10 +43,7 @@ class NoticeSearchViewModel(
             .debounce(SEARCH_DEBOUNCE)
             .map { query -> query.trim() }
             .filter { query -> query.isNotBlank() }
-            .flatMapLatest { query ->
-                searchQueryRepository.addSearchQueryHistory(query)
-                searchNotices(query = query, universityId = 1, departmentId = 1)
-            }
+            .flatMapLatest { query -> searchNotices(query = query, universityId = 1, departmentId = 1) }
             .catch { throwable -> _errorFlow.emit(throwable) }
             .onEach { searchedNotices ->
                 _uiState.update { it.copy(isLoading = false, searchedNotices = searchedNotices) }
@@ -77,6 +74,13 @@ class NoticeSearchViewModel(
             searchQueryRepository.deleteQueryHistories()
             _uiState.update { it.copy(searchHistories = persistentListOf()) }
         }
+    }
+
+    fun addSearchHistory() {
+        viewModelScope.launch {
+            searchQueryRepository.addSearchQueryHistory(query = noticeSearchQuery.value)
+        }
+
     }
 
     companion object {

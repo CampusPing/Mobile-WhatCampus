@@ -52,7 +52,10 @@ internal fun NoticeSearchScreen(
         NoticeSearchScreen(
             modifier = Modifier.padding(paddingValues),
             uiState = uiState,
-            onClickNotice = onClickNotice,
+            onClickNotice = { notice ->
+                viewModel.addSearchHistory()
+                onClickNotice(notice)
+            },
             query = searchQuery,
             onQueryChange = viewModel::searchNotice,
             onClickDeleteHistory = viewModel::deleteSearchHistory,
