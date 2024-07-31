@@ -3,10 +3,9 @@ package feature.app
 import com.mmk.kmpnotifier.notification.NotifierManager
 import com.mmk.kmpnotifier.notification.PayloadData
 
-object KmpInitializer {
-    fun init() {
-        initKmpNotifierPlatformSpecific()
-
+object NotifierInitializer {
+    fun onApplicationStart() {
+        onApplicationStartPlatformSpecific()
         NotifierManager.addListener(object : NotifierManager.Listener {
             override fun onNewToken(token: String) {
                 println("Push Notification onNewToken: $token")
@@ -30,4 +29,4 @@ object KmpInitializer {
     }
 }
 
-expect fun initKmpNotifierPlatformSpecific()
+expect fun onApplicationStartPlatformSpecific()

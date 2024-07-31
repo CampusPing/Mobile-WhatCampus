@@ -14,13 +14,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.mmk.kmpnotifier.notification.NotifierManager
 import core.designsystem.theme.WhatcamTheme
 import feature.onboarding.components.OnboardingSlider
-import io.github.aakira.napier.Napier
 import org.jetbrains.compose.resources.stringResource
 import whatcampus.composeapp.generated.resources.Res
 import whatcampus.composeapp.generated.resources.onboarding_start
@@ -35,10 +32,6 @@ internal fun OnboardingScreen(
     val sliderItems = OnboardingSliderItem.entries
     val pagerState = rememberPagerState { sliderItems.size }
     val horizontalPadding = PaddingValues(horizontal = 20.dp)
-    LaunchedEffect(Unit) {
-        val fcmToken = NotifierManager.getPushNotifier().getToken()
-        Napier.d(tag = "buna") { "FCM Token: $fcmToken" }
-    }
     Scaffold(
         topBar = { TopAppBar(title = {}) },
         modifier = modifier,

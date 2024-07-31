@@ -34,16 +34,6 @@ kotlin {
     }
 
     sourceSets {
-        androidMain.dependencies {
-            implementation(libs.compose.ui.tooling.preview)
-            implementation(libs.androidx.activity.compose)
-            implementation(libs.androidx.lifecycle.runtime.compose)
-
-            implementation(libs.koin.android)
-            implementation(libs.koin.androidx.compose)
-            implementation(libs.kotlinx.coroutines.android)
-            implementation(libs.ktor.engine.android)
-        }
         commonMain {
             kotlin.srcDir("build/generated/ksp/metadata")
 
@@ -76,6 +66,18 @@ kotlin {
                 api(libs.datastore)
             }
         }
+
+        androidMain.dependencies {
+            implementation(libs.compose.ui.tooling.preview)
+            implementation(libs.androidx.activity.compose)
+            implementation(libs.androidx.lifecycle.runtime.compose)
+
+            implementation(libs.koin.android)
+            implementation(libs.koin.androidx.compose)
+            implementation(libs.kotlinx.coroutines.android)
+            implementation(libs.ktor.engine.android)
+        }
+
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
         }
