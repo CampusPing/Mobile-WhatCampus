@@ -15,16 +15,24 @@ class DefaultUserRepository(
     private val dataStore: DataStore<Preferences>,
 ) : UserRepository {
 
-    override fun flowUser(): Flow<User> = dataStore.data
+    override fun flowUser(): Flow<User?> = dataStore.data
         .map { pref ->
+            val userId = pref[UserKey.userId] ?: return@map null
+            val universityId = pref[UserKey.universityId] ?: return@map null
+            val universityName = pref[UserKey.universityName] ?: return@map null
+            val departmentId = pref[UserKey.departmentId] ?: return@map null
+            val departmentName = pref[UserKey.departmentName] ?: return@map null
+            val fcmToken = pref[UserKey.fcmToken] ?: return@map null
+            val isPushNotificationAllowed = pref[UserKey.isPushNotificationAllowed] ?: true
+
             User(
-                userId = requireNotNull(pref[UserKey.userId]),
-                universityId = requireNotNull(pref[UserKey.universityId]),
-                universityName = requireNotNull(pref[UserKey.universityName]),
-                departmentId = requireNotNull(pref[UserKey.departmentId]),
-                departmentName = requireNotNull(pref[UserKey.departmentName]),
-                fcmToken = requireNotNull(pref[UserKey.fcmToken]),
-                isPushNotificationAllowed = requireNotNull(pref[UserKey.isPushNotificationAllowed]),
+                userId = userId,
+                universityId = universityId,
+                universityName = universityName,
+                departmentId = departmentId,
+                departmentName = departmentName,
+                fcmToken = fcmToken,
+                isPushNotificationAllowed = isPushNotificationAllowed,
             )
         }
 

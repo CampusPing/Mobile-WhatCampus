@@ -4,7 +4,7 @@ import core.model.User
 import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
-    fun flowUser(): Flow<User>
+    fun flowUser(): Flow<User?>
 
     fun createUser(
         universityId: Long,
