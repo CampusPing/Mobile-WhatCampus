@@ -3,19 +3,21 @@ package feature.noticeSearch
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import core.domain.repository.SearchQueryRepository
-import core.domain.usecase.SearchNoticesUseCase
+import core.domain.repository.UserRepository
+import core.domain.usecase.GetFilteredNoticesUseCase
+import core.model.Notice
+import core.model.User
 import feature.noticeSearch.model.NoticeSearchUiState
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -25,38 +27,50 @@ import kotlinx.coroutines.launch
 
 @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
 class NoticeSearchViewModel(
-    searchNotices: SearchNoticesUseCase,
+    userRepository: UserRepository,
+    private val getFilteredNotices: GetFilteredNoticesUseCase,
     private val searchQueryRepository: SearchQueryRepository,
 ) : ViewModel() {
-    private val _errorFlow = MutableSharedFlow<Throwable>()
-    val errorFlow = _errorFlow.asSharedFlow()
-
-    private val _uiState: MutableStateFlow<NoticeSearchUiState> =
-        MutableStateFlow(NoticeSearchUiState(isLoading = true))
+    private val _uiState = MutableStateFlow(NoticeSearchUiState(isLoading = true))
     val uiState: StateFlow<NoticeSearchUiState> = _uiState.asStateFlow()
 
     private val _noticeSearchQuery: MutableStateFlow<String> = MutableStateFlow("")
     val noticeSearchQuery = _noticeSearchQuery.asStateFlow()
 
     init {
-        noticeSearchQuery
-            .debounce(SEARCH_DEBOUNCE)
-            .map { query -> query.trim() }
-            .filter { query -> query.isNotBlank() }
-            .flatMapLatest { query -> searchNotices(query = query, universityId = 1, departmentId = 1) }
-            .catch { throwable -> _errorFlow.emit(throwable) }
+        userRepository.flowUser()
+            .filterNotNull()
+            .flatMapLatest { user -> mapUserAndQueryFlow(user) }
+            .flatMapLatest { (user, query) -> getFilteredNoticesFlow(query, user) }
             .onEach { searchedNotices ->
-                _uiState.update { it.copy(isLoading = false, searchedNotices = searchedNotices) }
+                _uiState.update { state ->
+                    state.copy(isLoading = false, searchedNotices = searchedNotices)
+                }
             }
             .launchIn(viewModelScope)
 
         searchQueryRepository.flowSearchQueryHistories()
-            .catch { throwable -> _errorFlow.emit(throwable) }
             .onEach { searchQueries ->
-                _uiState.update { it.copy(isLoading = false, searchHistories = searchQueries) }
+                _uiState.update { state ->
+                    state.copy(isLoading = false, searchHistories = searchQueries)
+                }
             }
             .launchIn(viewModelScope)
     }
+
+    private fun mapUserAndQueryFlow(user: User): Flow<Pair<User, String>> = noticeSearchQuery
+        .debounce(SEARCH_DEBOUNCE)
+        .filter { query -> query.isNotBlank() }
+        .map { query -> user to query.trim() }
+
+    private fun getFilteredNoticesFlow(
+        query: String,
+        user: User,
+    ): Flow<List<Notice>> = getFilteredNotices(
+        query = query,
+        universityId = user.universityId,
+        departmentId = user.departmentId,
+    )
 
     fun searchNotice(query: String) {
         _noticeSearchQuery.update { query }
@@ -65,7 +79,9 @@ class NoticeSearchViewModel(
     fun deleteSearchHistory(query: String) {
         viewModelScope.launch {
             searchQueryRepository.deleteQueryHistories(query)
-            _uiState.update { it.copy(searchHistories = it.searchHistories.filter { it != query }) }
+            _uiState.update { state ->
+                state.copy(searchHistories = state.searchHistories.filter { searchHistory -> searchHistory != query })
+            }
         }
     }
 
@@ -80,7 +96,6 @@ class NoticeSearchViewModel(
         viewModelScope.launch {
             searchQueryRepository.addSearchQueryHistory(query = noticeSearchQuery.value)
         }
-
     }
 
     companion object {

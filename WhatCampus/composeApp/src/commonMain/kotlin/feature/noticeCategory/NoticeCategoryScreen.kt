@@ -7,8 +7,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import core.common.extensions.collectAsStateMultiplatform
-import core.di.koinViewModel
 import core.designsystem.components.NoticeCategoryList
+import core.di.koinViewModel
 import feature.noticeCategory.components.NoticeCategoryTopBar
 import org.jetbrains.compose.resources.stringResource
 import whatcampus.composeapp.generated.resources.Res

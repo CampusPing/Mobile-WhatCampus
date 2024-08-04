@@ -23,17 +23,17 @@ ktorClientCore = "3.0.0-wasm2"
 coil3 = "3.0.0-alpha06"
 lifecycleRuntimeCompose = "2.8.2"
 lifecycleViewModel = "2.8.1"
-koin = "3.6.0-alpha3"
-koinCompose = "3.6.0-alpha3"
-koinComposeMultiplatform = "1.2.0-alpha3"
+koin = "3.5.6"
+koinComposeMultiplatform = "1.1.5"
 napier = "2.7.1"
 navigationCompose = "2.7.0-alpha03"
-richeditorCompose = "1.0.0-rc05"
 room = "2.7.0-alpha03"
 ksp = "2.0.0-1.0.21"
 sqlite = "2.5.0-SNAPSHOT"
 ktor = "2.3.11"
 kotlinx-serialization = "1.6.3"
+kmpNotifier = "1.2.0-alpha"
+datastore = "1.1.1"
 
 [libraries]
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycleRuntimeCompose" }
@@ -55,7 +55,7 @@ kottie = { module = "io.github.ismai117:kottie", version.ref = "kottie" }
 ktor-client-core-v300wasm2 = { module = "io.ktor:ktor-client-core", version.ref = "ktorClientCore" }
 lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel", version.ref = "lifecycleViewModel" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
-koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinCompose" }
+koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koinComposeMultiplatform" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
@@ -72,6 +72,9 @@ kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutine
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil3" }
 coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor", version.ref = "coil3" }
 ktor-engine-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
+kmp-notifier = { module = "io.github.mirzemehdi:kmpnotifier", version.ref = "kmpNotifier" }
+datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
+datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -82,3 +85,4 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 room = { id = "androidx.room", version.ref = "room" }
+googleServices = { id = "com.google.gms.google-services", version = "4.4.2" }

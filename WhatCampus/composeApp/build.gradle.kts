@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
     alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.googleServices)
 }
 
 kotlin {
@@ -28,20 +29,11 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+            export(libs.kmp.notifier)
         }
     }
 
     sourceSets {
-        androidMain.dependencies {
-            implementation(libs.compose.ui.tooling.preview)
-            implementation(libs.androidx.activity.compose)
-            implementation(libs.androidx.lifecycle.runtime.compose)
-
-            implementation(libs.koin.android)
-            implementation(libs.koin.androidx.compose)
-            implementation(libs.kotlinx.coroutines.android)
-            implementation(libs.ktor.engine.android)
-        }
         commonMain {
             kotlin.srcDir("build/generated/ksp/metadata")
 
@@ -69,8 +61,23 @@ kotlin {
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.napier)
                 implementation(libs.kottie)
+                api(libs.kmp.notifier)
+                api(libs.datastore.preferences)
+                api(libs.datastore)
             }
         }
+
+        androidMain.dependencies {
+            implementation(libs.compose.ui.tooling.preview)
+            implementation(libs.androidx.activity.compose)
+            implementation(libs.androidx.lifecycle.runtime.compose)
+
+            implementation(libs.koin.android)
+            implementation(libs.koin.androidx.compose)
+            implementation(libs.kotlinx.coroutines.android)
+            implementation(libs.ktor.engine.android)
+        }
+
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
         }

@@ -39,7 +39,7 @@ fun NavController.navigateNoticeDetail(notice: Notice) {
 
     navigateSingleTop(
         route = routeWithArgs,
-        isPopUpToStartDestination = false,
+        isPopUpToTargetRoute = false,
     )
 }
 

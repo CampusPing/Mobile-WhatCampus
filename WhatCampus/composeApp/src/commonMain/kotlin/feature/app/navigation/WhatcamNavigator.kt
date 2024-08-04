@@ -12,6 +12,7 @@ import feature.main.navigation.navigateMain
 import feature.notice.navigation.navigateNoticeDetail
 import feature.noticeCategory.navigation.navigateNoticeCategory
 import feature.noticeSearch.navigation.navigateNoticeSearch
+import feature.onboarding.navigation.navigateOnboarding
 import feature.university.navigation.navigateDepartmentSelectivity
 import feature.university.navigation.navigateNoticeCategorySelectivity
 import feature.university.navigation.navigateUniversityComplete
@@ -20,7 +21,9 @@ import feature.university.navigation.navigateUniversitySelectivity
 internal class WhatcamNavigator(
     val navController: NavHostController,
 ) {
-    //    val startDestination: Route = Route.OnboardingRoute
+    // userFlow에서 에러 발생 시 Onboarding
+    // 에러 발생 안 하면 MainRoute
+//    val startDestination: Route = Route.OnboardingRoute
     val startDestination: Route = Route.MainRoute
 
     private val currentDestination: NavDestination?
@@ -29,6 +32,10 @@ internal class WhatcamNavigator(
 
     fun navigateUp() {
         navController.navigateUp()
+    }
+
+    fun navigateOnboarding() {
+        navController.navigateOnboarding()
     }
 
     fun navigateUniversitySelectivity() {
