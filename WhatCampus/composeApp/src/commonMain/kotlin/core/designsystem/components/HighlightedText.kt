@@ -18,33 +18,41 @@ fun HighlightedText(
     textStyle: TextStyle,
     textAlign: TextAlign = TextAlign.Center,
 ) {
+    var currentTextIndex = 0
     val annotatedString = buildAnnotatedString {
-        var currentIndex = 0
-        while (currentIndex < fullText.length) {
-            val nextHighlightStart = highlightWords
-                .map { fullText.indexOf(it, startIndex = currentIndex) }
-                .filter { it >= 0 }
-                .minOrNull() ?: fullText.length
+        while (currentTextIndex < fullText.length) {
+            val (nextHighlightStart, highlightWord) = findNextHighlight(
+                text = fullText,
+                highlightWords = highlightWords,
+                startIndex = currentTextIndex
+            )
 
-            append(fullText.substring(currentIndex, nextHighlightStart))
+            append(fullText.substring(currentTextIndex, nextHighlightStart))
 
-            val highlightWord = highlightWords.find { fullText.startsWith(it, nextHighlightStart) }
-            if (highlightWord != null) {
-                withStyle(style = SpanStyle(color = highlightColor)) {
-                    append(highlightWord)
-                }
-                currentIndex = nextHighlightStart + highlightWord.length
-            } else {
-                currentIndex = nextHighlightStart
+            if (highlightWord == null) break
+
+            withStyle(style = SpanStyle(color = highlightColor)) {
+                append(highlightWord)
             }
+            currentTextIndex = nextHighlightStart + highlightWord.length
         }
     }
 
     Text(
         text = annotatedString,
-        style = textStyle,
-        color = defaultColor,
+        style = textStyle.copy(color = defaultColor),
         textAlign = textAlign,
     )
 }
 
+private fun findNextHighlight(
+    text: String,
+    highlightWords: List<String>,
+    startIndex: Int,
+): Pair<Int, String?> {
+    val highlightWordPositions = highlightWords.map { word -> text.indexOf(word, startIndex) to word }
+    val validPositions = highlightWordPositions.filter { (startPosition, _) -> startPosition >= 0 }
+    val nextHighlight = validPositions.minByOrNull { (startPosition, _) -> startPosition }
+
+    return nextHighlight ?: (text.length to null)
+}
