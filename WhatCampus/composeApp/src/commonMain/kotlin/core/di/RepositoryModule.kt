@@ -1,7 +1,7 @@
 package core.di
 
-import core.data.repository.DefaultUserRepository
 import core.data.repository.DefaultSearchQueryRepository
+import core.data.repository.DefaultUserRepository
 import core.data.repository.FakeCampusMapRepository
 import core.data.repository.FakeNoticeRepository
 import core.data.repository.FakeUniversityRepository

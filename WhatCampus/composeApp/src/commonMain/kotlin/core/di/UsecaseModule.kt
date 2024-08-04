@@ -3,13 +3,13 @@ package core.di
 import core.domain.usecase.BookmarkNoticeUseCase
 import core.domain.usecase.GetAllBookmarkedNoticesUseCase
 import core.domain.usecase.GetCampusMapUrlUseCase
+import core.domain.usecase.GetFilteredNoticesUseCase
 import core.domain.usecase.GetNoticeCategoriesByUniversityIdUseCase
 import core.domain.usecase.GetNoticesByCategoryIdUseCase
 import core.domain.usecase.GetNoticesByDepartmentIdUseCase
 import core.domain.usecase.GetSubscribedNoticeCategoriesUseCase
 import core.domain.usecase.GetUniversityUseCase
 import core.domain.usecase.IsBookmarkedNoticeUseCase
-import core.domain.usecase.SearchNoticesUseCase
 import core.domain.usecase.SubscribeNoticeCategoriesUseCase
 import core.domain.usecase.UnbookmarkNoticeUseCase
 import core.domain.usecase.UnbookmarkNoticesUseCase
@@ -48,9 +48,6 @@ val usecaseModule = module {
     }
     single {
         GetFilteredNoticesUseCase(get(), get(), get())
-    }
-    single {
-        SearchNoticesUseCase(get(), get())
     }
     single {
         SubscribeNoticeCategoriesUseCase(get())

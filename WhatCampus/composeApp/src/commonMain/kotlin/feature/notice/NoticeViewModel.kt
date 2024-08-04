@@ -2,19 +2,20 @@ package feature.notice
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import core.domain.repository.UserRepository
+import core.domain.usecase.GetAllBookmarkedNoticesUseCase
 import core.domain.usecase.GetNoticeCategoriesByUniversityIdUseCase
 import core.domain.usecase.GetNoticesByCategoryIdUseCase
 import core.model.NoticeCategory
 import feature.notice.model.NoticeUiState
+import feature.notice.model.NoticeWithBookmark
 import kotlinx.collections.immutable.toImmutableSet
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
@@ -45,7 +46,6 @@ class NoticeViewModel(
                         )
                     }
             }
-            .catch { throwable -> _errorFlow.emit(throwable) }
             .onEach { universityUiState -> _uiState.value = universityUiState }
             .launchIn(viewModelScope)
 

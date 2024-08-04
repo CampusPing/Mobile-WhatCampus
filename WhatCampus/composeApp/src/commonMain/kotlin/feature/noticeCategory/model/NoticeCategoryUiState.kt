@@ -8,7 +8,7 @@ import kotlinx.collections.immutable.persistentSetOf
 data class NoticeCategoryUiState(
     val noticeCategories: List<NoticeCategory> = persistentListOf(),
     val subscribedNoticeCategories: Set<NoticeCategory> = persistentSetOf(),
-    val user: User? = null
+    val user: User? = null,
 ) {
     fun toggleSelectedNoticeCategory(noticeCategory: NoticeCategory): NoticeCategoryUiState {
         val selectedNoticeCategories = subscribedNoticeCategories.toMutableSet()

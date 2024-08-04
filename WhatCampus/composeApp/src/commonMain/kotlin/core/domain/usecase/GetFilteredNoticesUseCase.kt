@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
-data class SearchNoticesUseCase(
+data class GetFilteredNoticesUseCase(
     private val getNoticeCategoriesByUniversityId: GetNoticeCategoriesByUniversityIdUseCase,
     private val getNoticesByCategoryIdUseCase: GetNoticesByCategoryIdUseCase,
     private val getNoticesByDepartmentIdUseCase: GetNoticesByDepartmentIdUseCase,

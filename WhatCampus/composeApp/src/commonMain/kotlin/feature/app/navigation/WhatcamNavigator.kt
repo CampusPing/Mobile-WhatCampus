@@ -23,8 +23,8 @@ internal class WhatcamNavigator(
 ) {
     // userFlow에서 에러 발생 시 Onboarding
     // 에러 발생 안 하면 MainRoute
-    val startDestination: Route = Route.OnboardingRoute
-//    val startDestination: Route = Route.MainRoute
+//    val startDestination: Route = Route.OnboardingRoute
+    val startDestination: Route = Route.MainRoute
 
     private val currentDestination: NavDestination?
         @Composable get() = navController
