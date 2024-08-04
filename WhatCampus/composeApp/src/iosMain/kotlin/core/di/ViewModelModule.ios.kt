@@ -6,6 +6,7 @@ import feature.notice.NoticeDetailViewModel
 import feature.notice.NoticeViewModel
 import feature.noticeCategory.NoticeCategoryViewModel
 import feature.noticeSearch.NoticeSearchViewModel
+import feature.splash.SplashViewModel
 import feature.university.UniversityViewModel
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.factoryOf
@@ -13,6 +14,7 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 actual val viewModelModule: Module = module {
+    factoryOf(::SplashViewModel)
     singleOf(::UniversityViewModel)
     singleOf(::NoticeViewModel)
     factoryOf(::NoticeDetailViewModel)

@@ -21,10 +21,7 @@ import feature.university.navigation.navigateUniversitySelectivity
 internal class WhatcamNavigator(
     val navController: NavHostController,
 ) {
-    // userFlow에서 에러 발생 시 Onboarding
-    // 에러 발생 안 하면 MainRoute
-//    val startDestination: Route = Route.OnboardingRoute
-    val startDestination: Route = Route.MainRoute
+    val startDestination: Route = Route.SplashRoute
 
     private val currentDestination: NavDestination?
         @Composable get() = navController

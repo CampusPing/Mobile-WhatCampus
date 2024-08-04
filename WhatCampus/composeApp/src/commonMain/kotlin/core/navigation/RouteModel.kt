@@ -3,6 +3,7 @@ package core.navigation
 enum class Route(
     val route: String,
 ) {
+    SplashRoute("splash"),
     OnboardingRoute("onboarding"),
     UniversitySelectivityRoute("universitySelectivity"),
     DepartmentSelectivityRoute("departmentSelectivity"),

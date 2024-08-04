@@ -10,6 +10,7 @@ import feature.notice.navigation.noticeDetailNavGraph
 import feature.noticeCategory.navigation.noticeCategoryNavGraph
 import feature.noticeSearch.navigation.noticeSearchNavGraph
 import feature.onboarding.navigation.onboardingNavGraph
+import feature.splash.navigation.splashNavGraph
 import feature.university.UniversityViewModel
 import feature.university.model.UniversityUiEvent
 import feature.university.navigation.universityNavGraph
@@ -39,6 +40,13 @@ internal fun WhatcamNavHost(
             navController = navigator.navController,
             startDestination = navigator.startDestination.route,
         ) {
+            splashNavGraph { shouldOnboarding ->
+                if (shouldOnboarding) {
+                    navigator.navigateOnboarding()
+                } else {
+                    navigator.navigateMain()
+                }
+            }
             onboardingNavGraph(
                 onboardingComplete = { navigator.navigateUniversitySelectivity() }
             )
