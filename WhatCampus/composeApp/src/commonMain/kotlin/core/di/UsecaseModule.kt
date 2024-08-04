@@ -5,6 +5,7 @@ import core.domain.usecase.GetAllBookmarkedNoticesUseCase
 import core.domain.usecase.GetCampusMapUrlUseCase
 import core.domain.usecase.GetNoticeCategoriesByUniversityIdUseCase
 import core.domain.usecase.GetNoticesByCategoryIdUseCase
+import core.domain.usecase.GetNoticesByDepartmentIdUseCase
 import core.domain.usecase.GetSubscribedNoticeCategoriesUseCase
 import core.domain.usecase.GetUniversityUseCase
 import core.domain.usecase.IsBookmarkedNoticeUseCase
@@ -25,6 +26,9 @@ val usecaseModule = module {
         GetNoticesByCategoryIdUseCase(get())
     }
     single {
+        GetNoticesByDepartmentIdUseCase(get())
+    }
+    single {
         GetAllBookmarkedNoticesUseCase(get())
     }
     single {
@@ -41,6 +45,9 @@ val usecaseModule = module {
     }
     single {
         GetCampusMapUrlUseCase(get())
+    }
+    single {
+        GetFilteredNoticesUseCase(get(), get(), get())
     }
     single {
         SearchNoticesUseCase(get(), get())

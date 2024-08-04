@@ -12,6 +12,7 @@ import feature.main.navigation.navigateMain
 import feature.notice.navigation.navigateNoticeDetail
 import feature.noticeCategory.navigation.navigateNoticeCategory
 import feature.noticeSearch.navigation.navigateNoticeSearch
+import feature.onboarding.navigation.navigateOnboarding
 import feature.university.navigation.navigateDepartmentSelectivity
 import feature.university.navigation.navigateNoticeCategorySelectivity
 import feature.university.navigation.navigateUniversityComplete
@@ -31,6 +32,10 @@ internal class WhatcamNavigator(
 
     fun navigateUp() {
         navController.navigateUp()
+    }
+
+    fun navigateOnboarding() {
+        navController.navigateOnboarding()
     }
 
     fun navigateUniversitySelectivity() {

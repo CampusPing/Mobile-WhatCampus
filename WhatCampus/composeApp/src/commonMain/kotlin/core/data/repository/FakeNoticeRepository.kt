@@ -81,7 +81,19 @@ class FakeNoticeRepository(
         }
     }
 
-    override fun flowNotices(noticeCategoryId: Long): Flow<List<Notice>> {
+    override fun flowNoticesByCategoryId(
+        universityId: Long,
+        noticeCategoryId: Long,
+    ): Flow<List<Notice>> {
+        return flow {
+            emit(notices)
+        }
+    }
+
+    override fun flowNoticesByDepartmentId(
+        universityId: Long,
+        departmentId: Long,
+    ): Flow<List<Notice>> {
         return flow {
             emit(notices)
         }

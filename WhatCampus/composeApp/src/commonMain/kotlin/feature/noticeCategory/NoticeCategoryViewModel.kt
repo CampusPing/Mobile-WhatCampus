@@ -7,21 +7,19 @@ import core.domain.usecase.GetNoticeCategoriesByUniversityIdUseCase
 import core.domain.usecase.GetSubscribedNoticeCategoriesUseCase
 import core.domain.usecase.SubscribeNoticeCategoriesUseCase
 import core.model.NoticeCategory
-import feature.noticeCategory.model.NoticeCategoryUiEvent
 import feature.noticeCategory.model.NoticeCategoryUiState
-import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class NoticeCategoryViewModel(
     getNoticeCategoriesByUniversity: GetNoticeCategoriesByUniversityIdUseCase,
     getSubscribedNoticeCategories: GetSubscribedNoticeCategoriesUseCase,
@@ -32,23 +30,24 @@ class NoticeCategoryViewModel(
     val uiState: StateFlow<NoticeCategoryUiState> = _uiState.asStateFlow()
 
     init {
-        userRepository
-            .flowUser()
+        userRepository.flowUser()
             .filterNotNull()
-            .map { user ->
+            .flatMapLatest { user ->
                 combine(
                     getSubscribedNoticeCategories(userId = user.userId),
                     getNoticeCategoriesByUniversity(universityId = user.universityId),
                 ) { subscribedNoticeCategories, noticeCategories ->
-                    val fetchedUiState = NoticeCategoryUiState(
-                        subscribedNoticeCategories = subscribedNoticeCategories,
-                        noticeCategories = noticeCategories,
-                        user = user,
-                    )
-                    _uiState.update { fetchedUiState }
+                    _uiState.update { state ->
+                        state.copy(
+                            subscribedNoticeCategories = subscribedNoticeCategories,
+                            noticeCategories = noticeCategories,
+                            user = user,
+                        )
+                    }
                 }
             }
             .launchIn(viewModelScope)
+
     }
 
     fun toggleNoticeCategory(noticeCategory: NoticeCategory) {
