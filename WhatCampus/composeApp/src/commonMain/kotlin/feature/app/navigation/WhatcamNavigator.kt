@@ -51,8 +51,8 @@ internal class WhatcamNavigator(
         navController.navigateUniversityComplete()
     }
 
-    fun navigateMain() {
-        navController.navigateMain()
+    fun navigateMain(popUpTargetRoute: Route? = null) {
+        navController.navigateMain(popUpTargetRoute = popUpTargetRoute)
     }
 
     fun navigateNoticeDetail(notice: Notice) {

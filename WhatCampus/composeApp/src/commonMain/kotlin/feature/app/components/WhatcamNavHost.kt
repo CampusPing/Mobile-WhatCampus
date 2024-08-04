@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.compose.NavHost
 import core.di.koinViewModel
+import core.navigation.Route
 import feature.app.navigation.WhatcamNavigator
 import feature.main.navigation.mainNavGraph
 import feature.notice.navigation.noticeDetailNavGraph
@@ -99,7 +100,7 @@ private fun SharedFlow<UniversityUiEvent>.collectUniversityUiEvent(
 
                 is UniversityUiEvent.USER_SAVE_SUCCESS -> {
                     onShowSnackbar(userSaveSuccessMessage, null)
-                    navigator.navigateMain()
+                    navigator.navigateMain(popUpTargetRoute = Route.OnboardingRoute)
                 }
             }
         }

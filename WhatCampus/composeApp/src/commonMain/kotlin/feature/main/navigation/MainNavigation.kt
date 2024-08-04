@@ -10,9 +10,10 @@ import core.model.Notice
 import core.navigation.Route
 import feature.main.MainScreen
 
-fun NavController.navigateMain() {
+fun NavController.navigateMain(popUpTargetRoute: Route?) {
     navigateSingleTop(
         route = Route.MainRoute.route,
+        popUpTargetRoute = popUpTargetRoute?.route ?: graph.startDestinationRoute,
         isPopUpToTargetRoute = true,
         isInclusive = true,
     )
