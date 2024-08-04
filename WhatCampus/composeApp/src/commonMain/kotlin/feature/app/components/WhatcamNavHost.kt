@@ -4,12 +4,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.compose.NavHost
 import core.di.koinViewModel
+import core.navigation.Route
 import feature.app.navigation.WhatcamNavigator
 import feature.main.navigation.mainNavGraph
 import feature.notice.navigation.noticeDetailNavGraph
 import feature.noticeCategory.navigation.noticeCategoryNavGraph
 import feature.noticeSearch.navigation.noticeSearchNavGraph
 import feature.onboarding.navigation.onboardingNavGraph
+import feature.splash.navigation.splashNavGraph
 import feature.university.UniversityViewModel
 import feature.university.model.UniversityUiEvent
 import feature.university.navigation.universityNavGraph
@@ -39,6 +41,13 @@ internal fun WhatcamNavHost(
             navController = navigator.navController,
             startDestination = navigator.startDestination.route,
         ) {
+            splashNavGraph { shouldOnboarding ->
+                if (shouldOnboarding) {
+                    navigator.navigateOnboarding()
+                } else {
+                    navigator.navigateMain()
+                }
+            }
             onboardingNavGraph(
                 onboardingComplete = { navigator.navigateUniversitySelectivity() }
             )
@@ -91,7 +100,7 @@ private fun SharedFlow<UniversityUiEvent>.collectUniversityUiEvent(
 
                 is UniversityUiEvent.USER_SAVE_SUCCESS -> {
                     onShowSnackbar(userSaveSuccessMessage, null)
-                    navigator.navigateMain()
+                    navigator.navigateMain(popUpTargetRoute = Route.OnboardingRoute)
                 }
             }
         }

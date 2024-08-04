@@ -3,6 +3,10 @@
     <string name="confirm">확인</string>
     <string name="cancel">취소</string>
 
+    <!--  Splash  -->
+    <string name="splash_desc">캠퍼스 소식을 한 눈에\n왓캠퍼스에서 확인해보세요!</string>
+    <string name="splash_desc_highlight">캠퍼스 소식</string>
+
     <!--  Onboarding  -->
     <string name="onboarding_title">캠퍼스 소식,\n이제는 왓캠 하나로 끝!</string>
     <string name="onboarding_push_desc">중요한 공지를 놓치지 마세요\n왓캠이 푸시알림을 보내드릴게요</string>
