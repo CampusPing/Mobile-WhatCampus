@@ -13,7 +13,7 @@ import feature.main.MainScreen
 fun NavController.navigateMain() {
     navigateSingleTop(
         route = Route.MainRoute.route,
-        isPopUpToStartDestination = true,
+        isPopUpToTargetRoute = true,
         isInclusive = true,
     )
 }
