@@ -27,6 +27,7 @@ import whatcampus.composeapp.generated.resources.Res
 import whatcampus.composeapp.generated.resources.app_name
 import whatcampus.composeapp.generated.resources.img_logo
 import whatcampus.composeapp.generated.resources.splash_desc
+import whatcampus.composeapp.generated.resources.splash_desc_highlight
 
 @Composable
 internal fun SplashScreen(
@@ -61,7 +62,10 @@ internal fun SplashScreen(
 
         HighlightedText(
             fullText = stringResource(Res.string.splash_desc),
-            highlightWords = listOf(stringResource(Res.string.app_name)),
+            highlightWords = listOf(
+                stringResource(Res.string.app_name),
+                stringResource(Res.string.splash_desc_highlight)
+            ),
             defaultColor = Graphite,
             highlightColor = WhatcamTheme.colors.primary,
             textStyle = WhatcamTheme.typography.headlineSmallBL,
