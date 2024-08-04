@@ -118,12 +118,8 @@ class FakeNoticeRepository(
         }
     }
 
-    override fun subscribeNoticeCategories(userId: Long, noticeCategories: Set<NoticeCategory>): Flow<Unit> {
+    override suspend fun subscribeNoticeCategories(userId: Long, noticeCategories: Set<NoticeCategory>) {
         subscribedNoticeCategories.clear()
         subscribedNoticeCategories.addAll(noticeCategories)
-
-        return flow {
-            emit(Unit)
-        }
     }
 }
