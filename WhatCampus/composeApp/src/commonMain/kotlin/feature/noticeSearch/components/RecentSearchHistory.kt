@@ -116,7 +116,7 @@ private fun SearchHistoryItem(
     onClickDeleteHistory: (query: String) -> Unit,
 ) {
     Button(
-        contentPadding = PaddingValues(horizontal = 16.dp),
+        contentPadding = PaddingValues(horizontal = 14.dp),
         colors = ButtonDefaults.buttonColors(containerColor = Mint01A70),
         onClick = onClickItem,
     ) {
@@ -130,7 +130,7 @@ private fun SearchHistoryItem(
             )
 
             DeleteIconButton(
-                modifier = Modifier.padding(start = 4.dp),
+                modifier = Modifier.padding(start = 6.dp),
                 onClick = { onClickDeleteHistory(query) },
             )
         }
