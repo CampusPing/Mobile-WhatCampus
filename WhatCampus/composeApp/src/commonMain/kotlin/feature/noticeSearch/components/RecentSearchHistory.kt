@@ -130,7 +130,9 @@ private fun SearchHistoryItem(
             )
 
             DeleteIconButton(
-                modifier = Modifier.padding(start = 6.dp),
+                modifier = Modifier
+                    .padding(start = 6.dp)
+                    .size(20.dp),
                 onClick = { onClickDeleteHistory(query) },
             )
         }
@@ -143,7 +145,7 @@ private fun DeleteIconButton(
     onClick: () -> Unit,
 ) {
     IconButton(
-        modifier = modifier.size(20.dp),
+        modifier = modifier,
         onClick = onClick,
     ) {
         Icon(
