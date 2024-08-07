@@ -18,7 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import core.designsystem.theme.Graphite
-import core.designsystem.theme.Gray
 import core.designsystem.theme.LightGray
 import core.designsystem.theme.PaleGray
 import core.designsystem.theme.WhatcamTheme

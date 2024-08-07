@@ -1,4 +1,4 @@
-package feature.noticeCategory
+package feature.profile.subscreen.noticeCategory
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -9,7 +9,6 @@ import androidx.compose.ui.unit.dp
 import core.common.extensions.collectAsStateMultiplatform
 import core.designsystem.components.NoticeCategoryList
 import core.di.koinViewModel
-import feature.noticeCategory.components.NoticeCategoryTopBar
 import feature.profile.subscreen.noticeCategory.components.NoticeCategoryTopBar
 import org.jetbrains.compose.resources.stringResource
 import whatcampus.composeapp.generated.resources.Res

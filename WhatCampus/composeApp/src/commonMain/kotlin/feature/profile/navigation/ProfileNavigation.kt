@@ -16,14 +16,14 @@ fun NavController.navigateProfile() {
 fun NavController.navigateNoticeCategory() {
     navigateSingleTop(
         route = ProfileRouteModel.NoticeCategory.route,
-        isPopUpToStartDestination = false,
+        isPopUpToTargetRoute = false,
     )
 }
 
 fun NavGraphBuilder.profileNavGraph(
     onClickBack: () -> Unit,
     onClickNoticeCategory: () -> Unit,
-    onClickSave: (savedMessage: String, actionLabel: String) -> Unit,
+    onClickNoticeCategorySave: (savedMessage: String, actionLabel: String) -> Unit,
     onClickUniversityChange: () -> Unit,
 ) {
     navigation(
@@ -41,7 +41,7 @@ fun NavGraphBuilder.profileNavGraph(
         composable(ProfileRouteModel.NoticeCategory.route) {
             NoticeCategoryScreen(
                 onClickBack = onClickBack,
-                onClickSave = onClickSave,
+                onClickSave = onClickNoticeCategorySave,
             )
         }
     }

@@ -10,8 +10,8 @@ import feature.main.navigation.mainNavGraph
 import feature.notice.navigation.noticeDetailNavGraph
 import feature.noticeSearch.navigation.noticeSearchNavGraph
 import feature.onboarding.navigation.onboardingNavGraph
-import feature.splash.navigation.splashNavGraph
 import feature.profile.navigation.profileNavGraph
+import feature.splash.navigation.splashNavGraph
 import feature.university.UniversityViewModel
 import feature.university.model.UniversityUiEvent
 import feature.university.navigation.universityNavGraph
@@ -71,21 +71,14 @@ internal fun WhatcamNavHost(
                 onClickBack = { navigator.navigateUp() },
                 onClickNotice = navigator::navigateNoticeDetail
             )
-            noticeCategoryNavGraph(
-                onClickBack = navigator::navigateUp,
-                onClickSave = { savedMessage, actionLabel ->
-                    navigator.navigateUp()
-                    onShowSnackbar(savedMessage, actionLabel)
-                },
-            )
             profileNavGraph(
                 onClickBack = navigator::navigateUp,
                 onClickNoticeCategory = navigator::navigateNoticeCategory,
-                onClickSave = { savedMessage, actionLabel ->
+                onClickNoticeCategorySave = { savedMessage, actionLabel ->
                     navigator.navigateUp()
                     onShowSnackbar(savedMessage, actionLabel)
                 },
-                onClickUniversityChange = navigator::navigateOnboarding,
+                onClickUniversityChange = { navigator.navigateOnboarding(popUpTargetRoute = Route.MainRoute) },
             )
         }
     }
