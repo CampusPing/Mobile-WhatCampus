@@ -5,18 +5,30 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import core.common.extensions.collectAsStateMultiplatform
+import core.common.extensions.provideOrRequestNotificationPermission
 import core.designsystem.components.dialog.WhatcamDialog
 import core.designsystem.components.dialog.rememberDialogState
 import core.designsystem.theme.PaleGray
 import core.di.koinViewModel
+import dev.icerock.moko.permissions.Permission
+import dev.icerock.moko.permissions.PermissionState
+import dev.icerock.moko.permissions.compose.BindEffect
+import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import feature.profile.components.ProfileTopBar
 import feature.profile.components.SettingItem
 import feature.profile.components.SettingSwitch
 import feature.profile.components.UserInformation
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import whatcampus.composeapp.generated.resources.Res
@@ -37,6 +49,23 @@ fun ProfileScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateMultiplatform()
     val dialogState = rememberDialogState()
+    var notificationPermissionState by remember { mutableStateOf(PermissionState.NotDetermined) }
+    val isNotificationPermissionGranted by remember {
+        derivedStateOf { notificationPermissionState == PermissionState.Granted }
+    }
+
+    val permissionControllerFactory = rememberPermissionsControllerFactory()
+    val permissionController = remember(permissionControllerFactory) {
+        permissionControllerFactory.createPermissionsController()
+    }
+
+    val scope = rememberCoroutineScope()
+
+    LaunchedEffect(Unit) {
+        notificationPermissionState = permissionController.getPermissionState(Permission.REMOTE_NOTIFICATION)
+    }
+
+    BindEffect(permissionController)
 
     Scaffold(
         modifier = modifier,
@@ -59,8 +88,19 @@ fun ProfileScreen(
 
             SettingSwitch(
                 title = stringResource(Res.string.notice_push_allow_change),
-                isChecked = uiState.user.isPushNotificationAllowed,
-                onCheckedChange = viewModel::changePushNotificationAllowed,
+                isChecked = uiState.user.isPushNotificationAllowed && isNotificationPermissionGranted,
+                onCheckedChange = { isAllowed ->
+                    scope.launch {
+                        permissionController.provideOrRequestNotificationPermission { newState ->
+                            notificationPermissionState = newState
+                            when (newState) {
+                                PermissionState.Granted -> viewModel.changePushNotificationAllowed(isAllowed)
+                                PermissionState.Denied -> viewModel.changePushNotificationAllowed(false)
+                                else -> permissionController.openAppSettings()
+                            }
+                        }
+                    }
+                },
             )
 
             SettingItem(
