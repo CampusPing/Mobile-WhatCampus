@@ -64,6 +64,8 @@ kotlin {
                 api(libs.kmp.notifier)
                 api(libs.datastore.preferences)
                 api(libs.datastore)
+                api(libs.moko.permissions)
+                api(libs.moko.permissions.compose)
             }
         }
 
