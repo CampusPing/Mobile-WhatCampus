@@ -3,6 +3,10 @@
     <string name="confirm">확인</string>
     <string name="cancel">취소</string>
 
+    <!--  Splash  -->
+    <string name="splash_desc">캠퍼스 소식을 한 눈에\n왓캠퍼스에서 확인해보세요!</string>
+    <string name="splash_desc_highlight">캠퍼스 소식</string>
+
     <!--  Onboarding  -->
     <string name="onboarding_title">캠퍼스 소식,\n이제는 왓캠 하나로 끝!</string>
     <string name="onboarding_push_desc">중요한 공지를 놓치지 마세요\n왓캠이 푸시알림을 보내드릴게요</string>
@@ -15,6 +19,7 @@
     <string name="university_title">대학교 🎓</string>
     <string name="university_desc">왓캠에서 공지를 받고 싶은\n대학교를 선택해보세요</string>
     <string name="university_search_hint">대학교를 입력해보세요!</string>
+    <string name="university_load_success_message">대학 정보를 불러오는데 실패했어요 😢</string>
 
     <!--  DepartmentSelectivity  -->
     <string name="department_title">학과 📢</string>
@@ -30,6 +35,8 @@
     <string name="university_complete_title">대학교 선택 완료 🎉</string>
     <string name="university_complete_desc">이제부터 선택한 대학교의\n공지를 받아보실 수 있어요!</string>
     <string name="university_complete_start">완료 ✅</string>
+    <string name="user_save_failed_message">유저 정보를 저장하는데 실패했어요 😢</string>
+    <string name="user_save_success_message">이제부터 왓캠에서 공지를 받아보실 수 있어요! 🥳</string>
 
     <!--  Main  -->
     <string name="notice_tab_title">공지</string>
@@ -56,6 +63,10 @@
     <string name="notice_search_hint">원하시는 공지를 검색해보세요!</string>
     <string name="notice_empty_title">검색하신 결과가 없어요</string>
     <string name="notice_empty_content">원하시는 공지의 제목을 입력해보세요!</string>
+    <string name="notice_search_history">최근 검색어</string>
+    <string name="notice_search_clear">전체 삭제</string>
+    <string name="notice_search_clear_dialog_title">잠시만요!</string>
+    <string name="notice_search_clear_dialog_message">검색한 기록이 모두 사라져요!\n최근 검색어를 모두 삭제할까요?</string>
 
     <!--  Chat  -->
     <string name="chat_title">왓챗</string>

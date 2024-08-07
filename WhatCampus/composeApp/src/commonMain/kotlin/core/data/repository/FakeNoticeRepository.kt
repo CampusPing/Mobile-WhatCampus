@@ -81,7 +81,19 @@ class FakeNoticeRepository(
         }
     }
 
-    override fun flowNotices(noticeCategoryId: Long): Flow<List<Notice>> {
+    override fun flowNoticesByCategoryId(
+        universityId: Long,
+        noticeCategoryId: Long,
+    ): Flow<List<Notice>> {
+        return flow {
+            emit(notices)
+        }
+    }
+
+    override fun flowNoticesByDepartmentId(
+        universityId: Long,
+        departmentId: Long,
+    ): Flow<List<Notice>> {
         return flow {
             emit(notices)
         }
@@ -118,12 +130,8 @@ class FakeNoticeRepository(
         }
     }
 
-    override fun subscribeNoticeCategories(noticeCategories: Set<NoticeCategory>): Flow<Unit> {
+    override suspend fun subscribeNoticeCategories(userId: Long, noticeCategories: Set<NoticeCategory>) {
         subscribedNoticeCategories.clear()
         subscribedNoticeCategories.addAll(noticeCategories)
-
-        return flow {
-            emit(Unit)
-        }
     }
 }

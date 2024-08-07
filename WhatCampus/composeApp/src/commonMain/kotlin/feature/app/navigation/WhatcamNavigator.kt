@@ -14,6 +14,7 @@ import feature.noticeSearch.navigation.navigateNoticeSearch
 import feature.onboarding.navigation.navigateOnboarding
 import feature.profile.navigation.navigateNoticeCategory
 import feature.profile.navigation.navigateProfile
+import feature.onboarding.navigation.navigateOnboarding
 import feature.university.navigation.navigateDepartmentSelectivity
 import feature.university.navigation.navigateNoticeCategorySelectivity
 import feature.university.navigation.navigateUniversityComplete
@@ -22,8 +23,7 @@ import feature.university.navigation.navigateUniversitySelectivity
 internal class WhatcamNavigator(
     val navController: NavHostController,
 ) {
-    //    val startDestination: Route = Route.OnboardingRoute
-    val startDestination: Route = Route.MainRoute
+    val startDestination: Route = Route.SplashRoute
 
     private val currentDestination: NavDestination?
         @Composable get() = navController
@@ -53,8 +53,8 @@ internal class WhatcamNavigator(
         navController.navigateUniversityComplete()
     }
 
-    fun navigateMain() {
-        navController.navigateMain()
+    fun navigateMain(popUpTargetRoute: Route? = null) {
+        navController.navigateMain(popUpTargetRoute = popUpTargetRoute)
     }
 
     fun navigateNoticeDetail(notice: Notice) {

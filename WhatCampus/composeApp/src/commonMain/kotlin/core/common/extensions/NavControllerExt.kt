@@ -4,17 +4,16 @@ import androidx.navigation.NavController
 
 fun NavController.navigateSingleTop(
     route: String,
-    isPopUpToStartDestination: Boolean = true,
-    inclusiveStartDestination: Boolean = false,
+    popUpTargetRoute: String? = graph.startDestinationRoute,
+    isPopUpToTargetRoute: Boolean = true,
+    isInclusive: Boolean = false,
 ) {
     navigate(route) {
-        val startDestination = graph.startDestinationRoute
+        if (isPopUpToTargetRoute) {
+            popUpTargetRoute ?: return@navigate
 
-        if (isPopUpToStartDestination) {
-            startDestination?.let {
-                popUpTo(startDestination) {
-                    inclusive = inclusiveStartDestination
-                }
+            popUpTo(route = popUpTargetRoute) {
+                inclusive = isInclusive
             }
         }
         launchSingleTop = true

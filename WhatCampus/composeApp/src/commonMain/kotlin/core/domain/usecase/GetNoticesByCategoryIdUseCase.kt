@@ -8,9 +8,10 @@ import kotlinx.coroutines.flow.map
 data class GetNoticesByCategoryIdUseCase(
     private val repository: NoticeRepository,
 ) {
-    operator fun invoke(id: Long): Flow<List<Notice>> {
-        return repository
-            .flowNotices(noticeCategoryId = id)
-            .map { notices -> notices.sortedByDescending { it.datetime } }
-    }
+    operator fun invoke(
+        universityId: Long,
+        categoryId: Long,
+    ): Flow<List<Notice>> = repository
+        .flowNoticesByCategoryId(universityId = universityId, noticeCategoryId = categoryId)
+        .map { notices -> notices.sortedByDescending { it.datetime } }
 }

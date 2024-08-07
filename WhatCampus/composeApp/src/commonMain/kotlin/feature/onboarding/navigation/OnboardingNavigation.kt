@@ -14,8 +14,8 @@ import feature.onboarding.OnboardingScreen
 fun NavController.navigateOnboarding() {
     navigateSingleTop(
         route = Route.OnboardingRoute.route,
-        isPopUpToStartDestination = true,
-        inclusiveStartDestination = true,
+        isPopUpToTargetRoute = true,
+        isInclusive = true,
     )
 }
 
