@@ -8,7 +8,7 @@ import dev.icerock.moko.permissions.PermissionsController
 import dev.icerock.moko.permissions.RequestCanceledException
 
 suspend fun PermissionsController.provideOrRequestNotificationPermission(
-    onStateChanged: (PermissionState) -> Unit,
+    onStateChanged: (PermissionState) -> Unit = {},
 ) {
     try {
         providePermission(Permission.REMOTE_NOTIFICATION)
