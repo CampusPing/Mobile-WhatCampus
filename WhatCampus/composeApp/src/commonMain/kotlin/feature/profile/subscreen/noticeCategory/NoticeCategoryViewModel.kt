@@ -1,4 +1,4 @@
-package feature.noticeCategory
+package feature.profile.subscreen.noticeCategory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,7 +7,7 @@ import core.domain.usecase.GetNoticeCategoriesByUniversityIdUseCase
 import core.domain.usecase.GetSubscribedNoticeCategoriesUseCase
 import core.domain.usecase.SubscribeNoticeCategoriesUseCase
 import core.model.NoticeCategory
-import feature.noticeCategory.model.NoticeCategoryUiState
+import feature.profile.subscreen.noticeCategory.model.NoticeCategoryUiState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

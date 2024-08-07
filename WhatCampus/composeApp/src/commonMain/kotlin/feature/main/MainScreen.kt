@@ -3,10 +3,15 @@ package feature.main
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import core.common.extensions.provideOrRequestNotificationPermission
 import core.model.Notice
+import dev.icerock.moko.permissions.compose.BindEffect
+import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import feature.bookmark.BookmarkScreen
 import feature.campusmap.CampusMapScreen
 import feature.chat.ChatScreen
@@ -23,6 +28,17 @@ internal fun MainScreen(
     onClickProfile: () -> Unit,
 ) {
     val navigator = rememberMainNavigator()
+
+    val permissionControllerFactory = rememberPermissionsControllerFactory()
+    val permissionController = remember(permissionControllerFactory) {
+        permissionControllerFactory.createPermissionsController()
+    }
+
+    BindEffect(permissionController)
+
+    LaunchedEffect(Unit) {
+        permissionController.provideOrRequestNotificationPermission()
+    }
 
     Scaffold(
         modifier = modifier,

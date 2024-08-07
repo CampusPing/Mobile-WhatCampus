@@ -4,8 +4,9 @@ import feature.bookmark.BookmarkViewModel
 import feature.campusmap.CampusMapViewModel
 import feature.notice.NoticeDetailViewModel
 import feature.notice.NoticeViewModel
-import feature.noticeCategory.NoticeCategoryViewModel
 import feature.noticeSearch.NoticeSearchViewModel
+import feature.profile.ProfileViewModel
+import feature.profile.subscreen.noticeCategory.NoticeCategoryViewModel
 import feature.splash.SplashViewModel
 import feature.university.UniversityViewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
@@ -21,4 +22,5 @@ actual val viewModelModule: Module = module {
     viewModelOf(::CampusMapViewModel)
     viewModelOf(::NoticeSearchViewModel)
     viewModelOf(::NoticeCategoryViewModel)
+    viewModelOf(::ProfileViewModel)
 }

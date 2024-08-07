@@ -2,17 +2,16 @@ package feature.app.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import core.model.Notice
 import core.navigation.Route
 import feature.main.navigation.navigateMain
 import feature.notice.navigation.navigateNoticeDetail
-import feature.noticeCategory.navigation.navigateNoticeCategory
 import feature.noticeSearch.navigation.navigateNoticeSearch
 import feature.onboarding.navigation.navigateOnboarding
+import feature.profile.navigation.navigateNoticeCategory
+import feature.profile.navigation.navigateProfile
 import feature.university.navigation.navigateDepartmentSelectivity
 import feature.university.navigation.navigateNoticeCategorySelectivity
 import feature.university.navigation.navigateUniversityComplete
@@ -23,16 +22,12 @@ internal class WhatcamNavigator(
 ) {
     val startDestination: Route = Route.SplashRoute
 
-    private val currentDestination: NavDestination?
-        @Composable get() = navController
-            .currentBackStackEntryAsState().value?.destination
-
     fun navigateUp() {
         navController.navigateUp()
     }
 
-    fun navigateOnboarding() {
-        navController.navigateOnboarding()
+    fun navigateOnboarding(popUpTargetRoute: Route? = null) {
+        navController.navigateOnboarding(popUpTargetRoute = popUpTargetRoute)
     }
 
     fun navigateUniversitySelectivity() {
@@ -65,6 +60,10 @@ internal class WhatcamNavigator(
 
     fun navigateNoticeCategory() {
         navController.navigateNoticeCategory()
+    }
+
+    fun navigateProfile() {
+        navController.navigateProfile()
     }
 }
 

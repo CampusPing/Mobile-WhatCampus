@@ -11,9 +11,10 @@ import core.common.extensions.navigateSingleTop
 import core.navigation.Route
 import feature.onboarding.OnboardingScreen
 
-fun NavController.navigateOnboarding() {
+fun NavController.navigateOnboarding(popUpTargetRoute: Route? = null) {
     navigateSingleTop(
         route = Route.OnboardingRoute.route,
+        popUpTargetRoute = popUpTargetRoute?.route ?: graph.startDestinationRoute,
         isPopUpToTargetRoute = true,
         isInclusive = true,
     )
