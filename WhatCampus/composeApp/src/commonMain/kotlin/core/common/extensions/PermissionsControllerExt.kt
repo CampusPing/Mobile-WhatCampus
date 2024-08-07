@@ -18,6 +18,8 @@ suspend fun PermissionsController.provideOrRequestNotificationPermission(
     } catch (e: DeniedException) {
         onStateChanged(PermissionState.Denied)
     } catch (e: RequestCanceledException) {
-        e.printStackTrace()
+        onStateChanged(PermissionState.Denied)
+    } catch (e: Exception) {
+        onStateChanged(PermissionState.DeniedAlways)
     }
 }
