@@ -1,13 +1,18 @@
 package feature.profile
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import core.domain.repository.UserRepository
 import feature.profile.model.ProfileUiState
 import feature.profile.model.User
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
-class ProfileViewModel : ViewModel() {
+class ProfileViewModel(
+    private val userRepository: UserRepository,
+) : ViewModel() {
     private val _uiState = MutableStateFlow(
         ProfileUiState(
             user = User(
@@ -34,8 +39,9 @@ class ProfileViewModel : ViewModel() {
         }
     }
 
-    // TODO: 이후에 Datastore에서 사용자 정보를 삭제하는 기능을 추가할 예정입니다.
     fun clearUser() {
-
+        viewModelScope.launch {
+            userRepository.clearUser()
+        }
     }
 }
