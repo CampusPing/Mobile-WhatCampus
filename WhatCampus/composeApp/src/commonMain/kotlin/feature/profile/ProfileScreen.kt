@@ -59,7 +59,7 @@ fun ProfileScreen(
         permissionControllerFactory.createPermissionsController()
     }
 
-    val scope = rememberCoroutineScope()
+    val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
         notificationPermissionState = permissionController.getPermissionState(Permission.REMOTE_NOTIFICATION)
@@ -90,7 +90,7 @@ fun ProfileScreen(
                 title = stringResource(Res.string.notice_push_allow_change),
                 isChecked = uiState.user.isPushNotificationAllowed && isNotificationPermissionGranted,
                 onCheckedChange = { isAllowed ->
-                    scope.launch {
+                    coroutineScope.launch {
                         permissionController.provideOrRequestNotificationPermission { newState ->
                             notificationPermissionState = newState
                             when (newState) {
