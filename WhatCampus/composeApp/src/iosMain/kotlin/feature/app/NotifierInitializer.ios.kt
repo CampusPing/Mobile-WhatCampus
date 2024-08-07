@@ -7,7 +7,7 @@ actual fun onApplicationStartPlatformSpecific() {
     NotifierManager.initialize(
         NotificationPlatformConfiguration.Ios(
             showPushNotification = true,
-            askNotificationPermissionOnStart = true
+            askNotificationPermissionOnStart = false
         )
     )
 }
