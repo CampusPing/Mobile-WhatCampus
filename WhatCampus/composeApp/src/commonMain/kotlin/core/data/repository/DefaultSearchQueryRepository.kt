@@ -15,6 +15,10 @@ class DefaultSearchQueryRepository(
         .map { searchQueries -> searchQueries.map(SearchQueryEntity::searchQuery) }
 
     override suspend fun addSearchQueryHistory(query: String): Long {
+        if (query.isBlank()) {
+            return -1
+        }
+
         val searchQueryEntity = SearchQueryEntity(searchQuery = query)
         return searchQueryDao.insert(searchQuery = searchQueryEntity)
     }

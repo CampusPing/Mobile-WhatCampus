@@ -11,22 +11,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import core.common.extensions.collectAsStateMultiplatform
 import core.designsystem.components.LoadingScreen
-import core.designsystem.components.dialog.WhatcamDialog
+import core.designsystem.components.dialog.MutableDialogState
 import core.designsystem.components.dialog.rememberDialogState
 import core.di.koinViewModel
 import core.model.Notice
 import feature.noticeSearch.components.EmptyNoticeSearchScreen
 import feature.noticeSearch.components.NoticeList
+import feature.noticeSearch.components.NoticeSearchDeleteDialog
 import feature.noticeSearch.components.NoticeSearchTopBar
 import feature.noticeSearch.components.RecentSearchHistory
+import feature.noticeSearch.model.NoticeSearchClearType
 import feature.noticeSearch.model.NoticeSearchUiState
 import feature.university.components.SearchBar
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import whatcampus.composeapp.generated.resources.Res
-import whatcampus.composeapp.generated.resources.ic_alert
-import whatcampus.composeapp.generated.resources.notice_search_clear_dialog_message
-import whatcampus.composeapp.generated.resources.notice_search_clear_dialog_title
 import whatcampus.composeapp.generated.resources.notice_search_hint
 
 @Composable
@@ -38,7 +36,7 @@ internal fun NoticeSearchScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateMultiplatform()
     val searchQuery by viewModel.noticeSearchQuery.collectAsStateMultiplatform()
-    val dialogState = rememberDialogState()
+    val dialogState: MutableDialogState<NoticeSearchClearType> = rememberDialogState(NoticeSearchClearType.Nothing)
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
@@ -58,20 +56,21 @@ internal fun NoticeSearchScreen(
             },
             query = searchQuery,
             onQueryChange = viewModel::searchNotice,
-            onClickDeleteHistory = viewModel::deleteSearchHistory,
-            onClickClearHistory = dialogState::showDialog,
+            onClickDeleteHistory = { query -> dialogState.showDialog(NoticeSearchClearType.Delete(query)) },
+            onClickDeleteAllHistory = { dialogState.showDialog(NoticeSearchClearType.DeleteAll) },
         )
 
         if (dialogState.isVisible.value) {
-            WhatcamDialog(
-                title = stringResource(Res.string.notice_search_clear_dialog_title),
-                message = stringResource(Res.string.notice_search_clear_dialog_message),
-                icon = painterResource(Res.drawable.ic_alert),
-                onConfirmClick = {
+            NoticeSearchDeleteDialog(
+                dialogState = dialogState,
+                onClickDeleteHistory = { query ->
+                    viewModel.deleteSearchHistory(query = query)
+                    dialogState.hideDialog()
+                },
+                onClickDeleteAllHistory = {
                     viewModel.clearSearchHistories()
                     dialogState.hideDialog()
                 },
-                onDismissClick = dialogState::hideDialog,
             )
         }
     }
@@ -85,7 +84,7 @@ private fun NoticeSearchScreen(
     query: String,
     onQueryChange: (String) -> Unit,
     onClickDeleteHistory: (String) -> Unit,
-    onClickClearHistory: () -> Unit,
+    onClickDeleteAllHistory: () -> Unit,
 ) {
 
     Column(modifier = modifier) {
@@ -103,7 +102,7 @@ private fun NoticeSearchScreen(
                 searchHistory = uiState.searchHistories,
                 onClickSearchHistory = onQueryChange,
                 onClickDeleteHistory = onClickDeleteHistory,
-                onClickClear = onClickClearHistory,
+                onClickDeleteAllHistory = onClickDeleteAllHistory,
             )
         }
 
