@@ -28,7 +28,7 @@ import core.designsystem.theme.WhatcamTheme
 import core.designsystem.theme.White
 import org.jetbrains.compose.resources.stringResource
 import whatcampus.composeapp.generated.resources.Res
-import whatcampus.composeapp.generated.resources.notice_search_clear
+import whatcampus.composeapp.generated.resources.notice_search_delete_all
 import whatcampus.composeapp.generated.resources.notice_search_history
 
 @Composable
@@ -37,12 +37,12 @@ internal fun RecentSearchHistory(
     searchHistory: List<String> = emptyList(),
     onClickSearchHistory: (query: String) -> Unit,
     onClickDeleteHistory: (query: String) -> Unit,
-    onClickClear: () -> Unit,
+    onClickDeleteAllHistory: () -> Unit,
 ) {
     Column(
         modifier = modifier.fillMaxWidth()
     ) {
-        RecentSearchHistoryHeader(onClickClear = onClickClear)
+        RecentSearchHistoryHeader(onClickDeleteAll = onClickDeleteAllHistory)
 
         SearchHistoryList(
             searchHistories = searchHistory,
@@ -53,9 +53,7 @@ internal fun RecentSearchHistory(
 }
 
 @Composable
-private fun RecentSearchHistoryHeader(
-    onClickClear: () -> Unit,
-) {
+private fun RecentSearchHistoryHeader(onClickDeleteAll: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -69,17 +67,15 @@ private fun RecentSearchHistoryHeader(
             style = WhatcamTheme.typography.labelLargeR,
         )
 
-        ClearButton(onClickClear = onClickClear)
+        ClearButton(onClickClear = onClickDeleteAll)
     }
 }
 
 @Composable
-private fun ClearButton(
-    onClickClear: () -> Unit,
-) {
+private fun ClearButton(onClickClear: () -> Unit) {
     TextButton(onClick = onClickClear) {
         Text(
-            text = stringResource(Res.string.notice_search_clear),
+            text = stringResource(Res.string.notice_search_delete_all),
             color = Gray,
             style = WhatcamTheme.typography.labelMediumR,
         )
