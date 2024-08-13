@@ -7,7 +7,7 @@ import com.mmk.kmpnotifier.notification.configuration.NotificationPlatformConfig
 actual fun onApplicationStartPlatformSpecific() {
     NotifierManager.initialize(
         configuration = NotificationPlatformConfiguration.Android(
-            notificationIconResId = R.drawable.ic_foreground,
+            notificationIconResId = R.drawable.ic_foreground_colored,
             showPushNotification = true,
         )
     )
