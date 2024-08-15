@@ -119,6 +119,7 @@ class UniversityViewModel(
                 return@launch
             }
 
+            userRepository.clearUser()
             userRepository.createUser(
                 universityId = selectedUniversity.id,
                 universityName = selectedUniversity.name,
