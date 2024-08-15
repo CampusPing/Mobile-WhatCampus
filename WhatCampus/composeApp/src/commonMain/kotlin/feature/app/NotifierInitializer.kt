@@ -2,6 +2,8 @@ package feature.app
 
 import com.mmk.kmpnotifier.notification.NotifierManager
 import com.mmk.kmpnotifier.notification.PayloadData
+import core.common.util.defaultDatetimeFormatter
+import core.common.util.parse
 import core.domain.repository.UserRepository
 import core.model.Notice
 import feature.app.navigation.WhatcamNavigator
@@ -9,7 +11,6 @@ import feature.notice.navigation.NoticeDetailDeepLink
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
-import kotlinx.datetime.LocalDateTime
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -47,7 +48,7 @@ object NotifierInitializer : KoinComponent {
                 val notice = Notice(
                     id = noticeId.toLong(),
                     title = noticeTitle,
-                    datetime = LocalDateTime(2024, 3, 3, 3, 3, 3),
+                    datetime = noticeDatetime.parse(defaultDatetimeFormatter),
                     url = noticeUrl,
                 )
 
