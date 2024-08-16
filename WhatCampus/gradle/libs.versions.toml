@@ -32,7 +32,7 @@ ksp = "2.0.0-1.0.21"
 sqlite = "2.5.0-SNAPSHOT"
 ktor = "2.3.11"
 kotlinx-serialization = "1.6.3"
-kmpNotifier = "1.2.0-alpha"
+kmpNotifier = "1.2.1"
 datastore = "1.1.1"
 moko = "0.18.0"
 
