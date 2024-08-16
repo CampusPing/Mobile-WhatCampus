@@ -17,13 +17,21 @@ import org.koin.core.component.inject
 object NotifierInitializer : KoinComponent {
     private val userRepository: UserRepository by inject()
 
+    private const val KEY_PUSH_TITLE = "pushTitle"
+    private const val KEY_PUSH_MESSAGE = "pushMessage"
+    private const val KEY_NOTICE_ID = "id"
+    private const val KEY_NOTICE_TITLE = "title"
+    private const val KEY_NOTICE_DATETIME = "datetime"
+    private const val KEY_NOTICE_URL = "url"
+
     fun onApplicationStart() {
         onApplicationStartPlatformSpecific()
+
         NotifierManager.addListener(object : NotifierManager.Listener {
             override fun onPayloadData(data: PayloadData) {
                 super.onPayloadData(data)
-                val pushTitle = data["pushTitle"] as String
-                val pushMessage = data["pushMessage"] as String
+                val pushTitle = data[KEY_PUSH_TITLE] as String
+                val pushMessage = data[KEY_PUSH_MESSAGE] as String
 
                 MainScope().launch {
                     val user = userRepository.flowUser().firstOrNull() ?: return@launch
@@ -33,30 +41,46 @@ object NotifierInitializer : KoinComponent {
                         id = pushTitle.hashCode(),
                         title = pushTitle,
                         body = pushMessage,
-                        payloadData = data as Map<String, String>
+                        payloadData = data.toMap(),
                     )
                 }
             }
 
             override fun onNotificationClicked(data: PayloadData) {
                 super.onNotificationClicked(data)
-                val noticeId = data["id"] as String
-                val noticeTitle = data["title"] as String
-                val noticeDatetime = data["datetime"] as String
-                val noticeUrl = data["url"] as String
-
-                val notice = Notice(
-                    id = noticeId.toLong(),
-                    title = noticeTitle,
-                    datetime = noticeDatetime.parse(defaultDatetimeFormatter),
-                    url = noticeUrl,
-                )
-
                 WhatcamNavigator.handleDeeplink(
-                    deepLink = NoticeDetailDeepLink(notice = notice)
+                    deepLink = NoticeDetailDeepLink(notice = data.toNotice())
                 )
             }
         })
+    }
+
+    private fun PayloadData.toMap(): Map<String, String> {
+        val noticeId = this[KEY_NOTICE_ID] as String
+        val noticeTitle = this[KEY_NOTICE_TITLE] as String
+        val noticeDatetime = this[KEY_NOTICE_DATETIME] as String
+        val noticeUrl = this[KEY_NOTICE_URL] as String
+
+        return mapOf(
+            KEY_NOTICE_ID to noticeId,
+            KEY_NOTICE_TITLE to noticeTitle,
+            KEY_NOTICE_DATETIME to noticeDatetime,
+            KEY_NOTICE_URL to noticeUrl
+        )
+    }
+
+    private fun PayloadData.toNotice(): Notice {
+        val noticeId = this[KEY_NOTICE_ID] as String
+        val noticeTitle = this[KEY_NOTICE_TITLE] as String
+        val noticeDatetime = this[KEY_NOTICE_DATETIME] as String
+        val noticeUrl = this[KEY_NOTICE_URL] as String
+
+        return Notice(
+            id = noticeId.toLong(),
+            title = noticeTitle,
+            datetime = noticeDatetime.parse(defaultDatetimeFormatter),
+            url = noticeUrl,
+        )
     }
 }
 
