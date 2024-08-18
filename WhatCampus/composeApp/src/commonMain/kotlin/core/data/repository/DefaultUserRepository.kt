@@ -3,16 +3,20 @@ package core.data.repository
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import com.mmk.kmpnotifier.notification.NotifierManager
 import core.datastore.key.UserKey
+import core.domain.repository.TokenRepository
 import core.domain.repository.UserRepository
 import core.model.User
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
 class DefaultUserRepository(
     // private val ktorClient: KtorClient,
     private val dataStore: DataStore<Preferences>,
+    private val tokenRepository: TokenRepository,
 ) : UserRepository {
 
     override fun flowUser(): Flow<User?> = dataStore.data
@@ -22,8 +26,8 @@ class DefaultUserRepository(
             val universityName = pref[UserKey.universityName] ?: return@map null
             val departmentId = pref[UserKey.departmentId] ?: return@map null
             val departmentName = pref[UserKey.departmentName] ?: return@map null
-            val fcmToken = pref[UserKey.fcmToken] ?: return@map null
             val isPushNotificationAllowed = pref[UserKey.isPushNotificationAllowed] ?: true
+            val fcmToken = tokenRepository.getFcmToken().firstOrNull() ?: return@map null
 
             User(
                 userId = userId,
@@ -41,7 +45,6 @@ class DefaultUserRepository(
         universityName: String,
         departmentId: Long,
         departmentName: String,
-        fcmToken: String,
     ): Flow<Long> {
         return flow {
             // ktorClient.saveUser(user) :: userId를 반환 할 예정
@@ -53,9 +56,10 @@ class DefaultUserRepository(
                 pref[UserKey.universityName] = universityName
                 pref[UserKey.departmentId] = departmentId
                 pref[UserKey.departmentName] = departmentName
-                pref[UserKey.fcmToken] = fcmToken
                 pref[UserKey.isPushNotificationAllowed] = true
             }
+            val fcmToken = NotifierManager.getPushNotifier().getToken()
+            if (fcmToken != null) tokenRepository.saveFcmToken(fcmToken)
 
             userId
         }

@@ -4,7 +4,6 @@ package feature.university
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mmk.kmpnotifier.notification.NotifierManager
 import core.domain.repository.UserRepository
 import core.domain.usecase.GetNoticeCategoriesByUniversityIdUseCase
 import core.domain.usecase.GetUniversityUseCase
@@ -110,11 +109,10 @@ class UniversityViewModel(
 
     fun saveUser() {
         viewModelScope.launch {
-            val fcmToken = NotifierManager.getPushNotifier().getToken()
             val selectedUniversity = uiState.value.selectedUniversity
             val selectedDepartment = uiState.value.selectedDepartment
 
-            if (fcmToken == null || selectedUniversity == null || selectedDepartment == null) {
+            if (selectedUniversity == null || selectedDepartment == null) {
                 _uiEvent.emit(UniversityUiEvent.USER_SAVE_FAILED)
                 return@launch
             }
@@ -125,7 +123,6 @@ class UniversityViewModel(
                 universityName = selectedUniversity.name,
                 departmentId = selectedDepartment.id,
                 departmentName = selectedDepartment.name,
-                fcmToken = fcmToken,
             ).onEach { userId ->
                 subscribeNoticeCategories(
                     userId = userId,

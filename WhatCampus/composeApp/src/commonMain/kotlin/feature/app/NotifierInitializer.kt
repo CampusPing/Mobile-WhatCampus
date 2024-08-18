@@ -4,10 +4,12 @@ import com.mmk.kmpnotifier.notification.NotifierManager
 import com.mmk.kmpnotifier.notification.PayloadData
 import core.common.util.defaultDatetimeFormatter
 import core.common.util.parse
+import core.domain.repository.TokenRepository
 import core.domain.repository.UserRepository
 import core.model.Notice
 import feature.app.navigation.WhatcamNavigator
 import feature.notice.navigation.NoticeDetailDeepLink
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
@@ -16,6 +18,8 @@ import org.koin.core.component.inject
 
 object NotifierInitializer : KoinComponent {
     private val userRepository: UserRepository by inject()
+    private val tokenRepository: TokenRepository by inject()
+    private val scope: CoroutineScope = MainScope()
 
     private const val KEY_PUSH_TITLE = "pushTitle"
     private const val KEY_PUSH_MESSAGE = "pushMessage"
@@ -28,12 +32,17 @@ object NotifierInitializer : KoinComponent {
         onApplicationStartPlatformSpecific()
 
         NotifierManager.addListener(object : NotifierManager.Listener {
+            override fun onNewToken(token: String) {
+                super.onNewToken(token)
+                scope.launch { tokenRepository.saveFcmToken(token) }
+            }
+
             override fun onPayloadData(data: PayloadData) {
                 super.onPayloadData(data)
                 val pushTitle = data[KEY_PUSH_TITLE] as String
                 val pushMessage = data[KEY_PUSH_MESSAGE] as String
 
-                MainScope().launch {
+                scope.launch {
                     val user = userRepository.flowUser().firstOrNull() ?: return@launch
                     if (user.isPushNotificationAllowed.not()) return@launch
 

@@ -11,7 +11,6 @@ interface UserRepository {
         universityName: String,
         departmentId: Long,
         departmentName: String,
-        fcmToken: String,
     ): Flow<Long>
 
     suspend fun clearUser()
