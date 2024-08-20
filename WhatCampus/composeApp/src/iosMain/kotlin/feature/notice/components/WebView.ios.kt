@@ -3,9 +3,13 @@ package feature.notice.components
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.interop.UIKitView
+import core.designsystem.components.LoadingScreen
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.Foundation.NSMutableURLRequest
 import platform.Foundation.NSURL
@@ -21,6 +25,7 @@ actual fun WebView(
     url: String,
 ) {
     val webView = remember { WKWebView() }
+    var isLoading by remember { mutableStateOf(true) }
 
     LaunchedEffect(url) {
         val request = NSMutableURLRequest.requestWithURL(URL = NSURL(string = url))
@@ -29,12 +34,16 @@ actual fun WebView(
 
     val navigationDelegate = remember {
         object : NSObject(), WKNavigationDelegateProtocol {
+            override fun webView(webView: WKWebView, didStartProvisionalNavigation: WKNavigation?) {
+                isLoading = true
+            }
+
             override fun webView(webView: WKWebView, didFinishNavigation: WKNavigation?) {
+                isLoading = false
                 webView.removeHeaderAndFooter()
             }
         }
     }
-
     webView.navigationDelegate = navigationDelegate
 
     UIKitView(
@@ -43,6 +52,10 @@ actual fun WebView(
             .fillMaxSize()
             .then(modifier)
     )
+
+    if (isLoading) {
+        LoadingScreen()
+    }
 }
 
 private fun WKWebView.removeHeaderAndFooter() {
