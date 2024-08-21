@@ -79,6 +79,7 @@ internal fun WhatcamNavHost(
                     onShowSnackbar(savedMessage, actionLabel)
                 },
                 onClickUniversityChange = { navigator.navigateOnboarding(popUpTargetRoute = Route.MainRoute) },
+                onClickFaq = {}
             )
         }
     }
