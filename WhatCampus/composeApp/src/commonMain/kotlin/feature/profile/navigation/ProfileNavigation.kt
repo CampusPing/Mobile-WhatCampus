@@ -61,4 +61,4 @@ fun NavGraphBuilder.profileNavGraph(
     }
 }
 
-private const val FAQ_URL = "https://whatcampus.notion.site/ea5c0d916ffc4190b2bdcc8e1801dcf7"
+private const val FAQ_URL = "https://campusping.github.io/Introduce-WebPage-WhatCampus/faq"
