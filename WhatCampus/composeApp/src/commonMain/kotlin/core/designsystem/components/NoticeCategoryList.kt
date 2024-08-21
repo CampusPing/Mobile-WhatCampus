@@ -95,9 +95,7 @@ private fun NoticeCategoryItem(
         border = BorderStroke(width = 2.dp, color = buttonStrokeColor)
     ) {
         Column(
-            modifier = Modifier
-                .padding(vertical = 12.dp)
-                .fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
@@ -107,7 +105,7 @@ private fun NoticeCategoryItem(
                 color = WhatcamTheme.colors.onPrimary,
             )
 
-            Spacer(modifier = Modifier.size(20.dp))
+            Spacer(modifier = Modifier.size(12.dp))
 
             Text(
                 text = noticeCategory.name,
