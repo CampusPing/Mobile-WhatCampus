@@ -1,4 +1,4 @@
-package feature.notice.components
+package core.designsystem.components
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -14,7 +14,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
-import core.designsystem.components.LoadingScreen
 
 @Composable
 actual fun WebView(
