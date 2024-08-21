@@ -5,6 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import core.common.extensions.navigateSingleTop
+import core.designsystem.components.SimpleWebScreen
 import core.navigation.Route
 import feature.profile.ProfileScreen
 import feature.profile.subscreen.noticeCategory.NoticeCategoryScreen
@@ -20,11 +21,19 @@ fun NavController.navigateNoticeCategory() {
     )
 }
 
+fun NavController.navigateFaq() {
+    navigateSingleTop(
+        ProfileRouteModel.Faq.route,
+        isPopUpToTargetRoute = false,
+    )
+}
+
 fun NavGraphBuilder.profileNavGraph(
     onClickBack: () -> Unit,
     onClickNoticeCategory: () -> Unit,
     onClickNoticeCategorySave: (savedMessage: String, actionLabel: String) -> Unit,
     onClickUniversityChange: () -> Unit,
+    onClickFaq: () -> Unit,
 ) {
     navigation(
         startDestination = ProfileRouteModel.ProfileMain.route,
@@ -35,6 +44,7 @@ fun NavGraphBuilder.profileNavGraph(
                 onClickBack = onClickBack,
                 onClickNoticeCategory = onClickNoticeCategory,
                 onClickUniversityChange = onClickUniversityChange,
+                onClickFaq = onClickFaq,
             )
         }
 
@@ -44,5 +54,11 @@ fun NavGraphBuilder.profileNavGraph(
                 onClickSave = onClickNoticeCategorySave,
             )
         }
+
+        composable(ProfileRouteModel.Faq.route) {
+            SimpleWebScreen(url = FAQ_URL)
+        }
     }
 }
+
+private const val FAQ_URL = "https://campusping.github.io/Introduce-WebPage-WhatCampus/faq"
