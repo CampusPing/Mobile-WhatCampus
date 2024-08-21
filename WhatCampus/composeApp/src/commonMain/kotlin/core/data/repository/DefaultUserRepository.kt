@@ -27,7 +27,7 @@ class DefaultUserRepository(
             val departmentId = pref[UserKey.departmentId] ?: return@map null
             val departmentName = pref[UserKey.departmentName] ?: return@map null
             val isPushNotificationAllowed = pref[UserKey.isPushNotificationAllowed] ?: true
-            val fcmToken = tokenRepository.getFcmToken().firstOrNull() ?: return@map null
+            val fcmToken = tokenRepository.getFcmToken().firstOrNull() ?: ""
 
             User(
                 userId = userId,
