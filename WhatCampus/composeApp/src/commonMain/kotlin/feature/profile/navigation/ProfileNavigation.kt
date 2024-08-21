@@ -5,6 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import core.common.extensions.navigateSingleTop
+import core.designsystem.components.SimpleWebScreen
 import core.navigation.Route
 import feature.profile.ProfileScreen
 import feature.profile.subscreen.noticeCategory.NoticeCategoryScreen
@@ -16,6 +17,13 @@ fun NavController.navigateProfile() {
 fun NavController.navigateNoticeCategory() {
     navigateSingleTop(
         route = ProfileRouteModel.NoticeCategory.route,
+        isPopUpToTargetRoute = false,
+    )
+}
+
+fun NavController.navigateFaq() {
+    navigateSingleTop(
+        ProfileRouteModel.Faq.route,
         isPopUpToTargetRoute = false,
     )
 }
@@ -46,5 +54,11 @@ fun NavGraphBuilder.profileNavGraph(
                 onClickSave = onClickNoticeCategorySave,
             )
         }
+
+        composable(ProfileRouteModel.Faq.route) {
+            SimpleWebScreen(url = FAQ_URL)
+        }
     }
 }
+
+private const val FAQ_URL = "https://whatcampus.notion.site/ea5c0d916ffc4190b2bdcc8e1801dcf7"

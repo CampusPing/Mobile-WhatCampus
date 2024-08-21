@@ -5,4 +5,5 @@ enum class ProfileRouteModel(
 ) {
     ProfileMain("profile_main"),
     NoticeCategory("noticeCategory"),
+    Faq("faq"),
 }
