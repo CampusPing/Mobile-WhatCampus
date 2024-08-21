@@ -45,6 +45,7 @@ fun NavGraphBuilder.profileNavGraph(
                 onClickNoticeCategory = onClickNoticeCategory,
                 onClickUniversityChange = onClickUniversityChange,
                 onClickFaq = onClickFaq,
+                onClickPrivacy = {}
             )
         }
 

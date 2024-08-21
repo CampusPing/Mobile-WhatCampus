@@ -90,4 +90,5 @@
     <string name="university_department_change_dialog_title">잠시만요!</string>
     <string name="university_department_change_dialog_message">기존에 설정한 정보가 초기화됩니다!\n그래도 대학 정보를 재설정하시겠어요?</string>
     <string name="faq">💌 자주 묻는 질문</string>
+    <string name="privacy">📝 개인정보 처리방침</string>
 </resources>
