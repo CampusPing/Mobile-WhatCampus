@@ -80,6 +80,7 @@ internal fun WhatcamNavHost(
                 },
                 onClickUniversityChange = { navigator.navigateOnboarding(popUpTargetRoute = Route.MainRoute) },
                 onClickFaq = navigator::navigateFaq,
+                onClickPrivacy = navigator::navigatePrivacy,
             )
         }
     }

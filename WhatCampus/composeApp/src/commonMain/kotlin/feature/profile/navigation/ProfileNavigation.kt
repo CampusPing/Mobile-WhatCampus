@@ -28,12 +28,20 @@ fun NavController.navigateFaq() {
     )
 }
 
+fun NavController.navigatePrivacy() {
+    navigateSingleTop(
+        ProfileRouteModel.Privacy.route,
+        isPopUpToTargetRoute = false,
+    )
+}
+
 fun NavGraphBuilder.profileNavGraph(
     onClickBack: () -> Unit,
     onClickNoticeCategory: () -> Unit,
     onClickNoticeCategorySave: (savedMessage: String, actionLabel: String) -> Unit,
     onClickUniversityChange: () -> Unit,
     onClickFaq: () -> Unit,
+    onClickPrivacy: () -> Unit,
 ) {
     navigation(
         startDestination = ProfileRouteModel.ProfileMain.route,
@@ -45,6 +53,7 @@ fun NavGraphBuilder.profileNavGraph(
                 onClickNoticeCategory = onClickNoticeCategory,
                 onClickUniversityChange = onClickUniversityChange,
                 onClickFaq = onClickFaq,
+                onClickPrivacy = onClickPrivacy,
             )
         }
 
@@ -58,7 +67,12 @@ fun NavGraphBuilder.profileNavGraph(
         composable(ProfileRouteModel.Faq.route) {
             SimpleWebScreen(url = FAQ_URL)
         }
+
+        composable(ProfileRouteModel.Privacy.route) {
+            SimpleWebScreen(url = PRIVACY_URL)
+        }
     }
 }
 
 private const val FAQ_URL = "https://campusping.github.io/Introduce-WebPage-WhatCampus/faq"
+private const val PRIVACY_URL = "https://campusping.github.io/Introduce-WebPage-WhatCampus/privacy"
