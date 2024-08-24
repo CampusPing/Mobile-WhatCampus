@@ -5,9 +5,11 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -42,7 +44,7 @@ fun NoticeCategoryList(
 ) {
     LazyVerticalGrid(
         modifier = modifier,
-        columns = GridCells.Adaptive(minSize = 80.dp),
+        columns = GridCells.Fixed(3),
         contentPadding = PaddingValues(vertical = 12.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp),
         horizontalArrangement = Arrangement.spacedBy(20.dp),
@@ -93,10 +95,8 @@ private fun NoticeCategoryItem(
         border = BorderStroke(width = 2.dp, color = buttonStrokeColor)
     ) {
         Column(
-            modifier = Modifier
-                .padding(vertical = 12.dp)
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
@@ -104,6 +104,8 @@ private fun NoticeCategoryItem(
                 style = WhatcamTheme.typography.headlineLargeR,
                 color = WhatcamTheme.colors.onPrimary,
             )
+
+            Spacer(modifier = Modifier.size(12.dp))
 
             Text(
                 text = noticeCategory.name,

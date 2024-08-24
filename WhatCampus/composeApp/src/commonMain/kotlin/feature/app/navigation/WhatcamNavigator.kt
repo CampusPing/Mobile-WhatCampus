@@ -10,7 +10,9 @@ import feature.main.navigation.navigateMain
 import feature.notice.navigation.navigateNoticeDetail
 import feature.noticeSearch.navigation.navigateNoticeSearch
 import feature.onboarding.navigation.navigateOnboarding
+import feature.profile.navigation.navigateFaq
 import feature.profile.navigation.navigateNoticeCategory
+import feature.profile.navigation.navigatePrivacy
 import feature.profile.navigation.navigateProfile
 import feature.university.navigation.navigateDepartmentSelectivity
 import feature.university.navigation.navigateNoticeCategorySelectivity
@@ -63,12 +65,20 @@ class WhatcamNavigator(
         navController.navigateNoticeSearch()
     }
 
+    fun navigateProfile() {
+        navController.navigateProfile()
+    }
+
     fun navigateNoticeCategory() {
         navController.navigateNoticeCategory()
     }
 
-    fun navigateProfile() {
-        navController.navigateProfile()
+    fun navigateFaq() {
+        navController.navigateFaq()
+    }
+
+    fun navigatePrivacy() {
+        navController.navigatePrivacy()
     }
 
     companion object {

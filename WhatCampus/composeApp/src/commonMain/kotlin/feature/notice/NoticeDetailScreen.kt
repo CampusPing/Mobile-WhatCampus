@@ -15,13 +15,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import core.common.extensions.collectAsStateMultiplatform
 import core.common.util.UrlSharer
+import core.designsystem.components.WebView
 import core.designsystem.icons.filled.Bookmark
 import core.designsystem.icons.outlined.Bookmark
 import core.designsystem.theme.Graphite
 import core.designsystem.theme.WhatcamTheme
 import core.di.koinViewModel
 import core.model.Notice
-import feature.notice.components.WebView
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject

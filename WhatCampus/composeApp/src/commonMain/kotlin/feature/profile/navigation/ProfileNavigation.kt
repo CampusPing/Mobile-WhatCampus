@@ -5,6 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import core.common.extensions.navigateSingleTop
+import core.designsystem.components.SimpleWebScreen
 import core.navigation.Route
 import feature.profile.ProfileScreen
 import feature.profile.subscreen.noticeCategory.NoticeCategoryScreen
@@ -20,11 +21,27 @@ fun NavController.navigateNoticeCategory() {
     )
 }
 
+fun NavController.navigateFaq() {
+    navigateSingleTop(
+        ProfileRouteModel.Faq.route,
+        isPopUpToTargetRoute = false,
+    )
+}
+
+fun NavController.navigatePrivacy() {
+    navigateSingleTop(
+        ProfileRouteModel.Privacy.route,
+        isPopUpToTargetRoute = false,
+    )
+}
+
 fun NavGraphBuilder.profileNavGraph(
     onClickBack: () -> Unit,
     onClickNoticeCategory: () -> Unit,
     onClickNoticeCategorySave: (savedMessage: String, actionLabel: String) -> Unit,
     onClickUniversityChange: () -> Unit,
+    onClickFaq: () -> Unit,
+    onClickPrivacy: () -> Unit,
 ) {
     navigation(
         startDestination = ProfileRouteModel.ProfileMain.route,
@@ -35,6 +52,8 @@ fun NavGraphBuilder.profileNavGraph(
                 onClickBack = onClickBack,
                 onClickNoticeCategory = onClickNoticeCategory,
                 onClickUniversityChange = onClickUniversityChange,
+                onClickFaq = onClickFaq,
+                onClickPrivacy = onClickPrivacy,
             )
         }
 
@@ -44,5 +63,16 @@ fun NavGraphBuilder.profileNavGraph(
                 onClickSave = onClickNoticeCategorySave,
             )
         }
+
+        composable(ProfileRouteModel.Faq.route) {
+            SimpleWebScreen(url = FAQ_URL)
+        }
+
+        composable(ProfileRouteModel.Privacy.route) {
+            SimpleWebScreen(url = PRIVACY_URL)
+        }
     }
 }
+
+private const val FAQ_URL = "https://campusping.github.io/Introduce-WebPage-WhatCampus/faq"
+private const val PRIVACY_URL = "https://campusping.github.io/Introduce-WebPage-WhatCampus/privacy"

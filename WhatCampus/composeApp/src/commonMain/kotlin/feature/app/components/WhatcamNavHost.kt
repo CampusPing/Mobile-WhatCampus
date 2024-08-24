@@ -79,6 +79,8 @@ internal fun WhatcamNavHost(
                     onShowSnackbar(savedMessage, actionLabel)
                 },
                 onClickUniversityChange = { navigator.navigateOnboarding(popUpTargetRoute = Route.MainRoute) },
+                onClickFaq = navigator::navigateFaq,
+                onClickPrivacy = navigator::navigatePrivacy,
             )
         }
     }
@@ -96,7 +98,10 @@ private fun SharedFlow<UniversityUiEvent>.collectUniversityUiEvent(
     LaunchedEffect(this) {
         collectLatest { uiEvent ->
             when (uiEvent) {
-                is UniversityUiEvent.UNIVERTITY_LOAD_FAILED -> onShowSnackbar(universityLoadSuccessMessage, null)
+                is UniversityUiEvent.UNIVERTITY_LOAD_FAILED -> onShowSnackbar(
+                    universityLoadSuccessMessage,
+                    null
+                )
 
                 is UniversityUiEvent.USER_SAVE_FAILED -> onShowSnackbar(userSaveFailedMessage, null)
 

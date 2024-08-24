@@ -32,9 +32,11 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import whatcampus.composeapp.generated.resources.Res
+import whatcampus.composeapp.generated.resources.faq
 import whatcampus.composeapp.generated.resources.ic_alert
 import whatcampus.composeapp.generated.resources.notice_push_allow_change
 import whatcampus.composeapp.generated.resources.notice_push_category_change
+import whatcampus.composeapp.generated.resources.privacy
 import whatcampus.composeapp.generated.resources.university_department_change
 import whatcampus.composeapp.generated.resources.university_department_change_dialog_message
 import whatcampus.composeapp.generated.resources.university_department_change_dialog_title
@@ -46,6 +48,8 @@ fun ProfileScreen(
     onClickBack: () -> Unit,
     onClickNoticeCategory: () -> Unit,
     onClickUniversityChange: () -> Unit,
+    onClickFaq: () -> Unit,
+    onClickPrivacy: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateMultiplatform()
     val dialogState = rememberDialogState()
@@ -94,8 +98,14 @@ fun ProfileScreen(
                         permissionController.provideOrRequestNotificationPermission { newState ->
                             notificationPermissionState = newState
                             when (newState) {
-                                PermissionState.Granted -> viewModel.changePushNotificationAllowed(isAllowed)
-                                PermissionState.Denied -> viewModel.changePushNotificationAllowed(false)
+                                PermissionState.Granted -> viewModel.changePushNotificationAllowed(
+                                    isAllowed
+                                )
+
+                                PermissionState.Denied -> viewModel.changePushNotificationAllowed(
+                                    false
+                                )
+
                                 else -> permissionController.openAppSettings()
                             }
                         }
@@ -111,6 +121,16 @@ fun ProfileScreen(
             SettingItem(
                 title = stringResource(Res.string.university_department_change),
                 onClick = dialogState::showDialog,
+            )
+
+            SettingItem(
+                title = stringResource(Res.string.faq),
+                onClick = onClickFaq,
+            )
+
+            SettingItem(
+                title = stringResource(Res.string.privacy),
+                onClick = onClickPrivacy,
                 withDivider = false,
             )
         }

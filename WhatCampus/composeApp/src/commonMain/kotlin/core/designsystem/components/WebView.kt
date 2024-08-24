@@ -1,4 +1,4 @@
-package feature.notice.components
+package core.designsystem.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
