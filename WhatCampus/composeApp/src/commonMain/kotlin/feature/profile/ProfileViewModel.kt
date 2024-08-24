@@ -28,10 +28,4 @@ class ProfileViewModel(
             userRepository.updateUser(user.copy(isPushNotificationAllowed = isAllowed))
         }
     }
-
-    fun clearUser() {
-        viewModelScope.launch {
-            userRepository.clearUser()
-        }
-    }
 }

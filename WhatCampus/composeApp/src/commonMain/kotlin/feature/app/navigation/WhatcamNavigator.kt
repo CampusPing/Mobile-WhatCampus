@@ -18,11 +18,16 @@ import feature.university.navigation.navigateDepartmentSelectivity
 import feature.university.navigation.navigateNoticeCategorySelectivity
 import feature.university.navigation.navigateUniversityComplete
 import feature.university.navigation.navigateUniversitySelectivity
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
-internal class WhatcamNavigator(
+class WhatcamNavigator(
     val navController: NavHostController,
 ) {
     val startDestination: Route = Route.SplashRoute
+    val currentRoute: Route
+        get() = Route.fromDestination(navController.currentDestination)
 
     fun navigateUp() {
         navController.navigateUp()
@@ -74,6 +79,23 @@ internal class WhatcamNavigator(
 
     fun navigatePrivacy() {
         navController.navigatePrivacy()
+    }
+
+    companion object {
+        private var navigator: WhatcamNavigator? = null
+
+        fun init(whatcamNavigator: WhatcamNavigator) {
+            navigator = whatcamNavigator
+        }
+
+        fun handleDeeplink(deepLink: DeepLink) {
+            MainScope().launch {
+                while (navigator == null) {
+                    delay(300)
+                }
+                deepLink.handleDeepLink(whatcamNavigator = navigator ?: return@launch)
+            }
+        }
     }
 }
 

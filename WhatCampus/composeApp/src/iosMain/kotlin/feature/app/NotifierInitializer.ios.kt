@@ -6,7 +6,7 @@ import com.mmk.kmpnotifier.notification.configuration.NotificationPlatformConfig
 actual fun onApplicationStartPlatformSpecific() {
     NotifierManager.initialize(
         NotificationPlatformConfiguration.Ios(
-            showPushNotification = true,
+            showPushNotification = false,
             askNotificationPermissionOnStart = false
         )
     )

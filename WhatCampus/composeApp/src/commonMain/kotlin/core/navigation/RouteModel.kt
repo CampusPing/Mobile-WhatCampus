@@ -1,5 +1,7 @@
 package core.navigation
 
+import androidx.navigation.NavDestination
+
 enum class Route(
     val route: String,
 ) {
@@ -12,5 +14,11 @@ enum class Route(
     MainRoute("main"),
     NoticeDetail("noticeDetail"),
     NoticeSearch("noticeSearch"),
-    Profile("profile"),
+    Profile("profile");
+
+    companion object {
+        fun fromDestination(destination: NavDestination?): Route {
+            return entries.find { it.route == destination?.route } ?: SplashRoute
+        }
+    }
 }

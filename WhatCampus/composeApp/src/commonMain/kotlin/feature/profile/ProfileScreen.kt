@@ -142,7 +142,6 @@ fun ProfileScreen(
                 icon = painterResource(Res.drawable.ic_alert),
                 onConfirmClick = {
                     dialogState.hideDialog()
-                    viewModel.clearUser()
                     onClickUniversityChange()
                 },
                 onDismissClick = dialogState::hideDialog,

@@ -18,6 +18,7 @@ import core.common.extensions.showSnackbar
 import core.common.util.newImageLoader
 import core.designsystem.theme.WhatcamTheme
 import feature.app.components.WhatcamNavHost
+import feature.app.navigation.WhatcamNavigator.Companion.init
 import feature.app.navigation.rememberWhatcamNavigator
 
 @OptIn(ExperimentalCoilApi::class)
@@ -25,7 +26,7 @@ import feature.app.navigation.rememberWhatcamNavigator
 fun App(
     debug: Boolean = false,
 ) {
-    val navigator = rememberWhatcamNavigator()
+    val navigator = rememberWhatcamNavigator().also { init(whatcamNavigator = it) }
     val snackBarState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
 
