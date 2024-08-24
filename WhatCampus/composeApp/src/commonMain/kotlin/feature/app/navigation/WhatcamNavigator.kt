@@ -81,7 +81,7 @@ class WhatcamNavigator(
         fun handleDeeplink(deepLink: DeepLink) {
             MainScope().launch {
                 while (navigator == null) {
-                    delay(300)
+                    delay(500)
                 }
                 deepLink.handleDeepLink(whatcamNavigator = navigator ?: return@launch)
             }
