@@ -27,6 +27,7 @@ object NotifierInitializer : KoinComponent {
     private const val KEY_NOTICE_TITLE = "title"
     private const val KEY_NOTICE_DATETIME = "datetime"
     private const val KEY_NOTICE_URL = "url"
+    private const val KEY_IS_BACKGROUND = "isBackground"
 
     fun onApplicationStart() {
         onApplicationStartPlatformSpecific()
@@ -41,6 +42,12 @@ object NotifierInitializer : KoinComponent {
                 super.onPayloadData(data)
                 val pushTitle = data[KEY_PUSH_TITLE] as String
                 val pushMessage = data[KEY_PUSH_MESSAGE] as String
+
+                if (data.isFromBackground()) {
+                    val noticeDetailDeepLink = NoticeDetailDeepLink(notice = data.toNotice())
+                    WhatcamNavigator.handleDeeplink(deepLink = noticeDetailDeepLink)
+                    return
+                }
 
                 scope.launch {
                     val user = userRepository.flowUser().firstOrNull() ?: return@launch
@@ -57,11 +64,14 @@ object NotifierInitializer : KoinComponent {
 
             override fun onNotificationClicked(data: PayloadData) {
                 super.onNotificationClicked(data)
-                WhatcamNavigator.handleDeeplink(
-                    deepLink = NoticeDetailDeepLink(notice = data.toNotice())
-                )
+                val noticeDetailDeepLink = NoticeDetailDeepLink(notice = data.toNotice())
+                WhatcamNavigator.handleDeeplink(deepLink = noticeDetailDeepLink)
             }
         })
+    }
+
+    private fun PayloadData.isFromBackground(): Boolean {
+        return get(KEY_IS_BACKGROUND) as? Boolean ?: false
     }
 
     private fun PayloadData.toMap(): Map<String, String> {

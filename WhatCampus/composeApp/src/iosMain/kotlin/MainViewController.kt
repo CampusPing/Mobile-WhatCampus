@@ -4,11 +4,8 @@ import feature.app.App
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
 
-fun MainViewController() = ComposeUIViewController(
-    configure = {
-        KoinInitializer().init()
-    }
-) {
+fun MainViewController() = ComposeUIViewController {
+    KoinInitializer().init()
     Napier.base(DebugAntilog())
     App()
 }
