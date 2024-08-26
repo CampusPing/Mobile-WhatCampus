@@ -69,6 +69,9 @@
     <string name="notice_search_delete_dialog_message">`%1$s` 검색어를 삭제할까요?</string>
     <string name="notice_search_delete_all_dialog_message">검색한 기록이 모두 사라져요!\n최근 검색어를 모두 삭제할까요?</string>
 
+    <!--  NotificationArchive  -->
+    <string name="notification_archive_title">알림 보관함</string>
+
     <!--  Chat  -->
     <string name="chat_title">왓챗</string>
     <string name="chat_preparation_title">채팅 기능을 준비하고 있어요 💬</string>
