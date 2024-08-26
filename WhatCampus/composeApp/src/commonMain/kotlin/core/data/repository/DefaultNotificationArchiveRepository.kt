@@ -12,8 +12,8 @@ import kotlinx.datetime.LocalDateTime
 class DefaultNotificationArchiveRepository : NotificationArchiveRepository {
 
     override fun flowNotificationArchive(): Flow<PersistentList<NotificationArchive>> = flow {
-        val fakeNotificationArchive = NotificationArchive.NewNotice(
-            id = 1L,
+        val fakeUnreadNotificationArchive = NotificationArchive.NewNotice(
+            notificationArchiveId = 1L,
             notice = Notice(
                 1,
                 "Notice 1",
@@ -22,15 +22,21 @@ class DefaultNotificationArchiveRepository : NotificationArchiveRepository {
             ),
             isRead = false,
         )
+        val fakeReadNotificationArchive = NotificationArchive.NewNotice(
+            notificationArchiveId = 2L,
+            notice = Notice(
+                2,
+                "Notice 2",
+                LocalDateTime(2024, 1, 1, 0, 0),
+                "https://example.com/1"
+            ),
+            isRead = true,
+        )
 
         emit(
             persistentListOf(
-                fakeNotificationArchive.copy(id = 1L),
-                fakeNotificationArchive.copy(id = 2L),
-                fakeNotificationArchive.copy(id = 3L),
-                fakeNotificationArchive.copy(id = 4L, isRead = false),
-                fakeNotificationArchive.copy(id = 5L, isRead = false),
-                fakeNotificationArchive.copy(id = 6L),
+                fakeUnreadNotificationArchive,
+                fakeReadNotificationArchive
             )
         )
     }
