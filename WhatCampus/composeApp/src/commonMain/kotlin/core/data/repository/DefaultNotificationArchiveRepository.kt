@@ -21,6 +21,7 @@ class DefaultNotificationArchiveRepository : NotificationArchiveRepository {
                 "https://example.com/1"
             ),
             isRead = false,
+            LocalDateTime(2024, 1, 1, 0, 0)
         )
         val fakeReadNotificationArchive = NotificationArchive.NewNotice(
             notificationArchiveId = 2L,
@@ -31,6 +32,7 @@ class DefaultNotificationArchiveRepository : NotificationArchiveRepository {
                 "https://example.com/1"
             ),
             isRead = true,
+            LocalDateTime(2024, 8, 26, 0, 0)
         )
 
         emit(
