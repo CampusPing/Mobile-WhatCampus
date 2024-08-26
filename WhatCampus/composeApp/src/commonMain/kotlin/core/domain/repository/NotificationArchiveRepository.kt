@@ -6,4 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface NotificationArchiveRepository {
     fun flowNotificationArchive(): Flow<PersistentList<NotificationArchive>>
+    suspend fun readNotification(notificationId: Long)
 }

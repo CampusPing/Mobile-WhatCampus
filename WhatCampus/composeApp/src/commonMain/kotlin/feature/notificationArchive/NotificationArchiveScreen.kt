@@ -34,7 +34,10 @@ fun NotificationArchiveScreen(
         NotificationArchiveList(
             modifier = modifier.padding(paddingValues),
             notificationArchives = uiState.notificationArchives,
-            onClickNewNoticeNotification = onClickNewNoticeNotification,
+            onClickNewNoticeNotification = { newNoticeNotification ->
+                viewModel.readNotification(notificationId = newNoticeNotification.id)
+                onClickNewNoticeNotification(newNoticeNotification)
+            },
         )
     }
 }

@@ -7,9 +7,10 @@ import feature.notificationArchive.model.NotificationArchiveUiState
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 class NotificationArchiveViewModel(
-    notificationArchiveRepository: NotificationArchiveRepository,
+    private val notificationArchiveRepository: NotificationArchiveRepository,
 ) : ViewModel() {
 
     val uiState = notificationArchiveRepository.flowNotificationArchive()
@@ -24,4 +25,10 @@ class NotificationArchiveViewModel(
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = NotificationArchiveUiState(isLoading = true),
         )
+
+    fun readNotification(notificationId: Long) {
+        viewModelScope.launch {
+            notificationArchiveRepository.readNotification(notificationId = notificationId)
+        }
+    }
 }

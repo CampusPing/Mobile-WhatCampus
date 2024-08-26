@@ -44,4 +44,8 @@ class DefaultNotificationArchiveRepository : NotificationArchiveRepository {
             )
         )
     }
+
+    override suspend fun readNotification(notificationId: Long) {
+        // TODO: ktor 읽음 처리 구현
+    }
 }
