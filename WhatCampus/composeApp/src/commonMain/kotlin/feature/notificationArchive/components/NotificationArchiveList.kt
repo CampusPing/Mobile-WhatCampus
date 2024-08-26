@@ -24,6 +24,7 @@ import core.common.util.format
 import core.designsystem.theme.Graphite
 import core.designsystem.theme.Gray
 import core.designsystem.theme.PaleGray
+import core.designsystem.theme.QuietGray
 import core.designsystem.theme.WhatcamTheme
 import core.designsystem.theme.White
 import core.model.NotificationArchive
@@ -63,6 +64,7 @@ private fun NewNoticeItem(
     Row(
         modifier = modifier
             .clickable(onClick = onClick)
+            .background(color = if (newNotice.isRead) QuietGray else White)
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(horizontal = horizontalPadding, vertical = 16.dp)
