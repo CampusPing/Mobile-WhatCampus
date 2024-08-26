@@ -1,14 +1,27 @@
 package feature.notificationArchive
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import core.domain.repository.NotificationArchiveRepository
 import feature.notificationArchive.model.NotificationArchiveUiState
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 
 class NotificationArchiveViewModel(
     notificationArchiveRepository: NotificationArchiveRepository,
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(NotificationArchiveUiState(isLoading = true))
-    val uiState = _uiState.asStateFlow()
+
+    val uiState = notificationArchiveRepository.flowNotificationArchive()
+        .map { notificationArchives ->
+            NotificationArchiveUiState(
+                isLoading = false,
+                notificationArchives = notificationArchives,
+            )
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = NotificationArchiveUiState(isLoading = true),
+        )
 }
