@@ -26,6 +26,12 @@ class NotificationArchiveViewModel(
             initialValue = NotificationArchiveUiState(isLoading = true),
         )
 
+    fun turnOffNewNotification() {
+        viewModelScope.launch {
+            notificationArchiveRepository.updateHasNewNotification(hasNewNotification = false)
+        }
+    }
+
     fun readNotification(notificationId: Long) {
         viewModelScope.launch {
             notificationArchiveRepository.readNotification(notificationId = notificationId)

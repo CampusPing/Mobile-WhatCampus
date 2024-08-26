@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import core.common.extensions.collectAsStateMultiplatform
@@ -21,6 +22,10 @@ fun NotificationArchiveScreen(
     onClickNewNoticeNotification: (NotificationArchive.NewNotice) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateMultiplatform()
+
+    LaunchedEffect(Unit) {
+        viewModel.turnOffNewNotification()
+    }
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
