@@ -75,6 +75,9 @@ internal fun WhatcamNavHost(
             )
             notificationArchiveNavGraph(
                 onClickBack = navigator::navigateUp,
+                onClickNewNoticeNotification = { newNoticeNotification ->
+                    navigator.navigateNoticeDetail(notice = newNoticeNotification.notice)
+                },
             )
             profileNavGraph(
                 onClickBack = navigator::navigateUp,
