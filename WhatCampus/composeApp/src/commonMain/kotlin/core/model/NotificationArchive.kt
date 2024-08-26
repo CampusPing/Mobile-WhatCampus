@@ -9,13 +9,13 @@ sealed class NotificationArchive(
     val datetime: LocalDateTime,
 ) {
     class NewNotice(
-        notificationArchiveId: Long,
+        notificationId: Long,
         title: String,
         isRead: Boolean,
         datetime: LocalDateTime,
         val notice: Notice,
     ) : NotificationArchive(
-        id = notificationArchiveId,
+        id = notificationId,
         content = title,
         isRead = isRead,
         datetime = datetime,
