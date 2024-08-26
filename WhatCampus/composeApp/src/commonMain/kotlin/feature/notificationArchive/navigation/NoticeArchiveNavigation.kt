@@ -14,8 +14,12 @@ fun NavController.navigateNotificationArchive() {
     )
 }
 
-fun NavGraphBuilder.notificationArchiveNavGraph() {
+fun NavGraphBuilder.notificationArchiveNavGraph(
+    onClickBack: () -> Unit,
+) {
     composable(Route.NotificationArchive.route) {
-        NotificationArchiveScreen()
+        NotificationArchiveScreen(
+            onClickBack = onClickBack,
+        )
     }
 }

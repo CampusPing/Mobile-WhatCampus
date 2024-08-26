@@ -15,12 +15,13 @@ import feature.notificationArchive.components.NotificationArchiveTopBar
 fun NotificationArchiveScreen(
     modifier: Modifier = Modifier,
     viewModel: NotificationArchiveViewModel = koinViewModel(),
+    onClickBack: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateMultiplatform()
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
-        topBar = { NotificationArchiveTopBar(onClickBack = {}) }
+        topBar = { NotificationArchiveTopBar(onClickBack = onClickBack) }
     ) { paddingValues ->
         if (uiState.isLoading) {
             LoadingScreen(modifier = Modifier.padding(paddingValues))
