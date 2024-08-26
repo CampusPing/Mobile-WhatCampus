@@ -26,6 +26,7 @@ fun NoticeScreen(
     noticeViewModel: NoticeViewModel = koinViewModel(),
     onNoticeClick: (Notice) -> Unit,
     onClickNoticeSearch: () -> Unit,
+    onClickNotificationArchive: () -> Unit,
     onClickProfile: () -> Unit,
 ) {
     val uiState by noticeViewModel.uiState.collectAsStateMultiplatform()
@@ -34,7 +35,7 @@ fun NoticeScreen(
         topBar = {
             NoticeTopAppBar(
                 onClickSearch = onClickNoticeSearch,
-                onClickNotification = {},
+                onClickNotificationArchive = onClickNotificationArchive,
                 onClickProfile = onClickProfile,
             )
         }

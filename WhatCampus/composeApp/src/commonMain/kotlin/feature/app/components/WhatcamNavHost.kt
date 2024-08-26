@@ -9,6 +9,7 @@ import feature.app.navigation.WhatcamNavigator
 import feature.main.navigation.mainNavGraph
 import feature.notice.navigation.noticeDetailNavGraph
 import feature.noticeSearch.navigation.noticeSearchNavGraph
+import feature.notificationArchive.navigation.notificationArchiveNavGraph
 import feature.onboarding.navigation.onboardingNavGraph
 import feature.profile.navigation.profileNavGraph
 import feature.splash.navigation.splashNavGraph
@@ -62,6 +63,7 @@ internal fun WhatcamNavHost(
             mainNavGraph(
                 onNoticeClick = navigator::navigateNoticeDetail,
                 onClickNoticeSearch = navigator::navigateNoticeSearch,
+                onClickNotificationArchive = navigator::navigateNotificationArchive,
                 onClickProfile = navigator::navigateProfile,
             )
             noticeDetailNavGraph(
@@ -71,6 +73,7 @@ internal fun WhatcamNavHost(
                 onClickBack = { navigator.navigateUp() },
                 onClickNotice = navigator::navigateNoticeDetail
             )
+            notificationArchiveNavGraph()
             profileNavGraph(
                 onClickBack = navigator::navigateUp,
                 onClickNoticeCategory = navigator::navigateNoticeCategory,

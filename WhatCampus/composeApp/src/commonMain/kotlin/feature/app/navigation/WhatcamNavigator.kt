@@ -8,6 +8,7 @@ import core.model.Notice
 import core.navigation.Route
 import feature.main.navigation.navigateMain
 import feature.notice.navigation.navigateNoticeDetail
+import feature.notificationArchive.navigation.navigateNotificationArchive
 import feature.noticeSearch.navigation.navigateNoticeSearch
 import feature.onboarding.navigation.navigateOnboarding
 import feature.profile.navigation.navigateFaq
@@ -59,6 +60,10 @@ class WhatcamNavigator(
 
     fun navigateNoticeDetail(notice: Notice) {
         navController.navigateNoticeDetail(notice = notice)
+    }
+
+    fun navigateNotificationArchive() {
+        navController.navigateNotificationArchive()
     }
 
     fun navigateNoticeSearch() {

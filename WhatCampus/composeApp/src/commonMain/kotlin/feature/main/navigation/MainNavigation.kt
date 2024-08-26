@@ -22,6 +22,7 @@ fun NavController.navigateMain(popUpTargetRoute: Route?) {
 fun NavGraphBuilder.mainNavGraph(
     onNoticeClick: (Notice) -> Unit,
     onClickNoticeSearch: () -> Unit,
+    onClickNotificationArchive: () -> Unit,
     onClickProfile: () -> Unit,
 ) {
     composable(Route.MainRoute.route) {
@@ -29,6 +30,7 @@ fun NavGraphBuilder.mainNavGraph(
             modifier = Modifier.fillMaxSize(),
             onNoticeClick = onNoticeClick,
             onClickNoticeSearch = onClickNoticeSearch,
+            onClickNotificationArchive = onClickNotificationArchive,
             onClickProfile = onClickProfile,
         )
     }

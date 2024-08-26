@@ -35,7 +35,7 @@ import whatcampus.composeapp.generated.resources.img_logo
 internal fun NoticeTopAppBar(
     modifier: Modifier = Modifier,
     onClickSearch: () -> Unit,
-    onClickNotification: () -> Unit,
+    onClickNotificationArchive: () -> Unit,
     onClickProfile: () -> Unit,
 ) {
     TopAppBar(
@@ -70,7 +70,7 @@ internal fun NoticeTopAppBar(
 
             MainIconButton(
                 imageVector = Icons.Outlined.Notifications,
-                onClick = onClickNotification,
+                onClick = onClickNotificationArchive,
             )
 
             ProfileButton(
