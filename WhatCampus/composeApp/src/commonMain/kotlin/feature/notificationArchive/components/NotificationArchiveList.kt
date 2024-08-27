@@ -87,7 +87,7 @@ private fun NewNoticeItem(
             Spacer(modifier = Modifier.size(8.dp))
 
             Text(
-                text = newNotice.datetime.format(formatter = defaultDateFormatter),
+                text = newNotice.receivedDatetime.format(formatter = defaultDateFormatter),
                 style = WhatcamTheme.typography.bodyMediumR,
                 color = Gray,
             )
