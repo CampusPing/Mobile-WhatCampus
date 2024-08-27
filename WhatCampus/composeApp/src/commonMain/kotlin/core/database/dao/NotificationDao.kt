@@ -3,6 +3,7 @@ package core.database.dao
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import core.database.entity.NotificationEntity
 import core.database.entity.NotificationEntity.Companion.TABLE_NAME
@@ -13,7 +14,7 @@ interface NotificationDao {
     @Query("SELECT * FROM $TABLE_NAME ORDER BY receivedDatetime DESC")
     fun getAll(): Flow<List<NotificationEntity>>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(notification: NotificationEntity)
 
     @Query("UPDATE $TABLE_NAME SET isRead = 1 WHERE id = :id")
