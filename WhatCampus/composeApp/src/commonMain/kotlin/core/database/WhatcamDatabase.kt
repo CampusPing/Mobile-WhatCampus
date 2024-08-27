@@ -6,12 +6,18 @@ import androidx.room.TypeConverters
 import core.database.WhatcamDatabase.Companion.DATABASE_VERSION
 import core.database.converter.LocalDateTimeConverter
 import core.database.dao.NoticeDao
+import core.database.dao.NotificationDao
 import core.database.dao.SearchQueryDao
 import core.database.entity.NoticeEntity
+import core.database.entity.NotificationEntity
 import core.database.entity.SearchQueryEntity
 
 @Database(
-    entities = [NoticeEntity::class, SearchQueryEntity::class],
+    entities = [
+        NoticeEntity::class,
+        SearchQueryEntity::class,
+        NotificationEntity::class,
+    ],
     version = DATABASE_VERSION,
 )
 @TypeConverters(LocalDateTimeConverter::class)
@@ -19,6 +25,7 @@ abstract class WhatcamDatabase : RoomDatabase(), DB {
 
     abstract fun noticeDao(): NoticeDao
     abstract fun searchQueryDao(): SearchQueryDao
+    abstract fun notificationDao(): NotificationDao
 
     override fun clearAllTables() {
         super.clearAllTables()
@@ -26,7 +33,7 @@ abstract class WhatcamDatabase : RoomDatabase(), DB {
 
     companion object {
         internal const val DATABASE_NAME = "whatcam.db"
-        internal const val DATABASE_VERSION = 5
+        internal const val DATABASE_VERSION = 6
     }
 }
 

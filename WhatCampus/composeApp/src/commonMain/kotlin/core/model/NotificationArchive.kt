@@ -10,14 +10,14 @@ sealed class NotificationArchive(
 ) {
     class NewNotice(
         notificationId: Long,
-        title: String,
+        content: String,
         isRead: Boolean,
-        datetime: LocalDateTime,
+        receivedDatetime: LocalDateTime,
         val notice: Notice,
     ) : NotificationArchive(
         id = notificationId,
-        content = title,
+        content = content,
         isRead = isRead,
-        receivedDatetime = datetime,
+        receivedDatetime = receivedDatetime,
     )
 }
