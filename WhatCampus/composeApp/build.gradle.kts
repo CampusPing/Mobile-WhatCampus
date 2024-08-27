@@ -55,8 +55,6 @@ kotlin {
                 implementation(libs.room.runtime)
                 implementation(libs.sqlite.bundled)
                 implementation(libs.kotlinx.serialization.json)
-                implementation(libs.ktor.client.core)
-                implementation(libs.ktor.client.core.v300wasm2)
                 implementation(libs.coil.compose)
                 implementation(libs.coil.network.ktor)
                 implementation(libs.kotlinx.coroutines.core)
@@ -69,6 +67,7 @@ kotlin {
                 api(libs.datastore)
                 api(libs.moko.permissions)
                 api(libs.moko.permissions.compose)
+                implementation(libs.bundles.ktor.common)
             }
         }
 
@@ -80,7 +79,7 @@ kotlin {
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
             implementation(libs.kotlinx.coroutines.android)
-            implementation(libs.ktor.engine.android)
+            implementation(libs.ktor.client.okhttp)
         }
 
         iosMain.dependencies {
