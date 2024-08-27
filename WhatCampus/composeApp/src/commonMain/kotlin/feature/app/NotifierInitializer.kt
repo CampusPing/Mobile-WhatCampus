@@ -8,12 +8,16 @@ import core.domain.repository.NotificationRepository
 import core.domain.repository.TokenRepository
 import core.domain.repository.UserRepository
 import core.model.Notice
+import core.model.Notification
 import feature.app.navigation.WhatcamNavigator
 import feature.notice.navigation.NoticeDetailDeepLink
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -56,6 +60,7 @@ object NotifierInitializer : KoinComponent {
                     if (user.isPushNotificationAllowed.not()) return@launch
 
                     notificationRepository.updateHasNewNotification(hasNewNotification = true)
+                    notificationRepository.addNotification(data.toNotification())
 
                     NotifierManager.getLocalNotifier().notify(
                         id = pushTitle.hashCode(),
@@ -91,6 +96,16 @@ object NotifierInitializer : KoinComponent {
             KEY_NOTICE_TITLE to noticeTitle,
             KEY_NOTICE_DATETIME to noticeDatetime,
             KEY_NOTICE_URL to noticeUrl
+        )
+    }
+
+    private fun PayloadData.toNotification(): Notification {
+        return Notification.NewNotice(
+            notificationId = 0L,
+            content = this[KEY_PUSH_MESSAGE] as String,
+            isRead = false,
+            receivedDatetime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
+            notice = this.toNotice()
         )
     }
 

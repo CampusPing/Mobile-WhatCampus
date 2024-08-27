@@ -3,6 +3,8 @@ package core.data.repository
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import core.database.dao.NotificationDao
+import core.database.mapper.toNotificationEntity
 import core.datastore.key.NotificationKey
 import core.domain.repository.NotificationRepository
 import core.model.Notice
@@ -16,6 +18,7 @@ import kotlinx.datetime.LocalDateTime
 
 class DefaultNotificationRepository(
     private val dataStore: DataStore<Preferences>,
+    private val notificationDao: NotificationDao,
 ) : NotificationRepository {
 
     override fun flowNotifications(): Flow<PersistentList<Notification>> = flow {
@@ -50,6 +53,10 @@ class DefaultNotificationRepository(
                 fakeReadNotification
             )
         )
+    }
+
+    override suspend fun addNotification(notification: Notification) {
+        notificationDao.insert(notification.toNotificationEntity())
     }
 
     override fun flowHasNewNotification(): Flow<Boolean> = dataStore.data

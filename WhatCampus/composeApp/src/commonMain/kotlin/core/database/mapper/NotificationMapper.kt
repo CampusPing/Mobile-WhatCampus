@@ -19,8 +19,8 @@ internal fun NotificationEntity.toNotification(): Notification {
     )
 }
 
-internal fun Notification.NewNotice.toNotificationEntity(): NotificationEntity {
-    return NotificationEntity(
+internal fun Notification.toNotificationEntity(): NotificationEntity = when (this) {
+    is Notification.NewNotice -> NotificationEntity(
         id = id,
         content = content,
         isRead = isRead,
