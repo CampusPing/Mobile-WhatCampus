@@ -36,6 +36,6 @@ val repositoryModule = module {
         DefaultSearchQueryRepository(get())
     }
     single<NotificationRepository> {
-        DefaultNotificationRepository(get())
+        DefaultNotificationRepository(get(), get())
     }
 }
