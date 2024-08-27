@@ -12,6 +12,7 @@ actual class KoinInitializer {
                 daoModule,
                 utilModule,
                 dataStoreModule,
+                networkModule,
             )
         }
     }
