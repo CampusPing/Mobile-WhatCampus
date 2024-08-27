@@ -1,6 +1,8 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -127,7 +129,16 @@ android {
 buildkonfig {
     packageName = "com.campus.whatcampus"
 
+    val localProperties = Properties().apply {
+        val propsFile = rootProject.file("local.properties")
+        if (propsFile.exists()) {
+            load(propsFile.inputStream())
+        }
+    }
+
     defaultConfigs {
+        val whatCampusBaseUrlKey = "BASE_URL"
+        buildConfigField(STRING, whatCampusBaseUrlKey, localProperties[whatCampusBaseUrlKey].toString())
     }
 }
 
