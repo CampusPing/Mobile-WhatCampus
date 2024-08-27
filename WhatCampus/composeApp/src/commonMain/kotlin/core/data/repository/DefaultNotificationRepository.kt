@@ -69,6 +69,6 @@ class DefaultNotificationRepository(
     }
 
     override suspend fun readNotification(notificationId: Long) {
-        // TODO: ktor 읽음 처리 구현
+        notificationDao.updateIsRead(id = notificationId)
     }
 }
