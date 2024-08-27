@@ -11,6 +11,7 @@ plugins {
     alias(libs.plugins.room)
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.googleServices)
+    alias(libs.plugins.buildkonfig)
 }
 
 kotlin {
@@ -120,6 +121,13 @@ android {
     }
     dependencies {
         debugImplementation(compose.uiTooling)
+    }
+}
+
+buildkonfig {
+    packageName = "com.campus.whatcampus"
+
+    defaultConfigs {
     }
 }
 

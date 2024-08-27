@@ -15,6 +15,7 @@ compose-plugin = "1.6.10"
 junit = "4.13.2"
 kotlin = "2.0.0"
 coroutines = "1.8.0"
+buildkonfig = "0.15.1"
 
 kotlinxCollectionsImmutable = "0.3.7"
 kotlinxDatetime = "0.6.0"
@@ -89,3 +90,4 @@ kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref =
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 room = { id = "androidx.room", version.ref = "room" }
 googleServices = { id = "com.google.gms.google-services", version = "4.4.2" }
+buildkonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildkonfig" }
