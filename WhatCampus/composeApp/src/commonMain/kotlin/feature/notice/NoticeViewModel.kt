@@ -2,7 +2,7 @@ package feature.notice
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import core.domain.repository.NotificationArchiveRepository
+import core.domain.repository.NotificationRepository
 import core.domain.repository.UserRepository
 import core.domain.usecase.GetAllBookmarkedNoticesUseCase
 import core.domain.usecase.GetNoticeCategoriesByUniversityIdUseCase
@@ -26,7 +26,7 @@ import kotlinx.coroutines.flow.update
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class NoticeViewModel(
-    notificationArchiveRepository: NotificationArchiveRepository,
+    notificationRepository: NotificationRepository,
     getNoticeCategoriesByUniversityId: GetNoticeCategoriesByUniversityIdUseCase,
     getNoticesByCategoryId: GetNoticesByCategoryIdUseCase,
     userRepository: UserRepository,
@@ -51,7 +51,7 @@ class NoticeViewModel(
             .onEach { universityUiState -> _uiState.value = universityUiState }
             .launchIn(viewModelScope)
 
-        notificationArchiveRepository.flowHasNewNotification()
+        notificationRepository.flowHasNewNotification()
             .onEach { hasNewNotification ->
                 _uiState.update { uiState -> uiState.copy(hasNewNotification = hasNewNotification) }
             }

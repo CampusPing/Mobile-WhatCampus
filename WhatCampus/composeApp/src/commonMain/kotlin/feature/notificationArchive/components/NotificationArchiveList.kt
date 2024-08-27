@@ -27,28 +27,28 @@ import core.designsystem.theme.PaleGray
 import core.designsystem.theme.QuietGray
 import core.designsystem.theme.WhatcamTheme
 import core.designsystem.theme.White
-import core.model.NotificationArchive
+import core.model.Notification
 import kotlinx.collections.immutable.PersistentList
 
 @Composable
 internal fun NotificationArchiveList(
     modifier: Modifier = Modifier,
-    notificationArchives: PersistentList<NotificationArchive>,
-    onClickNewNoticeNotification: (NotificationArchive.NewNotice) -> Unit,
+    notifications: PersistentList<Notification>,
+    onClickNewNoticeNotification: (Notification.NewNotice) -> Unit,
 ) {
     LazyColumn(modifier = modifier) {
         itemsIndexed(
-            items = notificationArchives,
+            items = notifications,
             key = { _, notificationArchive -> notificationArchive.id }
         ) { index, notificationArchive ->
             when (notificationArchive) {
-                is NotificationArchive.NewNotice -> NewNoticeItem(
+                is Notification.NewNotice -> NewNoticeItem(
                     newNotice = notificationArchive,
                     onClick = { onClickNewNoticeNotification(notificationArchive) },
                 )
             }
 
-            if (index < notificationArchives.size - 1) {
+            if (index < notifications.size - 1) {
                 NotificationArchiveDivider()
             }
         }
@@ -58,7 +58,7 @@ internal fun NotificationArchiveList(
 @Composable
 private fun NewNoticeItem(
     modifier: Modifier = Modifier,
-    newNotice: NotificationArchive.NewNotice,
+    newNotice: Notification.NewNotice,
     onClick: () -> Unit,
 ) {
     Row(

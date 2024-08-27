@@ -4,7 +4,7 @@ import com.mmk.kmpnotifier.notification.NotifierManager
 import com.mmk.kmpnotifier.notification.PayloadData
 import core.common.util.defaultDatetimeFormatter
 import core.common.util.parse
-import core.domain.repository.NotificationArchiveRepository
+import core.domain.repository.NotificationRepository
 import core.domain.repository.TokenRepository
 import core.domain.repository.UserRepository
 import core.model.Notice
@@ -20,7 +20,7 @@ import org.koin.core.component.inject
 object NotifierInitializer : KoinComponent {
     private val userRepository: UserRepository by inject()
     private val tokenRepository: TokenRepository by inject()
-    private val notificationArchiveRepository: NotificationArchiveRepository by inject()
+    private val notificationRepository: NotificationRepository by inject()
     private val scope: CoroutineScope = MainScope()
 
     private const val KEY_PUSH_TITLE = "pushTitle"
@@ -55,7 +55,7 @@ object NotifierInitializer : KoinComponent {
                     val user = userRepository.flowUser().firstOrNull() ?: return@launch
                     if (user.isPushNotificationAllowed.not()) return@launch
 
-                    notificationArchiveRepository.updateHasNewNotification(hasNewNotification = true)
+                    notificationRepository.updateHasNewNotification(hasNewNotification = true)
 
                     NotifierManager.getLocalNotifier().notify(
                         id = pushTitle.hashCode(),
@@ -71,7 +71,7 @@ object NotifierInitializer : KoinComponent {
                 val noticeDetailDeepLink = NoticeDetailDeepLink(notice = data.toNotice())
                 WhatcamNavigator.handleDeeplink(deepLink = noticeDetailDeepLink)
 
-                scope.launch { notificationArchiveRepository.updateHasNewNotification(hasNewNotification = false) }
+                scope.launch { notificationRepository.updateHasNewNotification(hasNewNotification = false) }
             }
         })
     }

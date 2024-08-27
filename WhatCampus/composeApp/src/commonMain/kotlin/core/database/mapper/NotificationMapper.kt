@@ -2,10 +2,10 @@ package core.database.mapper
 
 import core.database.entity.NotificationEntity
 import core.model.Notice
-import core.model.NotificationArchive
+import core.model.Notification
 
-internal fun NotificationEntity.toNotificationArchive(): NotificationArchive {
-    return NotificationArchive.NewNotice(
+internal fun NotificationEntity.toNotification(): Notification {
+    return Notification.NewNotice(
         notificationId = id,
         content = content,
         receivedDatetime = receivedDatetime,
@@ -19,7 +19,7 @@ internal fun NotificationEntity.toNotificationArchive(): NotificationArchive {
     )
 }
 
-internal fun NotificationArchive.NewNotice.toNotificationEntity(): NotificationEntity {
+internal fun Notification.NewNotice.toNotificationEntity(): NotificationEntity {
     return NotificationEntity(
         id = id,
         content = content,

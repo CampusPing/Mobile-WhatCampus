@@ -1,6 +1,6 @@
 package core.di
 
-import core.data.repository.DefaultNotificationArchiveRepository
+import core.data.repository.DefaultNotificationRepository
 import core.data.repository.DefaultSearchQueryRepository
 import core.data.repository.DefaultTokenRepository
 import core.data.repository.DefaultUserRepository
@@ -9,7 +9,7 @@ import core.data.repository.FakeNoticeRepository
 import core.data.repository.FakeUniversityRepository
 import core.domain.repository.CampusMapRepository
 import core.domain.repository.NoticeRepository
-import core.domain.repository.NotificationArchiveRepository
+import core.domain.repository.NotificationRepository
 import core.domain.repository.SearchQueryRepository
 import core.domain.repository.TokenRepository
 import core.domain.repository.UniversityRepository
@@ -35,7 +35,7 @@ val repositoryModule = module {
     single<SearchQueryRepository> {
         DefaultSearchQueryRepository(get())
     }
-    single<NotificationArchiveRepository> {
-        DefaultNotificationArchiveRepository(get())
+    single<NotificationRepository> {
+        DefaultNotificationRepository(get())
     }
 }

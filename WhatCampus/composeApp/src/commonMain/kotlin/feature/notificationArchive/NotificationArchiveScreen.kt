@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import core.common.extensions.collectAsStateMultiplatform
 import core.designsystem.components.LoadingScreen
 import core.di.koinViewModel
-import core.model.NotificationArchive
+import core.model.Notification
 import feature.notificationArchive.components.NotificationArchiveList
 import feature.notificationArchive.components.NotificationArchiveTopBar
 
@@ -19,7 +19,7 @@ fun NotificationArchiveScreen(
     modifier: Modifier = Modifier,
     viewModel: NotificationArchiveViewModel = koinViewModel(),
     onClickBack: () -> Unit,
-    onClickNewNoticeNotification: (NotificationArchive.NewNotice) -> Unit,
+    onClickNewNoticeNotification: (Notification.NewNotice) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateMultiplatform()
 
@@ -38,7 +38,7 @@ fun NotificationArchiveScreen(
 
         NotificationArchiveList(
             modifier = modifier.padding(paddingValues),
-            notificationArchives = uiState.notificationArchives,
+            notifications = uiState.notifications,
             onClickNewNoticeNotification = { newNoticeNotification ->
                 viewModel.readNotification(notificationId = newNoticeNotification.id)
                 onClickNewNoticeNotification(newNoticeNotification)

@@ -1,11 +1,11 @@
 package core.domain.repository
 
-import core.model.NotificationArchive
+import core.model.Notification
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.coroutines.flow.Flow
 
-interface NotificationArchiveRepository {
-    fun flowNotificationArchive(): Flow<PersistentList<NotificationArchive>>
+interface NotificationRepository {
+    fun flowNotifications(): Flow<PersistentList<Notification>>
     fun flowHasNewNotification(): Flow<Boolean>
     suspend fun updateHasNewNotification(hasNewNotification: Boolean)
     suspend fun readNotification(notificationId: Long)

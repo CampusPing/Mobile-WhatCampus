@@ -2,7 +2,7 @@ package core.model
 
 import kotlinx.datetime.LocalDateTime
 
-sealed class NotificationArchive(
+sealed class Notification(
     val id: Long,
     val content: String,
     val isRead: Boolean,
@@ -14,7 +14,7 @@ sealed class NotificationArchive(
         isRead: Boolean,
         receivedDatetime: LocalDateTime,
         val notice: Notice,
-    ) : NotificationArchive(
+    ) : Notification(
         id = notificationId,
         content = content,
         isRead = isRead,

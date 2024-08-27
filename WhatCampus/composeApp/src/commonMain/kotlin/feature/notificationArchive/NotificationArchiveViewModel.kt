@@ -2,7 +2,7 @@ package feature.notificationArchive
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import core.domain.repository.NotificationArchiveRepository
+import core.domain.repository.NotificationRepository
 import feature.notificationArchive.model.NotificationArchiveUiState
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
@@ -10,14 +10,14 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class NotificationArchiveViewModel(
-    private val notificationArchiveRepository: NotificationArchiveRepository,
+    private val notificationRepository: NotificationRepository,
 ) : ViewModel() {
 
-    val uiState = notificationArchiveRepository.flowNotificationArchive()
-        .map { notificationArchives ->
+    val uiState = notificationRepository.flowNotifications()
+        .map { notifications ->
             NotificationArchiveUiState(
                 isLoading = false,
-                notificationArchives = notificationArchives,
+                notifications = notifications,
             )
         }
         .stateIn(
@@ -28,13 +28,13 @@ class NotificationArchiveViewModel(
 
     fun turnOffNewNotification() {
         viewModelScope.launch {
-            notificationArchiveRepository.updateHasNewNotification(hasNewNotification = false)
+            notificationRepository.updateHasNewNotification(hasNewNotification = false)
         }
     }
 
     fun readNotification(notificationId: Long) {
         viewModelScope.launch {
-            notificationArchiveRepository.readNotification(notificationId = notificationId)
+            notificationRepository.readNotification(notificationId = notificationId)
         }
     }
 }
