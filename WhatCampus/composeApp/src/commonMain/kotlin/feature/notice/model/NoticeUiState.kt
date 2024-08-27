@@ -5,6 +5,7 @@ import core.model.User
 import kotlinx.collections.immutable.persistentListOf
 
 data class NoticeUiState(
+    val hasNewNotification: Boolean = false,
     val noticeCategories: List<NoticeCategory> = persistentListOf(),
     val selectedCategory: NoticeCategory? = noticeCategories.firstOrNull(),
     val notices: List<NoticeWithBookmark> = persistentListOf(),

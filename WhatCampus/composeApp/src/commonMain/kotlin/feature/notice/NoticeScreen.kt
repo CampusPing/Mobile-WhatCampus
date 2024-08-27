@@ -34,6 +34,7 @@ fun NoticeScreen(
     Scaffold(
         topBar = {
             NoticeTopAppBar(
+                hasNewNotification = uiState.hasNewNotification,
                 onClickSearch = onClickNoticeSearch,
                 onClickNotificationArchive = onClickNotificationArchive,
                 onClickProfile = onClickProfile,

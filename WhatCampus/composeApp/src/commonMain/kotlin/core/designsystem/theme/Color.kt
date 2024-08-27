@@ -50,3 +50,4 @@ val Red05 = Color(0xFF601410)
 val Red06 = Color(0xFF410E0B)
 
 val Cosmos = Color(0xFF151515)
+val BadgeColor = Color(0xFFED4A4B)
