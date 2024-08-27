@@ -2,6 +2,7 @@ package feature.notice
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import core.domain.repository.NotificationRepository
 import core.domain.repository.UserRepository
 import core.domain.usecase.GetAllBookmarkedNoticesUseCase
 import core.domain.usecase.GetNoticeCategoriesByUniversityIdUseCase
@@ -25,6 +26,7 @@ import kotlinx.coroutines.flow.update
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class NoticeViewModel(
+    notificationRepository: NotificationRepository,
     getNoticeCategoriesByUniversityId: GetNoticeCategoriesByUniversityIdUseCase,
     getNoticesByCategoryId: GetNoticesByCategoryIdUseCase,
     userRepository: UserRepository,
@@ -49,6 +51,12 @@ class NoticeViewModel(
             .onEach { universityUiState -> _uiState.value = universityUiState }
             .launchIn(viewModelScope)
 
+        notificationRepository.flowHasNewNotification()
+            .onEach { hasNewNotification ->
+                _uiState.update { uiState -> uiState.copy(hasNewNotification = hasNewNotification) }
+            }
+            .launchIn(viewModelScope)
+
         uiState
             .flatMapLatest { state ->
                 val universityId = state.user?.universityId ?: return@flatMapLatest emptyFlow()
@@ -57,7 +65,8 @@ class NoticeViewModel(
                 getNoticesByCategoryId(universityId, categoryId)
             }
             .combine(getAllBookmarkedNotices()) { notices, bookmarkedNotices ->
-                val bookmarkedNoticeIds = bookmarkedNotices.map { notice -> notice.id }.toImmutableSet()
+                val bookmarkedNoticeIds =
+                    bookmarkedNotices.map { notice -> notice.id }.toImmutableSet()
                 (notices to bookmarkedNoticeIds)
             }
             .map { (notices, bookmarkedNoticeIds) ->

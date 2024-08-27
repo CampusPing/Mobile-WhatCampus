@@ -25,6 +25,7 @@ internal fun MainScreen(
     modifier: Modifier = Modifier,
     onNoticeClick: (Notice) -> Unit,
     onClickNoticeSearch: () -> Unit,
+    onClickNotificationArchive: () -> Unit,
     onClickProfile: () -> Unit,
 ) {
     val navigator = rememberMainNavigator()
@@ -53,6 +54,7 @@ internal fun MainScreen(
                 NoticeScreen(
                     onNoticeClick = onNoticeClick,
                     onClickNoticeSearch = onClickNoticeSearch,
+                    onClickNotificationArchive = onClickNotificationArchive,
                     onClickProfile = onClickProfile,
                 )
             }

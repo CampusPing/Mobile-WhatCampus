@@ -14,6 +14,7 @@ enum class Route(
     MainRoute("main"),
     NoticeDetail("noticeDetail"),
     NoticeSearch("noticeSearch"),
+    NotificationArchive("notificationArchive"),
     Profile("profile");
 
     companion object {

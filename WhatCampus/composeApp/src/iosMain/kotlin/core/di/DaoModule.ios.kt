@@ -9,4 +9,5 @@ actual val daoModule: Module = module {
     single { getWhatcamDatabase() }
     single { get<WhatcamDatabase>().noticeDao() }
     single { get<WhatcamDatabase>().searchQueryDao() }
+    single { get<WhatcamDatabase>().notificationDao() }
 }

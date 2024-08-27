@@ -5,6 +5,7 @@ import feature.campusmap.CampusMapViewModel
 import feature.notice.NoticeDetailViewModel
 import feature.notice.NoticeViewModel
 import feature.noticeSearch.NoticeSearchViewModel
+import feature.notificationArchive.NotificationArchiveViewModel
 import feature.profile.ProfileViewModel
 import feature.profile.subscreen.noticeCategory.NoticeCategoryViewModel
 import feature.splash.SplashViewModel
@@ -22,6 +23,7 @@ actual val viewModelModule: Module = module {
     singleOf(::BookmarkViewModel)
     singleOf(::CampusMapViewModel)
     factoryOf(::NoticeSearchViewModel)
+    factoryOf(::NotificationArchiveViewModel)
     factoryOf(::NoticeCategoryViewModel)
     factoryOf(::ProfileViewModel)
 }

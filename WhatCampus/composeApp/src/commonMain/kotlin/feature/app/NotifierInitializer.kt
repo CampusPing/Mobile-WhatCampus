@@ -4,21 +4,27 @@ import com.mmk.kmpnotifier.notification.NotifierManager
 import com.mmk.kmpnotifier.notification.PayloadData
 import core.common.util.defaultDatetimeFormatter
 import core.common.util.parse
+import core.domain.repository.NotificationRepository
 import core.domain.repository.TokenRepository
 import core.domain.repository.UserRepository
 import core.model.Notice
+import core.model.Notification
 import feature.app.navigation.WhatcamNavigator
 import feature.notice.navigation.NoticeDetailDeepLink
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 object NotifierInitializer : KoinComponent {
     private val userRepository: UserRepository by inject()
     private val tokenRepository: TokenRepository by inject()
+    private val notificationRepository: NotificationRepository by inject()
     private val scope: CoroutineScope = MainScope()
 
     private const val KEY_PUSH_TITLE = "pushTitle"
@@ -53,6 +59,9 @@ object NotifierInitializer : KoinComponent {
                     val user = userRepository.flowUser().firstOrNull() ?: return@launch
                     if (user.isPushNotificationAllowed.not()) return@launch
 
+                    notificationRepository.updateHasNewNotification(hasNewNotification = true)
+                    notificationRepository.addNotification(data.toNotification())
+
                     NotifierManager.getLocalNotifier().notify(
                         id = pushTitle.hashCode(),
                         title = pushTitle,
@@ -66,6 +75,8 @@ object NotifierInitializer : KoinComponent {
                 super.onNotificationClicked(data)
                 val noticeDetailDeepLink = NoticeDetailDeepLink(notice = data.toNotice())
                 WhatcamNavigator.handleDeeplink(deepLink = noticeDetailDeepLink)
+
+                scope.launch { notificationRepository.updateHasNewNotification(hasNewNotification = false) }
             }
         })
     }
@@ -85,6 +96,16 @@ object NotifierInitializer : KoinComponent {
             KEY_NOTICE_TITLE to noticeTitle,
             KEY_NOTICE_DATETIME to noticeDatetime,
             KEY_NOTICE_URL to noticeUrl
+        )
+    }
+
+    private fun PayloadData.toNotification(): Notification {
+        return Notification.NewNotice(
+            notificationId = 0L,
+            content = this[KEY_PUSH_MESSAGE] as String,
+            isRead = false,
+            receivedDatetime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
+            notice = this.toNotice()
         )
     }
 

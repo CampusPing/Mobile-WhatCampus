@@ -3,6 +3,7 @@ package core.designsystem.theme
 import androidx.compose.ui.graphics.Color
 
 val White = Color(0xFFFFFFFF)
+val QuietGray = Color(0xFFF2F2F2)
 val PaleGray = Color(0xFFF9F9F9)
 val PaperGray = Color(0xFFFDFDFD)
 val LightGray = Color(0xFFDCDCDC)
@@ -49,3 +50,4 @@ val Red05 = Color(0xFF601410)
 val Red06 = Color(0xFF410E0B)
 
 val Cosmos = Color(0xFF151515)
+val BadgeColor = Color(0xFFED4A4B)

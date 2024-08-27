@@ -4,11 +4,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.absoluteOffset
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Notifications
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -21,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import core.designsystem.theme.BadgeColor
 import core.designsystem.theme.Graphite
 import core.designsystem.theme.WhatcamTheme
 import org.jetbrains.compose.resources.painterResource
@@ -34,8 +38,9 @@ import whatcampus.composeapp.generated.resources.img_logo
 @Composable
 internal fun NoticeTopAppBar(
     modifier: Modifier = Modifier,
+    hasNewNotification: Boolean,
     onClickSearch: () -> Unit,
-    onClickNotification: () -> Unit,
+    onClickNotificationArchive: () -> Unit,
     onClickProfile: () -> Unit,
 ) {
     TopAppBar(
@@ -70,7 +75,8 @@ internal fun NoticeTopAppBar(
 
             MainIconButton(
                 imageVector = Icons.Outlined.Notifications,
-                onClick = onClickNotification,
+                onClick = onClickNotificationArchive,
+                showBadge = hasNewNotification,
             )
 
             ProfileButton(
@@ -87,13 +93,25 @@ private fun MainIconButton(
     imageVector: ImageVector,
     onClick: () -> Unit,
     tint: Color = Graphite,
+    showBadge: Boolean = false,
 ) {
-    IconButton(onClick = onClick) {
-        Icon(
-            imageVector = imageVector,
-            contentDescription = null,
-            tint = tint,
-        )
+    BadgedBox(
+        badge = {
+            if (showBadge) {
+                Badge(
+                    containerColor = BadgeColor,
+                    modifier = Modifier.offset { IntOffset(x = -40, y = 32) },
+                )
+            }
+        }
+    ) {
+        IconButton(onClick = onClick) {
+            Icon(
+                imageVector = imageVector,
+                contentDescription = null,
+                tint = tint,
+            )
+        }
     }
 }
 
