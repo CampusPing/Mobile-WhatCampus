@@ -1,8 +1,10 @@
 package core.data.repository
 
+import core.data.mapper.toNoticeCategories
 import core.data.mapper.toNotices
 import core.data.model.CampusNoticesResponse
 import core.data.model.DepartmentNoticesResponse
+import core.data.model.NoticeCategoriesResponse
 import core.database.dao.NoticeDao
 import core.database.mapper.toNotice
 import core.database.mapper.toNoticeEntity
@@ -20,26 +22,7 @@ class DefaultNoticeRepository(
     private val httpClient: HttpClient,
     private val noticeDao: NoticeDao,
 ) : NoticeRepository {
-    private val noticeCategories = listOf(
-        NoticeCategory(1, "학과", "📚"),
-        NoticeCategory(2, "학사", "🎓"),
-        NoticeCategory(3, "일반", "📰"),
-        NoticeCategory(4, "사회봉사", "🤝"),
-        NoticeCategory(5, "등록/장학", "💰"),
-        NoticeCategory(6, "학생생활", "🏠"),
-        NoticeCategory(7, "글로벌", "🌍"),
-        NoticeCategory(8, "진로취업", "👔"),
-        NoticeCategory(9, "비교과", "🎨"),
-        NoticeCategory(10, "코로나19", "😷"),
-    )
-
     private val subscribedNoticeCategories = mutableSetOf<NoticeCategory>()
-
-    override fun flowNoticeCategory(universityId: Long): Flow<List<NoticeCategory>> {
-        return flow {
-            emit(noticeCategories)
-        }
-    }
 
     override fun flowNoticesByCategoryId(
         universityId: Long,
@@ -84,6 +67,15 @@ class DefaultNoticeRepository(
         notices.forEach {
             noticeDao.delete(notice = it.toNoticeEntity())
         }
+    }
+
+    override fun flowNoticeCategory(
+        universityId: Long
+    ): Flow<List<NoticeCategory>> = flow {
+        val requestUrl = "/api/v1/campuses/$universityId/notices/categories"
+        val categoriesResponse = httpClient.get(requestUrl).body<NoticeCategoriesResponse>()
+
+        emit(categoriesResponse.toNoticeCategories())
     }
 
     override fun flowSubscribedNoticeCategories(userId: Long): Flow<Set<NoticeCategory>> {
