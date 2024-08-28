@@ -5,6 +5,8 @@ import core.data.mapper.toNotices
 import core.data.model.CampusNoticesResponse
 import core.data.model.DepartmentNoticesResponse
 import core.data.model.NoticeCategoriesResponse
+import core.data.model.SubscribedNoticeCategoriesResponse
+import core.data.model.SubscribedNoticeCategoryResponse
 import core.database.dao.NoticeDao
 import core.database.mapper.toNotice
 import core.database.mapper.toNoticeEntity
@@ -70,7 +72,7 @@ class DefaultNoticeRepository(
     }
 
     override fun flowNoticeCategory(
-        universityId: Long
+        universityId: Long,
     ): Flow<List<NoticeCategory>> = flow {
         val requestUrl = "/api/v1/campuses/$universityId/notices/categories"
         val categoriesResponse = httpClient.get(requestUrl).body<NoticeCategoriesResponse>()
@@ -78,10 +80,18 @@ class DefaultNoticeRepository(
         emit(categoriesResponse.toNoticeCategories())
     }
 
-    override fun flowSubscribedNoticeCategories(userId: Long): Flow<Set<NoticeCategory>> {
-        return flow {
-            emit(subscribedNoticeCategories.toSet())
-        }
+    override fun flowSubscribedNoticeCategories(
+        userId: Long,
+    ): Flow<Set<NoticeCategory>> = flow {
+        val requestUrl = "/api/v1/subscribes/members/$userId"
+        val noticeCategoriesResponse = httpClient.get(requestUrl).body<SubscribedNoticeCategoriesResponse>()
+        val subscribedNoticeCategoriesResponse = noticeCategoriesResponse.filterSubscribed()
+
+        emit(subscribedNoticeCategoriesResponse.toNoticeCategories().toSet())
+    }
+
+    private fun SubscribedNoticeCategoriesResponse.filterSubscribed(): List<SubscribedNoticeCategoryResponse> {
+        return categorySubscribes.filter(SubscribedNoticeCategoryResponse::isSubscribed)
     }
 
     override suspend fun subscribeNoticeCategories(userId: Long, noticeCategories: Set<NoticeCategory>) {
