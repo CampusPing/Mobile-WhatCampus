@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import core.domain.repository.UserRepository
 import core.domain.usecase.GetNoticeCategoriesByUniversityIdUseCase
 import core.domain.usecase.GetUniversityUseCase
-import core.domain.usecase.SubscribeNoticeCategoriesUseCase
 import core.model.Department
 import core.model.NoticeCategory
 import core.model.University
@@ -33,7 +32,6 @@ import kotlinx.coroutines.launch
 class UniversityViewModel(
     getUniversityUseCase: GetUniversityUseCase,
     private val getNoticeCategoriesByUniversityId: GetNoticeCategoriesByUniversityIdUseCase,
-    private val subscribeNoticeCategories: SubscribeNoticeCategoriesUseCase,
     private val userRepository: UserRepository,
 ) : ViewModel() {
     private val _uiEvent = MutableSharedFlow<UniversityUiEvent>()
@@ -115,22 +113,19 @@ class UniversityViewModel(
                 return@launch
             }
 
-            userRepository.clearUser()
-            userRepository.createUser(
-                universityId = selectedUniversity.id,
-                universityName = selectedUniversity.name,
-                departmentId = selectedDepartment.id,
-                departmentName = selectedDepartment.name,
-            ).onEach { userId ->
-                subscribeNoticeCategories(
-                    userId = userId,
-                    noticeCategories = uiState.value.selectedNoticeCategories
+            try {
+                userRepository.clearUser()
+                userRepository.createUser(
+                    universityId = selectedUniversity.id,
+                    universityName = selectedUniversity.name,
+                    departmentId = selectedDepartment.id,
+                    departmentName = selectedDepartment.name,
+                    noticeCategoryIds = uiState.value.selectedNoticeCategories.map(NoticeCategory::id)
                 )
-            }.catch {
-                _uiEvent.emit(UniversityUiEvent.USER_SAVE_FAILED)
-            }.onEach {
                 _uiEvent.emit(UniversityUiEvent.USER_SAVE_SUCCESS)
-            }.launchIn(this)
+            } catch (e: Exception) {
+                _uiEvent.emit(UniversityUiEvent.USER_SAVE_FAILED)
+            }
         }
     }
 

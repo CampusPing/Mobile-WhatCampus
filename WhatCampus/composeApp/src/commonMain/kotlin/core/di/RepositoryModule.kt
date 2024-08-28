@@ -27,7 +27,7 @@ val repositoryModule = module {
         FakeCampusMapRepository()
     }
     single<UserRepository> {
-        DefaultUserRepository(get(), get())
+        DefaultUserRepository(get(), get(), get())
     }
     single<TokenRepository> {
         DefaultTokenRepository(get())

@@ -4,17 +4,22 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import com.mmk.kmpnotifier.notification.NotifierManager
+import core.data.model.MemberRegisterRequest
+import core.data.model.MemberRegisterResponse
 import core.datastore.key.UserKey
 import core.domain.repository.TokenRepository
 import core.domain.repository.UserRepository
 import core.model.User
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.request.post
+import io.ktor.utils.io.InternalAPI
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
 class DefaultUserRepository(
-    // private val ktorClient: KtorClient,
+    private val httpClient: HttpClient,
     private val dataStore: DataStore<Preferences>,
     private val tokenRepository: TokenRepository,
 ) : UserRepository {
@@ -40,28 +45,33 @@ class DefaultUserRepository(
             )
         }
 
-    override fun createUser(
+    @OptIn(InternalAPI::class)
+    override suspend fun createUser(
         universityId: Long,
         universityName: String,
         departmentId: Long,
         departmentName: String,
-    ): Flow<Long> {
-        return flow {
-            // ktorClient.saveUser(user) :: userId를 반환 할 예정
-            emit(1L)
-        }.map { userId ->
-            dataStore.edit { pref ->
-                pref[UserKey.userId] = userId
-                pref[UserKey.universityId] = universityId
-                pref[UserKey.universityName] = universityName
-                pref[UserKey.departmentId] = departmentId
-                pref[UserKey.departmentName] = departmentName
-                pref[UserKey.isPushNotificationAllowed] = true
-            }
-            val fcmToken = NotifierManager.getPushNotifier().getToken()
-            if (fcmToken != null) tokenRepository.saveFcmToken(fcmToken)
+        noticeCategoryIds: List<Long>,
+    ) {
+        val fcmToken = NotifierManager.getPushNotifier().getToken() ?: throw Error("토큰을 불러올 수 없습니다.")
 
-            userId
+        val userRegisterResponse = httpClient.post("/api/v1/members") {
+            body = MemberRegisterRequest(
+                fcmToken = fcmToken,
+                campusId = universityId,
+                departmentId = departmentId,
+                categoryIds = noticeCategoryIds,
+            )
+        }.body<MemberRegisterResponse>()
+
+        tokenRepository.saveFcmToken(fcmToken)
+        dataStore.edit { pref ->
+            pref[UserKey.userId] = userRegisterResponse.memberId
+            pref[UserKey.universityId] = universityId
+            pref[UserKey.universityName] = universityName
+            pref[UserKey.departmentId] = departmentId
+            pref[UserKey.departmentName] = departmentName
+            pref[UserKey.isPushNotificationAllowed] = true
         }
     }
 
