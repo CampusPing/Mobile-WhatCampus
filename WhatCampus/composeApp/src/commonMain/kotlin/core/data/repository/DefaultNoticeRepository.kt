@@ -5,6 +5,7 @@ import core.data.mapper.toNotices
 import core.data.model.CampusNoticesResponse
 import core.data.model.DepartmentNoticesResponse
 import core.data.model.NoticeCategoriesResponse
+import core.data.model.NoticeCategoriesSubscribeRequest
 import core.data.model.SubscribedNoticeCategoriesResponse
 import core.data.model.SubscribedNoticeCategoryResponse
 import core.database.dao.NoticeDao
@@ -16,6 +17,8 @@ import core.model.NoticeCategory
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
+import io.ktor.client.request.patch
+import io.ktor.utils.io.InternalAPI
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -24,7 +27,6 @@ class DefaultNoticeRepository(
     private val httpClient: HttpClient,
     private val noticeDao: NoticeDao,
 ) : NoticeRepository {
-    private val subscribedNoticeCategories = mutableSetOf<NoticeCategory>()
 
     override fun flowNoticesByCategoryId(
         universityId: Long,
@@ -94,8 +96,19 @@ class DefaultNoticeRepository(
         return categorySubscribes.filter(SubscribedNoticeCategoryResponse::isSubscribed)
     }
 
-    override suspend fun subscribeNoticeCategories(userId: Long, noticeCategories: Set<NoticeCategory>) {
-        subscribedNoticeCategories.clear()
-        subscribedNoticeCategories.addAll(noticeCategories)
+    @OptIn(InternalAPI::class)
+    override suspend fun subscribeNoticeCategories(
+        userId: Long,
+        unsubscribedNoticeCategoryIds: List<Long>,
+        subscribedNoticeCategoryIds: List<Long>,
+    ) {
+        val requestUrl = "/api/v1/subscribes/members/$userId"
+
+        httpClient.patch(requestUrl) {
+            body = NoticeCategoriesSubscribeRequest.of(
+                unsubscribedNoticeCategoryIds = unsubscribedNoticeCategoryIds,
+                subscribedNoticeCategoryIds = subscribedNoticeCategoryIds,
+            )
+        }
     }
 }

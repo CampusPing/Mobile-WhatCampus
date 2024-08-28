@@ -1,18 +1,21 @@
 package core.domain.usecase
 
 import core.domain.repository.NoticeRepository
-import core.model.NoticeCategory
 
 data class SubscribeNoticeCategoriesUseCase(
     private val repository: NoticeRepository,
 ) {
     suspend operator fun invoke(
         userId: Long,
-        noticeCategories: Set<NoticeCategory>,
+        allNoticeCategoryIds: List<Long>,
+        subscribedNoticeCategoryIds: List<Long>,
     ) {
+        val unsubscribedNoticeCategoryIds = allNoticeCategoryIds - subscribedNoticeCategoryIds.toSet()
+
         return repository.subscribeNoticeCategories(
             userId = userId,
-            noticeCategories = noticeCategories,
+            unsubscribedNoticeCategoryIds = unsubscribedNoticeCategoryIds,
+            subscribedNoticeCategoryIds = subscribedNoticeCategoryIds,
         )
     }
 }

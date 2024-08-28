@@ -63,7 +63,8 @@ class NoticeCategoryViewModel(
         viewModelScope.launch {
             subscribeNoticeCategories(
                 userId = user.userId,
-                noticeCategories = uiState.subscribedNoticeCategories,
+                allNoticeCategoryIds = uiState.noticeCategories.map(NoticeCategory::id),
+                subscribedNoticeCategoryIds = uiState.subscribedNoticeCategories.map(NoticeCategory::id),
             )
         }
     }
