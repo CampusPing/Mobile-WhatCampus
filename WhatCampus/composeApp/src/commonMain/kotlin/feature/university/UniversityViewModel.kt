@@ -46,8 +46,6 @@ class UniversityViewModel(
     val universitySearchQuery = _universitySearchQuery.asStateFlow()
 
     init {
-        fetchNoticeCategories(universityId = 1L)
-
         universitySearchQuery
             .debounce(SEARCH_DEBOUNCE)
             .map { query -> query.trim() }

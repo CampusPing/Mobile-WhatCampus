@@ -6,7 +6,7 @@ import core.data.repository.DefaultTokenRepository
 import core.data.repository.DefaultUserRepository
 import core.data.repository.FakeCampusMapRepository
 import core.data.repository.FakeNoticeRepository
-import core.data.repository.FakeUniversityRepository
+import core.data.repository.DefaultUniversityRepository
 import core.domain.repository.CampusMapRepository
 import core.domain.repository.NoticeRepository
 import core.domain.repository.NotificationRepository
@@ -18,7 +18,7 @@ import org.koin.dsl.module
 
 val repositoryModule = module {
     single<UniversityRepository> {
-        FakeUniversityRepository()
+        DefaultUniversityRepository(get())
     }
     single<NoticeRepository> {
         FakeNoticeRepository(get())
