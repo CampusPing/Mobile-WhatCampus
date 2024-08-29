@@ -1,12 +1,12 @@
 package core.di
 
+import core.data.repository.DefaultCampusMapRepository
 import core.data.repository.DefaultNoticeRepository
 import core.data.repository.DefaultNotificationRepository
 import core.data.repository.DefaultSearchQueryRepository
 import core.data.repository.DefaultTokenRepository
 import core.data.repository.DefaultUniversityRepository
 import core.data.repository.DefaultUserRepository
-import core.data.repository.FakeCampusMapRepository
 import core.domain.repository.CampusMapRepository
 import core.domain.repository.NoticeRepository
 import core.domain.repository.NotificationRepository
@@ -24,7 +24,7 @@ val repositoryModule = module {
         DefaultNoticeRepository(get(), get())
     }
     single<CampusMapRepository> {
-        FakeCampusMapRepository()
+        DefaultCampusMapRepository(get())
     }
     single<UserRepository> {
         DefaultUserRepository(get(), get(), get())
