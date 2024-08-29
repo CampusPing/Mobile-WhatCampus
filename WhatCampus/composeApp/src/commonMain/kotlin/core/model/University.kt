@@ -9,4 +9,5 @@ data class University(
 data class Department(
     val id: Long,
     val name: String,
+    val homePageUrl: String,
 )

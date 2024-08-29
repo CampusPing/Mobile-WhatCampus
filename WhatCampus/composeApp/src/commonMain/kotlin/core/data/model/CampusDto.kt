@@ -23,4 +23,5 @@ internal data class DepartmentsResponse(
 internal data class DepartmentResponse(
     val departmentId: Long,
     val departmentName: String,
+    val departmentUrl: String,
 )

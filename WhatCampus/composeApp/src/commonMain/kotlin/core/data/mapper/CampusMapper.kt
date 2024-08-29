@@ -24,4 +24,5 @@ private fun DepartmentsResponse.toDepartments(): List<Department> {
 private fun DepartmentResponse.toDepartment(): Department = Department(
     id = departmentId,
     name = departmentName,
+    homePageUrl = departmentUrl,
 )
