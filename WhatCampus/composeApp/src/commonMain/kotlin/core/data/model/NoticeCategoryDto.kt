@@ -11,7 +11,7 @@ internal data class NoticeCategoriesResponse(
 internal data class NoticeCategoryResponse(
     val categoryId: Long,
     val categoryName: String,
-    val categorySymbolEmoji: String,
+    val emoji: String,
 )
 
 @Serializable
@@ -23,7 +23,7 @@ internal data class SubscribedNoticeCategoriesResponse(
 internal data class SubscribedNoticeCategoryResponse(
     val noticeCategoryId: Long,
     val noticeCategoryName: String,
-    val noticeCategorySymbolEmoji: String,
+    val emoji: String,
     val isSubscribed: Boolean,
 )
 

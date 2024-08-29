@@ -12,7 +12,7 @@ internal fun NoticeCategoriesResponse.toNoticeCategories(): List<NoticeCategory>
 private fun NoticeCategoryResponse.toNoticeCategory(): NoticeCategory = NoticeCategory(
     id = categoryId,
     name = categoryName,
-    symbolEmoji = categorySymbolEmoji,
+    symbolEmoji = emoji,
 )
 
 internal fun List<SubscribedNoticeCategoryResponse>.toNoticeCategories(): List<NoticeCategory> {
@@ -22,5 +22,5 @@ internal fun List<SubscribedNoticeCategoryResponse>.toNoticeCategories(): List<N
 private fun SubscribedNoticeCategoryResponse.toNoticeCategory(): NoticeCategory = NoticeCategory(
     id = noticeCategoryId,
     name = noticeCategoryName,
-    symbolEmoji = noticeCategorySymbolEmoji,
+    symbolEmoji = emoji,
 )
