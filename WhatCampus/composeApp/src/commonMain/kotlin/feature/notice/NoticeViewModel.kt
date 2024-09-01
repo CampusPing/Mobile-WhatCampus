@@ -2,10 +2,10 @@ package feature.notice
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import core.domain.repository.NoticeRepository
 import core.domain.repository.NotificationRepository
 import core.domain.repository.UserRepository
 import core.domain.usecase.GetAllBookmarkedNoticesUseCase
-import core.domain.usecase.GetNoticeCategoriesByUniversityIdUseCase
 import core.domain.usecase.GetNoticesByCategoryIdUseCase
 import core.model.NoticeCategory
 import feature.notice.model.NoticeUiState
@@ -26,8 +26,8 @@ import kotlinx.coroutines.flow.update
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class NoticeViewModel(
+    noticeRepository: NoticeRepository,
     notificationRepository: NotificationRepository,
-    getNoticeCategoriesByUniversityId: GetNoticeCategoriesByUniversityIdUseCase,
     getNoticesByCategoryId: GetNoticesByCategoryIdUseCase,
     userRepository: UserRepository,
     getAllBookmarkedNotices: GetAllBookmarkedNoticesUseCase,
@@ -39,7 +39,7 @@ class NoticeViewModel(
         userRepository.flowUser()
             .filterNotNull()
             .flatMapLatest { user ->
-                getNoticeCategoriesByUniversityId(universityId = user.universityId)
+                noticeRepository.flowNoticeCategory(universityId = user.universityId)
                     .map { noticeCategories ->
                         uiState.value.copy(
                             user = user,

@@ -1,5 +1,6 @@
 package core.domain.usecase
 
+import core.domain.repository.NoticeRepository
 import core.model.Notice
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -12,7 +13,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
 data class GetFilteredNoticesUseCase(
-    private val getNoticeCategoriesByUniversityId: GetNoticeCategoriesByUniversityIdUseCase,
+    private val noticeRepository: NoticeRepository,
     private val getNoticesByCategoryIdUseCase: GetNoticesByCategoryIdUseCase,
     private val getNoticesByDepartmentIdUseCase: GetNoticesByDepartmentIdUseCase,
 ) {
@@ -26,7 +27,7 @@ data class GetFilteredNoticesUseCase(
             return flowOf(persistentListOf())
         }
 
-        val universityNoticesFlow = getNoticeCategoriesByUniversityId(universityId)
+        val universityNoticesFlow = noticeRepository.flowNoticeCategory(universityId = universityId)
             .flatMapLatest { noticeCategories ->
                 noticeCategories.asFlow()
                     .flatMapMerge { noticeCategory ->

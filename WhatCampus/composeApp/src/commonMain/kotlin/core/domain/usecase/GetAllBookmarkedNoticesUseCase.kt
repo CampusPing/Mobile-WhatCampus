@@ -11,8 +11,6 @@ data class GetAllBookmarkedNoticesUseCase(
     operator fun invoke(): Flow<List<Notice>> {
         return repository
             .flowBookmarkedNotices()
-            .map { notices ->
-                notices.sortedByDescending { notice -> notice.datetime }
-            }
+            .map { notices -> notices.sortedByDescending(Notice::datetime) }
     }
 }

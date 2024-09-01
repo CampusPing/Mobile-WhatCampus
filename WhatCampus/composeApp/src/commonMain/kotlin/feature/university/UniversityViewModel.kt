@@ -4,9 +4,9 @@ package feature.university
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import core.domain.repository.NoticeRepository
+import core.domain.repository.UniversityRepository
 import core.domain.repository.UserRepository
-import core.domain.usecase.GetNoticeCategoriesByUniversityIdUseCase
-import core.domain.usecase.GetUniversityUseCase
 import core.model.Department
 import core.model.NoticeCategory
 import core.model.University
@@ -30,8 +30,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class UniversityViewModel(
-    getUniversityUseCase: GetUniversityUseCase,
-    private val getNoticeCategoriesByUniversityId: GetNoticeCategoriesByUniversityIdUseCase,
+    universityRepository: UniversityRepository,
+    private val noticeRepository: NoticeRepository,
     private val userRepository: UserRepository,
 ) : ViewModel() {
     private val _uiEvent = MutableSharedFlow<UniversityUiEvent>()
@@ -48,7 +48,7 @@ class UniversityViewModel(
             .debounce(SEARCH_DEBOUNCE)
             .map { query -> query.trim() }
             .flatMapLatest { query ->
-                getUniversityUseCase(query).onEach { universities ->
+                universityRepository.flowUniversity(query = query).onEach { universities ->
                     _uiState.update { state ->
                         state.copy(
                             universities = universities.toPersistentList(),
@@ -62,7 +62,7 @@ class UniversityViewModel(
     }
 
     private fun fetchNoticeCategories(universityId: Long) {
-        getNoticeCategoriesByUniversityId(universityId)
+        noticeRepository.flowNoticeCategory(universityId = universityId)
             .onEach { noticeCategories ->
                 _uiState.update { state ->
                     state.copy(

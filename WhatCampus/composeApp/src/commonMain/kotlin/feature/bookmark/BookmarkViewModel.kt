@@ -2,8 +2,8 @@ package feature.bookmark
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import core.domain.repository.NoticeRepository
 import core.domain.usecase.GetAllBookmarkedNoticesUseCase
-import core.domain.usecase.UnbookmarkNoticesUseCase
 import core.model.Notice
 import feature.bookmark.model.BookmarkUiState
 import kotlinx.collections.immutable.persistentSetOf
@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 
 class BookmarkViewModel(
     getAllBookmarkedNotices: GetAllBookmarkedNoticesUseCase,
-    private val unbookmarkNotices: UnbookmarkNoticesUseCase,
+    private val noticeRepository: NoticeRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(BookmarkUiState())
@@ -65,7 +65,8 @@ class BookmarkViewModel(
 
     fun unbookmarkNotices() {
         viewModelScope.launch {
-            unbookmarkNotices(notices = uiState.value.markedNoticesForDelete.toList())
+            val markedNoticesForDelete = uiState.value.markedNoticesForDelete.toList()
+            noticeRepository.unbookmarkNotices(notices = markedNoticesForDelete)
         }
     }
 }

@@ -2,9 +2,8 @@ package feature.profile.subscreen.noticeCategory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import core.domain.repository.NoticeRepository
 import core.domain.repository.UserRepository
-import core.domain.usecase.GetNoticeCategoriesByUniversityIdUseCase
-import core.domain.usecase.GetSubscribedNoticeCategoriesUseCase
 import core.domain.usecase.SubscribeNoticeCategoriesUseCase
 import core.model.NoticeCategory
 import feature.profile.subscreen.noticeCategory.model.NoticeCategoryUiState
@@ -21,8 +20,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class NoticeCategoryViewModel(
-    getNoticeCategoriesByUniversity: GetNoticeCategoriesByUniversityIdUseCase,
-    getSubscribedNoticeCategories: GetSubscribedNoticeCategoriesUseCase,
+    noticeRepository: NoticeRepository,
     userRepository: UserRepository,
     private val subscribeNoticeCategories: SubscribeNoticeCategoriesUseCase,
 ) : ViewModel() {
@@ -34,8 +32,8 @@ class NoticeCategoryViewModel(
             .filterNotNull()
             .flatMapLatest { user ->
                 combine(
-                    getSubscribedNoticeCategories(userId = user.userId),
-                    getNoticeCategoriesByUniversity(universityId = user.universityId),
+                    noticeRepository.flowSubscribedNoticeCategories(userId = user.userId),
+                    noticeRepository.flowNoticeCategory(universityId = user.universityId)
                 ) { subscribedNoticeCategories, noticeCategories ->
                     _uiState.update { state ->
                         state.copy(
