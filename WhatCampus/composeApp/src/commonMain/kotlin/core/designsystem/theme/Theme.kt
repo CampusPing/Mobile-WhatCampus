@@ -4,10 +4,13 @@ package core.designsystem.theme
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.staticCompositionLocalOf
 
 private val WhatcamThemeDarkColorScheme = darkColorScheme(
     primary = White,
@@ -80,6 +83,10 @@ object WhatcamTheme {
         get() = if (isSystemInDarkTheme()) WhatcamThemeDarkColorScheme else WhatcamThemeLightColorScheme
 }
 
+val LocalSnackbarHostState = staticCompositionLocalOf<SnackbarHostState> {
+    error("[ERROR] Snackbar Host State가 초기화되지 않았습니다.")
+}
+
 @Composable
 fun WhatcamTheme(
     isDarkTheme: Boolean = isSystemInDarkTheme(),
@@ -89,6 +96,7 @@ fun WhatcamTheme(
 
     CompositionLocalProvider(
         LocalTypography provides Typography,
+        LocalSnackbarHostState provides remember { SnackbarHostState() },
     ) {
         MaterialTheme(
             colorScheme = colors,
