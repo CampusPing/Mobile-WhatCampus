@@ -1,8 +1,10 @@
 package core.di
 
 import com.campus.whatcampus.BuildKonfig
+import core.data.common.exception.NetworkException
 import io.github.aakira.napier.Napier
 import io.ktor.client.HttpClient
+import io.ktor.client.plugins.HttpResponseValidator
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
@@ -21,6 +23,8 @@ private const val TIMEOUT_DURATION: Long = 60_000L
 val networkModule = module {
     single {
         HttpClient {
+            expectSuccess = true
+
             install(HttpTimeout) {
                 connectTimeoutMillis = TIMEOUT_DURATION
                 requestTimeoutMillis = TIMEOUT_DURATION
@@ -52,6 +56,12 @@ val networkModule = module {
             defaultRequest {
                 url(BuildKonfig.BASE_URL)
                 contentType(ContentType.Application.Json)
+            }
+
+            HttpResponseValidator {
+                handleResponseException { cause, _ ->
+                    if (NetworkException.isNetworkError(cause)) throw NetworkException
+                }
             }
         }
     }
