@@ -16,13 +16,15 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import org.koin.dsl.module
 
+private const val TIMEOUT_DURATION: Long = 60_000L
+
 val networkModule = module {
     single {
         HttpClient {
             install(HttpTimeout) {
-                connectTimeoutMillis = 60_000
-                requestTimeoutMillis = 60_000
-                socketTimeoutMillis = 60_000
+                connectTimeoutMillis = TIMEOUT_DURATION
+                requestTimeoutMillis = TIMEOUT_DURATION
+                socketTimeoutMillis = TIMEOUT_DURATION
             }
 
             install(Logging) {
