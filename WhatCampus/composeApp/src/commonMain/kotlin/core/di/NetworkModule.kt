@@ -22,11 +22,14 @@ val networkModule = module {
             install(HttpTimeout) {
                 connectTimeoutMillis = 60_000
                 requestTimeoutMillis = 60_000
+                socketTimeoutMillis = 60_000
             }
+
             install(Logging) {
                 logger = Logger.DEFAULT
                 level = LogLevel.ALL
             }
+
             install(Logging) {
                 logger = object : Logger {
                     override fun log(message: String) {
@@ -35,6 +38,7 @@ val networkModule = module {
                 }
                 level = LogLevel.ALL
             }
+
             install(ContentNegotiation) {
                 json(Json {
                     prettyPrint = true
@@ -42,6 +46,7 @@ val networkModule = module {
                     ignoreUnknownKeys = true
                 })
             }
+
             defaultRequest {
                 url(BuildKonfig.BASE_URL)
                 contentType(ContentType.Application.Json)
