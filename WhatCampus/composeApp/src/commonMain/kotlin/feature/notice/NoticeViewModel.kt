@@ -1,13 +1,14 @@
 package feature.notice
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import core.common.CommonViewModel
 import core.domain.repository.NoticeRepository
 import core.domain.repository.NotificationRepository
 import core.domain.repository.UserRepository
 import core.domain.usecase.GetAllBookmarkedNoticesUseCase
 import core.domain.usecase.GetNoticesByCategoryIdUseCase
 import core.model.NoticeCategory
+import core.model.Response
 import feature.notice.model.NoticeUiState
 import feature.notice.model.NoticeWithBookmark
 import kotlinx.collections.immutable.toImmutableSet
@@ -31,7 +32,7 @@ class NoticeViewModel(
     getNoticesByCategoryId: GetNoticesByCategoryIdUseCase,
     userRepository: UserRepository,
     getAllBookmarkedNotices: GetAllBookmarkedNoticesUseCase,
-) : ViewModel() {
+) : CommonViewModel() {
     private val _uiState: MutableStateFlow<NoticeUiState> = MutableStateFlow(NoticeUiState())
     val uiState: StateFlow<NoticeUiState> = _uiState.asStateFlow()
 
@@ -40,15 +41,24 @@ class NoticeViewModel(
             .filterNotNull()
             .flatMapLatest { user ->
                 noticeRepository.flowNoticeCategory(universityId = user.universityId)
-                    .map { noticeCategories ->
-                        uiState.value.copy(
-                            user = user,
-                            noticeCategories = noticeCategories,
-                            selectedCategory = noticeCategories.first(),
-                        )
+                    .map { noticeCategoriesResponse ->
+                        when (noticeCategoriesResponse) {
+                            is Response.Success -> _uiState.update { state ->
+                                val noticeCategories = noticeCategoriesResponse.body
+                                state.copy(
+                                    user = user,
+                                    noticeCategories = noticeCategories,
+                                    selectedCategory = noticeCategories.first()
+                                )
+                            }
+
+                            is Response.Failure.ClientError -> sendClientErrorEvent()
+                            is Response.Failure.ServerError -> sendServerErrorEvent()
+                            is Response.Failure.NetworkError -> sendNetworkErrorEvent()
+                            is Response.Failure.OtherError<*> -> sendOtherErrorEvent()
+                        }
                     }
             }
-            .onEach { universityUiState -> _uiState.value = universityUiState }
             .launchIn(viewModelScope)
 
         notificationRepository.flowHasNewNotification()
@@ -69,16 +79,27 @@ class NoticeViewModel(
                     bookmarkedNotices.map { notice -> notice.id }.toImmutableSet()
                 (notices to bookmarkedNoticeIds)
             }
-            .map { (notices, bookmarkedNoticeIds) ->
-                notices.map { notice ->
-                    NoticeWithBookmark(
-                        notice = notice,
-                        isBookmarked = notice.id in bookmarkedNoticeIds
-                    )
+            .map { (noticesResponse, bookmarkedNoticeIds) ->
+                noticesResponse.map { notices ->
+                    notices.map { notice ->
+                        NoticeWithBookmark(
+                            notice = notice,
+                            isBookmarked = notice.id in bookmarkedNoticeIds
+                        )
+                    }
                 }
             }
-            .map { noticeWithBookmark ->
-                _uiState.update { uiState -> uiState.copy(notices = noticeWithBookmark) }
+            .map { noticeWithBookmarkResponse ->
+                when (noticeWithBookmarkResponse) {
+                    is Response.Success -> _uiState.update { uiState ->
+                        uiState.copy(notices = noticeWithBookmarkResponse.body)
+                    }
+
+                    is Response.Failure.ClientError -> sendClientErrorEvent()
+                    is Response.Failure.ServerError -> sendServerErrorEvent()
+                    is Response.Failure.NetworkError -> sendNetworkErrorEvent()
+                    is Response.Failure.OtherError<*> -> sendOtherErrorEvent()
+                }
             }
             .launchIn(viewModelScope)
     }

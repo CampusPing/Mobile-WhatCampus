@@ -1,6 +1,7 @@
 package core.domain.usecase
 
 import core.domain.repository.NoticeRepository
+import core.model.Response
 
 data class SubscribeNoticeCategoriesUseCase(
     private val repository: NoticeRepository,
@@ -9,7 +10,7 @@ data class SubscribeNoticeCategoriesUseCase(
         userId: Long,
         allNoticeCategoryIds: List<Long>,
         subscribedNoticeCategoryIds: List<Long>,
-    ) {
+    ): Response<Unit> {
         val unsubscribedNoticeCategoryIds = allNoticeCategoryIds - subscribedNoticeCategoryIds.toSet()
 
         return repository.subscribeNoticeCategories(

@@ -10,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import core.common.extensions.collectAsStateMultiplatform
+import core.common.extensions.collectUiEvent
 import core.designsystem.components.LoadingScreen
 import core.designsystem.components.dialog.MutableDialogState
 import core.designsystem.components.dialog.rememberDialogState
@@ -37,6 +38,7 @@ internal fun NoticeSearchScreen(
     val uiState by viewModel.uiState.collectAsStateMultiplatform()
     val searchQuery by viewModel.noticeSearchQuery.collectAsStateMultiplatform()
     val dialogState: MutableDialogState<NoticeSearchClearType> = rememberDialogState(NoticeSearchClearType.Nothing)
+    viewModel.commonUiEvent.collectUiEvent()
 
     Scaffold(
         modifier = modifier.fillMaxSize(),

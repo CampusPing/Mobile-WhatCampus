@@ -1,11 +1,13 @@
 package feature.profile.subscreen.noticeCategory
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import core.common.CommonViewModel
 import core.domain.repository.NoticeRepository
 import core.domain.repository.UserRepository
 import core.domain.usecase.SubscribeNoticeCategoriesUseCase
 import core.model.NoticeCategory
+import core.model.Response
+import core.model.User
 import feature.profile.subscreen.noticeCategory.model.NoticeCategoryUiState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,7 +25,7 @@ class NoticeCategoryViewModel(
     noticeRepository: NoticeRepository,
     userRepository: UserRepository,
     private val subscribeNoticeCategories: SubscribeNoticeCategoriesUseCase,
-) : ViewModel() {
+) : CommonViewModel() {
     private val _uiState = MutableStateFlow(NoticeCategoryUiState())
     val uiState: StateFlow<NoticeCategoryUiState> = _uiState.asStateFlow()
 
@@ -34,18 +36,33 @@ class NoticeCategoryViewModel(
                 combine(
                     noticeRepository.flowSubscribedNoticeCategories(userId = user.userId),
                     noticeRepository.flowNoticeCategory(universityId = user.universityId)
-                ) { subscribedNoticeCategories, noticeCategories ->
-                    _uiState.update { state ->
-                        state.copy(
-                            subscribedNoticeCategories = subscribedNoticeCategories,
-                            noticeCategories = noticeCategories,
-                            user = user,
-                        )
-                    }
+                ) { subscribedNoticeCategoriesResponse, noticeCategoriesResponse ->
+                    handleNoticeCategoriesResponse(subscribedNoticeCategoriesResponse, noticeCategoriesResponse, user)
                 }
             }
             .launchIn(viewModelScope)
 
+    }
+
+    private suspend fun NoticeCategoryViewModel.handleNoticeCategoriesResponse(
+        subscribedNoticeCategoriesResponse: Response<Set<NoticeCategory>>,
+        noticeCategoriesResponse: Response<List<NoticeCategory>>,
+        user: User,
+    ) {
+        when {
+            subscribedNoticeCategoriesResponse is Response.Success && noticeCategoriesResponse is Response.Success -> _uiState.update { state ->
+                state.copy(
+                    subscribedNoticeCategories = subscribedNoticeCategoriesResponse.body,
+                    noticeCategories = noticeCategoriesResponse.body,
+                    user = user,
+                )
+            }
+
+            subscribedNoticeCategoriesResponse is Response.Failure.ClientError || noticeCategoriesResponse is Response.Failure.ClientError -> sendClientErrorEvent()
+            subscribedNoticeCategoriesResponse is Response.Failure.ServerError || noticeCategoriesResponse is Response.Failure.ServerError -> sendServerErrorEvent()
+            subscribedNoticeCategoriesResponse is Response.Failure.NetworkError || noticeCategoriesResponse is Response.Failure.NetworkError -> sendNetworkErrorEvent()
+            subscribedNoticeCategoriesResponse is Response.Failure.OtherError<*> || noticeCategoriesResponse is Response.Failure.OtherError<*> -> sendOtherErrorEvent()
+        }
     }
 
     fun toggleNoticeCategory(noticeCategory: NoticeCategory) {

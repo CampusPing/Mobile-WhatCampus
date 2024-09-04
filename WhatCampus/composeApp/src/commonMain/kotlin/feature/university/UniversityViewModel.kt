@@ -70,12 +70,16 @@ class UniversityViewModel(
 
     private fun fetchNoticeCategories(universityId: Long) {
         noticeRepository.flowNoticeCategory(universityId = universityId)
-            .onEach { noticeCategories ->
-                _uiState.update { state ->
-                    state.copy(
-                        noticeCategories = noticeCategories,
-                        selectedNoticeCategories = noticeCategories.toPersistentSet(),
-                    )
+            .onEach { noticeCategoriesResponse ->
+                when (noticeCategoriesResponse) {
+                    is Response.Success -> _uiState.update { state ->
+                        state.copy(
+                            noticeCategories = noticeCategoriesResponse.body,
+                            selectedNoticeCategories = noticeCategoriesResponse.body.toPersistentSet(),
+                        )
+                    }
+
+                    else -> _uiEvent.emit(UniversityUiEvent.UniversityLoadFailed)
                 }
             }
             .launchIn(viewModelScope)

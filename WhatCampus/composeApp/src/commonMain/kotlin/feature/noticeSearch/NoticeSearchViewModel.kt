@@ -1,11 +1,12 @@
 package feature.noticeSearch
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import core.common.CommonViewModel
 import core.domain.repository.SearchQueryRepository
 import core.domain.repository.UserRepository
 import core.domain.usecase.GetFilteredNoticesUseCase
 import core.model.Notice
+import core.model.Response
 import core.model.User
 import feature.noticeSearch.model.NoticeSearchUiState
 import kotlinx.collections.immutable.persistentListOf
@@ -30,7 +31,7 @@ class NoticeSearchViewModel(
     userRepository: UserRepository,
     private val getFilteredNotices: GetFilteredNoticesUseCase,
     private val searchQueryRepository: SearchQueryRepository,
-) : ViewModel() {
+) : CommonViewModel() {
     private val _uiState = MutableStateFlow(NoticeSearchUiState(isLoading = true))
     val uiState: StateFlow<NoticeSearchUiState> = _uiState.asStateFlow()
 
@@ -42,11 +43,7 @@ class NoticeSearchViewModel(
             .filterNotNull()
             .flatMapLatest { user -> mapUserAndQueryFlow(user) }
             .flatMapLatest { (user, query) -> getFilteredNoticesFlow(query, user) }
-            .onEach { searchedNotices ->
-                _uiState.update { state ->
-                    state.copy(isLoading = false, searchedNotices = searchedNotices)
-                }
-            }
+            .onEach { response -> handleFilteredNoticesResponse(response) }
             .launchIn(viewModelScope)
 
         searchQueryRepository.flowSearchQueryHistories()
@@ -58,6 +55,7 @@ class NoticeSearchViewModel(
             .launchIn(viewModelScope)
     }
 
+
     private fun mapUserAndQueryFlow(user: User): Flow<Pair<User, String>> = noticeSearchQuery
         .debounce(SEARCH_DEBOUNCE)
         .filter { query -> query.isNotBlank() }
@@ -66,11 +64,24 @@ class NoticeSearchViewModel(
     private fun getFilteredNoticesFlow(
         query: String,
         user: User,
-    ): Flow<List<Notice>> = getFilteredNotices(
+    ): Flow<Response<List<Notice>>> = getFilteredNotices(
         query = query,
         universityId = user.universityId,
         departmentId = user.departmentId,
     )
+
+    private suspend fun NoticeSearchViewModel.handleFilteredNoticesResponse(response: Response<List<Notice>>) {
+        when (response) {
+            is Response.Success -> _uiState.update { state ->
+                state.copy(isLoading = false, searchedNotices = response.body)
+            }
+
+            Response.Failure.ClientError -> sendClientErrorEvent()
+            Response.Failure.ServerError -> sendServerErrorEvent()
+            Response.Failure.NetworkError -> sendNetworkErrorEvent()
+            is Response.Failure.OtherError<*> -> sendOtherErrorEvent()
+        }
+    }
 
     fun searchNotice(query: String) {
         _noticeSearchQuery.update { query }

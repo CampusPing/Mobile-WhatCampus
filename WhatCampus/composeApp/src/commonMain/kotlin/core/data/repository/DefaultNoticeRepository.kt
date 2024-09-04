@@ -1,5 +1,7 @@
 package core.data.repository
 
+import core.data.common.safeGet
+import core.data.common.safePatch
 import core.data.mapper.toNoticeCategories
 import core.data.mapper.toNotices
 import core.data.model.CampusNoticesResponse
@@ -14,10 +16,8 @@ import core.database.mapper.toNoticeEntity
 import core.domain.repository.NoticeRepository
 import core.model.Notice
 import core.model.NoticeCategory
+import core.model.Response
 import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.request.get
-import io.ktor.client.request.patch
 import io.ktor.utils.io.InternalAPI
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -31,21 +31,21 @@ class DefaultNoticeRepository(
     override fun flowNoticesByCategoryId(
         universityId: Long,
         noticeCategoryId: Long,
-    ): Flow<List<Notice>> = flow {
+    ): Flow<Response<List<Notice>>> = flow {
         val requestUrl = "/api/v1/notices/campuses/$universityId/categories/$noticeCategoryId"
-        val campusNoticesResponse = httpClient.get(requestUrl).body<CampusNoticesResponse>()
+        val campusNoticesResponse = httpClient.safeGet<CampusNoticesResponse>(requestUrl)
 
-        emit(campusNoticesResponse.toNotices())
+        emit(campusNoticesResponse.map(CampusNoticesResponse::toNotices))
     }
 
     override fun flowNoticesByDepartmentId(
         universityId: Long,
         departmentId: Long,
-    ): Flow<List<Notice>> = flow {
+    ): Flow<Response<List<Notice>>> = flow {
         val requestUrl = "/api/v1/notices/campuses/$universityId/departments/$departmentId"
-        val departmentNoticesResponse = httpClient.get(requestUrl).body<DepartmentNoticesResponse>()
+        val departmentNoticesResponse = httpClient.safeGet<DepartmentNoticesResponse>(requestUrl)
 
-        emit(departmentNoticesResponse.toNotices())
+        emit(departmentNoticesResponse.map(DepartmentNoticesResponse::toNotices))
     }
 
     override fun flowBookmarkedNotices(): Flow<List<Notice>> {
@@ -75,21 +75,20 @@ class DefaultNoticeRepository(
 
     override fun flowNoticeCategory(
         universityId: Long,
-    ): Flow<List<NoticeCategory>> = flow {
+    ): Flow<Response<List<NoticeCategory>>> = flow {
         val requestUrl = "/api/v1/campuses/$universityId/notices/categories"
-        val categoriesResponse = httpClient.get(requestUrl).body<NoticeCategoriesResponse>()
+        val categoriesResponse = httpClient.safeGet<NoticeCategoriesResponse>(requestUrl)
 
-        emit(categoriesResponse.toNoticeCategories())
+        emit(categoriesResponse.map(NoticeCategoriesResponse::toNoticeCategories))
     }
 
     override fun flowSubscribedNoticeCategories(
         userId: Long,
-    ): Flow<Set<NoticeCategory>> = flow {
+    ): Flow<Response<Set<NoticeCategory>>> = flow {
         val requestUrl = "/api/v1/subscribes/members/$userId"
-        val noticeCategoriesResponse = httpClient.get(requestUrl).body<SubscribedNoticeCategoriesResponse>()
-        val subscribedNoticeCategoriesResponse = noticeCategoriesResponse.filterSubscribed()
+        val response = httpClient.safeGet<SubscribedNoticeCategoriesResponse>(requestUrl)
 
-        emit(subscribedNoticeCategoriesResponse.toNoticeCategories().toSet())
+        emit(response.map { it.filterSubscribed().toNoticeCategories().toSet() })
     }
 
     private fun SubscribedNoticeCategoriesResponse.filterSubscribed(): List<SubscribedNoticeCategoryResponse> {
@@ -101,10 +100,10 @@ class DefaultNoticeRepository(
         userId: Long,
         unsubscribedNoticeCategoryIds: List<Long>,
         subscribedNoticeCategoryIds: List<Long>,
-    ) {
+    ): Response<Unit> {
         val requestUrl = "/api/v1/subscribes/members/$userId"
 
-        httpClient.patch(requestUrl) {
+        return httpClient.safePatch<Unit>(requestUrl) {
             body = NoticeCategoriesSubscribeRequest.of(
                 unsubscribedNoticeCategoryIds = unsubscribedNoticeCategoryIds,
                 subscribedNoticeCategoryIds = subscribedNoticeCategoryIds,
