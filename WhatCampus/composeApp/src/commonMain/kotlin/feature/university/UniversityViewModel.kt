@@ -17,11 +17,11 @@ import kotlinx.collections.immutable.toPersistentList
 import kotlinx.collections.immutable.toPersistentSet
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
@@ -31,7 +31,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class UniversityViewModel(
-    universityRepository: UniversityRepository,
+    private val universityRepository: UniversityRepository,
     private val noticeRepository: NoticeRepository,
     private val userRepository: UserRepository,
 ) : CommonViewModel() {
@@ -48,19 +48,25 @@ class UniversityViewModel(
         universitySearchQuery
             .debounce(SEARCH_DEBOUNCE)
             .map { query -> query.trim() }
-            .flatMapLatest { query ->
-                universityRepository.flowUniversity(query = query).onEach { universities ->
-                    _uiState.update { state ->
-                        state.copy(
-                            universities = universities.toPersistentList(),
-                            selectedUniversity = state.selectedUniversity,
-                        )
-                    }
-                }
-            }
-            .catch { _ -> _uiEvent.emit(UniversityUiEvent.UniversityLoadFailed) }
+            .flatMapLatest { query -> flowUniversities(query) }
             .launchIn(viewModelScope)
     }
+
+    private fun flowUniversities(query: String): Flow<Response<List<University>>> = universityRepository
+        .flowUniversity(query = query)
+        .onEach { universitiesResponse ->
+            when (universitiesResponse) {
+                is Response.Success -> _uiState.update { state ->
+                    state.copy(
+                        universities = universitiesResponse.body.toPersistentList(),
+                        selectedUniversity = state.selectedUniversity,
+                    )
+                }
+
+                Response.Failure.NetworkError -> sendNetworkErrorEvent()
+                else -> _uiEvent.emit(UniversityUiEvent.UniversityLoadFailed)
+            }
+        }
 
     private fun fetchNoticeCategories(universityId: Long) {
         noticeRepository.flowNoticeCategory(universityId = universityId)
