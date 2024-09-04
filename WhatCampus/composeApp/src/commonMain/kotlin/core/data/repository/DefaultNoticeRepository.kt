@@ -11,6 +11,7 @@ import core.data.model.NoticeCategoriesSubscribeRequest
 import core.data.model.SubscribedNoticeCategoriesResponse
 import core.data.model.SubscribedNoticeCategoryResponse
 import core.database.dao.NoticeDao
+import core.database.entity.NoticeEntity
 import core.database.mapper.toNotice
 import core.database.mapper.toNoticeEntity
 import core.domain.repository.NoticeRepository
@@ -50,21 +51,15 @@ class DefaultNoticeRepository(
 
     override fun flowBookmarkedNotices(): Flow<List<Notice>> {
         return noticeDao.getAll()
-            .map { noticeEntities ->
-                noticeEntities.map { entity -> entity.toNotice() }
-            }
+            .map { noticeEntities -> noticeEntities.map(NoticeEntity::toNotice) }
     }
 
-    override fun bookmarkNotice(notice: Notice): Flow<Unit> {
-        return flow {
-            emit(noticeDao.insert(notice = notice.toNoticeEntity()))
-        }
+    override suspend fun bookmarkNotice(notice: Notice) {
+        noticeDao.insert(notice = notice.toNoticeEntity())
     }
 
-    override fun unbookmarkNotice(notice: Notice): Flow<Unit> {
-        return flow {
-            emit(noticeDao.delete(notice = notice.toNoticeEntity()))
-        }
+    override suspend fun unbookmarkNotice(notice: Notice) {
+        noticeDao.delete(notice = notice.toNoticeEntity())
     }
 
     override suspend fun unbookmarkNotices(notices: List<Notice>) {
