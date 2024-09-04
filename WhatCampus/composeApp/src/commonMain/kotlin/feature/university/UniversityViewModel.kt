@@ -2,13 +2,14 @@
 
 package feature.university
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import core.common.CommonViewModel
 import core.domain.repository.NoticeRepository
 import core.domain.repository.UniversityRepository
 import core.domain.repository.UserRepository
 import core.model.Department
 import core.model.NoticeCategory
+import core.model.Response
 import core.model.University
 import feature.university.model.UniversityUiEvent
 import feature.university.model.UniversityUiState
@@ -33,7 +34,7 @@ class UniversityViewModel(
     universityRepository: UniversityRepository,
     private val noticeRepository: NoticeRepository,
     private val userRepository: UserRepository,
-) : ViewModel() {
+) : CommonViewModel() {
     private val _uiEvent = MutableSharedFlow<UniversityUiEvent>()
     val uiEvent = _uiEvent.asSharedFlow()
 
@@ -57,7 +58,7 @@ class UniversityViewModel(
                     }
                 }
             }
-            .catch { _ -> _uiEvent.emit(UniversityUiEvent.UNIVERTITY_LOAD_FAILED) }
+            .catch { _ -> _uiEvent.emit(UniversityUiEvent.UniversityLoadFailed) }
             .launchIn(viewModelScope)
     }
 
@@ -109,22 +110,24 @@ class UniversityViewModel(
             val selectedDepartment = uiState.value.selectedDepartment
 
             if (selectedUniversity == null || selectedDepartment == null) {
-                _uiEvent.emit(UniversityUiEvent.USER_SAVE_FAILED)
+                sendOtherErrorEvent()
                 return@launch
             }
 
-            try {
-                userRepository.clearUser()
-                userRepository.createUser(
-                    universityId = selectedUniversity.id,
-                    universityName = selectedUniversity.name,
-                    departmentId = selectedDepartment.id,
-                    departmentName = selectedDepartment.name,
-                    noticeCategoryIds = uiState.value.selectedNoticeCategories.map(NoticeCategory::id)
-                )
-                _uiEvent.emit(UniversityUiEvent.USER_SAVE_SUCCESS)
-            } catch (e: Exception) {
-                _uiEvent.emit(UniversityUiEvent.USER_SAVE_FAILED)
+            val userCreateResponse = userRepository.createUser(
+                universityId = selectedUniversity.id,
+                universityName = selectedUniversity.name,
+                departmentId = selectedDepartment.id,
+                departmentName = selectedDepartment.name,
+                noticeCategoryIds = uiState.value.selectedNoticeCategories.map(NoticeCategory::id)
+            )
+
+            when (userCreateResponse) {
+                is Response.Success -> _uiEvent.emit(UniversityUiEvent.UserSaveSuccess)
+                Response.Failure.ClientError -> sendClientErrorEvent()
+                Response.Failure.ServerError -> sendServerErrorEvent()
+                Response.Failure.NetworkError -> sendNetworkErrorEvent()
+                is Response.Failure.OtherError<*> -> sendOtherErrorEvent()
             }
         }
     }
