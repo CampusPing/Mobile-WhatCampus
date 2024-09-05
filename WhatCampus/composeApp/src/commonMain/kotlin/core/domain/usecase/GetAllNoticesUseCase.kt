@@ -5,11 +5,10 @@ import core.model.Notice
 import core.model.Response
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 
 data class GetAllNoticesUseCase(
     private val noticeRepository: NoticeRepository,
@@ -24,12 +23,19 @@ data class GetAllNoticesUseCase(
         val universityNoticesFlow = noticeRepository.flowNoticeCategory(universityId = universityId)
             .flatMapLatest { noticeCategoriesResponse ->
                 when (noticeCategoriesResponse) {
-                    is Response.Success -> noticeCategoriesResponse.body.asFlow()
-                        .flatMapMerge { noticeCategory ->
+                    is Response.Success -> noticeCategoriesResponse.body
+                        .map { noticeCategory ->
                             getNoticesByCategoryId(
                                 universityId = universityId,
                                 categoryId = noticeCategory.id
                             )
+                        }
+                        .combineFlows()
+                        .map { responses ->
+                            val successfulNotices = responses.filterIsInstance<Response.Success<List<Notice>>>()
+                                .flatMap { it.body }
+
+                            Response.Success(successfulNotices)
                         }
 
                     is Response.Failure -> flowOf(noticeCategoriesResponse)
@@ -46,17 +52,24 @@ data class GetAllNoticesUseCase(
             departmentNoticesFlow
         ) { universityNotices, departmentNotices ->
             when {
-                universityNotices is Response.Success && departmentNotices is Response.Success -> {
-                    val allNotices = universityNotices.body + departmentNotices.body
-                    val distinctNotices = allNotices.distinctBy { notice -> notice.id }
-
-                    Response.Success(distinctNotices)
-                }
-
                 universityNotices is Response.Failure -> universityNotices
                 departmentNotices is Response.Failure -> departmentNotices
+                universityNotices is Response.Success && departmentNotices is Response.Success -> {
+                    val combinedNotices =
+                        (universityNotices.body + departmentNotices.body).distinctBy { notice -> notice.id }
+                    Response.Success(combinedNotices)
+                }
+
                 else -> Response.Failure.OtherError(IllegalStateException("Unexpected response state"))
             }
+        }
+    }
+
+    private fun List<Flow<Response<List<Notice>>>>.combineFlows(): Flow<List<Response<List<Notice>>>> {
+        return if (this.isEmpty()) {
+            flowOf(emptyList())
+        } else {
+            combine(this) { it.toList() }
         }
     }
 }
