@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalCoroutinesApi::class)
 class NoticeDetailViewModel(
     private val noticeRepository: NoticeRepository,
-    private val isBookmarkedNoticeUseCase: IsBookmarkedNoticeUseCase,
+    private val isBookmarkedNotice: IsBookmarkedNoticeUseCase,
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<NoticeDetailUiState> = MutableStateFlow(NoticeDetailUiState())
@@ -34,7 +34,7 @@ class NoticeDetailViewModel(
         _currentNotice
             .filterNotNull()
             .flatMapLatest { notice ->
-                isBookmarkedNoticeUseCase(notice).map { isBookmarked ->
+                isBookmarkedNotice(notice).map { isBookmarked ->
                     NoticeDetailUiState(bookmarkedNotice = if (isBookmarked) notice else null)
                 }
             }
@@ -48,7 +48,7 @@ class NoticeDetailViewModel(
 
     fun toggleBookmark(notice: Notice) {
         viewModelScope.launch {
-            val isBookmarked = isBookmarkedNoticeUseCase(notice).first()
+            val isBookmarked = isBookmarkedNotice(notice).first()
             if (isBookmarked) {
                 noticeRepository.unbookmarkNotice(notice)
             } else {

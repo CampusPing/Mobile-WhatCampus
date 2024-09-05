@@ -13,8 +13,8 @@ import kotlinx.coroutines.flow.flowOf
 
 data class GetAllNoticesUseCase(
     private val noticeRepository: NoticeRepository,
-    private val getNoticesByCategoryIdUseCase: GetNoticesByCategoryIdUseCase,
-    private val getNoticesByDepartmentIdUseCase: GetNoticesByDepartmentIdUseCase,
+    private val getNoticesByCategoryId: GetNoticesByCategoryIdUseCase,
+    private val getNoticesByDepartmentId: GetNoticesByDepartmentIdUseCase,
 ) {
     @OptIn(ExperimentalCoroutinesApi::class)
     operator fun invoke(
@@ -26,7 +26,7 @@ data class GetAllNoticesUseCase(
                 when (noticeCategoriesResponse) {
                     is Response.Success -> noticeCategoriesResponse.body.asFlow()
                         .flatMapMerge { noticeCategory ->
-                            getNoticesByCategoryIdUseCase(
+                            getNoticesByCategoryId(
                                 universityId = universityId,
                                 categoryId = noticeCategory.id
                             )
@@ -36,7 +36,7 @@ data class GetAllNoticesUseCase(
                 }
             }
 
-        val departmentNoticesFlow = getNoticesByDepartmentIdUseCase(
+        val departmentNoticesFlow = getNoticesByDepartmentId(
             universityId = universityId,
             departmentId = departmentId
         )

@@ -6,14 +6,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 data class GetFilteredNoticesUseCase(
-    private val getAllNoticesUseCase: GetAllNoticesUseCase,
+    private val getAllNotices: GetAllNoticesUseCase,
 ) {
     operator fun invoke(
         universityId: Long,
         departmentId: Long,
         query: String,
     ): Flow<Response<List<Notice>>> {
-        val allNotices = getAllNoticesUseCase(universityId, departmentId)
+        val allNotices = getAllNotices(universityId, departmentId)
 
         if (query.isBlank()) {
             return allNotices
