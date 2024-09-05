@@ -24,6 +24,8 @@ import io.ktor.utils.io.InternalAPI
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 class DefaultNoticeRepository(
     private val httpClient: HttpClient,
@@ -121,9 +123,11 @@ class DefaultNoticeRepository(
         val requestUrl = "/api/v1/subscribes/members/$userId"
 
         return httpClient.safePatch<Unit>(requestUrl) {
-            body = NoticeCategoriesSubscribeRequest.of(
-                unsubscribedNoticeCategoryIds = unsubscribedNoticeCategoryIds,
-                subscribedNoticeCategoryIds = subscribedNoticeCategoryIds,
+            body = Json.encodeToString(
+                NoticeCategoriesSubscribeRequest.of(
+                    unsubscribedNoticeCategoryIds = unsubscribedNoticeCategoryIds,
+                    subscribedNoticeCategoryIds = subscribedNoticeCategoryIds,
+                )
             )
         }
     }
