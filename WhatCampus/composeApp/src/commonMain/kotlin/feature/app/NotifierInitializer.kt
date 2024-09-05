@@ -31,7 +31,7 @@ object NotifierInitializer : KoinComponent {
     private const val KEY_PUSH_MESSAGE = "pushMessage"
     private const val KEY_NOTICE_ID = "id"
     private const val KEY_NOTICE_TITLE = "title"
-    private const val KEY_NOTICE_DATETIME = "datetime"
+    private const val KEY_NOTICE_DATETIME = "dateTime"
     private const val KEY_NOTICE_URL = "url"
     private const val KEY_IS_BACKGROUND = "isBackground"
 
