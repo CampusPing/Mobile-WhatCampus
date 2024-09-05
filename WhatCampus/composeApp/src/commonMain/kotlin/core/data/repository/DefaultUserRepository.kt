@@ -3,7 +3,6 @@ package core.data.repository
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
-import com.mmk.kmpnotifier.notification.NotifierManager
 import core.data.common.safePost
 import core.data.model.MemberRegisterRequest
 import core.data.model.MemberRegisterResponse
@@ -55,7 +54,7 @@ class DefaultUserRepository(
         departmentName: String,
         noticeCategoryIds: List<Long>,
     ): Response<Long> {
-        val fcmToken = NotifierManager.getPushNotifier().getToken() ?: throw Error("토큰을 불러올 수 없습니다.")
+        val fcmToken = tokenRepository.getFcmToken().firstOrNull() ?: return Response.Failure.ClientError
         tokenRepository.saveFcmToken(fcmToken)
 
         val userRegisterResponse = httpClient.safePost<MemberRegisterResponse>("/api/v1/members") {
