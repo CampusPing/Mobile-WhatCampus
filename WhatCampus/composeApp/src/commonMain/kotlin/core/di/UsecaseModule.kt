@@ -1,6 +1,7 @@
 package core.di
 
 import core.domain.usecase.GetAllBookmarkedNoticesUseCase
+import core.domain.usecase.GetAllNoticesUseCase
 import core.domain.usecase.GetFilteredNoticesUseCase
 import core.domain.usecase.GetNoticesByCategoryIdUseCase
 import core.domain.usecase.GetNoticesByDepartmentIdUseCase
@@ -22,7 +23,10 @@ val usecaseModule = module {
         IsBookmarkedNoticeUseCase(get())
     }
     single {
-        GetFilteredNoticesUseCase(get(), get(), get())
+        GetAllNoticesUseCase(get(), get(), get())
+    }
+    single {
+        GetFilteredNoticesUseCase(get())
     }
     single {
         SubscribeNoticeCategoriesUseCase(get())
