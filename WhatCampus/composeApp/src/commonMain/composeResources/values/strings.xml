@@ -3,6 +3,12 @@
     <string name="confirm">확인</string>
     <string name="cancel">취소</string>
 
+    <!--  Common  -->
+    <string name="default_client_error_message">앱에서 오류가 발생했어요 😢\n관리자에게 문의해주세요!</string>
+    <string name="default_server_error_message">서버 오류가 발생했어요 😢\n관리자에게 문의해주세요!</string>
+    <string name="default_network_error_message">네트워크 환경이 원활하지 않아요 😢\n인터넷 연결을 확인해주세요!</string>
+    <string name="default_other_error_message">알 수 없는 오류가 발생했어요 😢\n관리자에게 문의해주세요!</string>
+
     <!--  Splash  -->
     <string name="splash_desc">캠퍼스 소식을 한 눈에\n왓캠퍼스에서 확인해보세요!</string>
     <string name="splash_desc_highlight">캠퍼스 소식</string>
@@ -35,7 +41,6 @@
     <string name="university_complete_title">대학교 선택 완료 🎉</string>
     <string name="university_complete_desc">이제부터 선택한 대학교의\n공지를 받아보실 수 있어요!</string>
     <string name="university_complete_start">완료 ✅</string>
-    <string name="user_save_failed_message">유저 정보를 저장하는데 실패했어요 😢</string>
     <string name="user_save_success_message">이제부터 왓캠에서 공지를 받아보실 수 있어요! 🥳</string>
 
     <!--  Main  -->

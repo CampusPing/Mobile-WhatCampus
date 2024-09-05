@@ -3,6 +3,7 @@ package feature.app.components
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.compose.NavHost
+import core.common.extensions.collectUiEvent
 import core.di.koinViewModel
 import core.navigation.Route
 import feature.app.navigation.WhatcamNavigator
@@ -22,7 +23,6 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.KoinContext
 import whatcampus.composeapp.generated.resources.Res
 import whatcampus.composeapp.generated.resources.university_load_success_message
-import whatcampus.composeapp.generated.resources.user_save_failed_message
 import whatcampus.composeapp.generated.resources.user_save_success_message
 
 @Composable
@@ -33,6 +33,7 @@ internal fun WhatcamNavHost(
     KoinContext {
         val universityViewModel = koinViewModel<UniversityViewModel>()
 
+        universityViewModel.commonUiEvent.collectUiEvent()
         universityViewModel.uiEvent.collectUniversityUiEvent(
             onShowSnackbar = onShowSnackbar,
             navigator = navigator,
@@ -100,20 +101,17 @@ private fun SharedFlow<UniversityUiEvent>.collectUniversityUiEvent(
     navigator: WhatcamNavigator,
 ) {
     val universityLoadSuccessMessage = stringResource(Res.string.university_load_success_message)
-    val userSaveFailedMessage = stringResource(Res.string.user_save_failed_message)
     val userSaveSuccessMessage = stringResource(Res.string.user_save_success_message)
 
     LaunchedEffect(this) {
         collectLatest { uiEvent ->
             when (uiEvent) {
-                is UniversityUiEvent.UNIVERTITY_LOAD_FAILED -> onShowSnackbar(
+                is UniversityUiEvent.UniversityLoadFailed -> onShowSnackbar(
                     universityLoadSuccessMessage,
                     null
                 )
 
-                is UniversityUiEvent.USER_SAVE_FAILED -> onShowSnackbar(userSaveFailedMessage, null)
-
-                is UniversityUiEvent.USER_SAVE_SUCCESS -> {
+                is UniversityUiEvent.UserSaveSuccess -> {
                     onShowSnackbar(userSaveSuccessMessage, null)
                     navigator.navigateMain(popUpTargetRoute = Route.OnboardingRoute)
                 }

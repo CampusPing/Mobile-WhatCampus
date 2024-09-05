@@ -1,12 +1,12 @@
 package core.di
 
+import core.data.repository.DefaultCampusMapRepository
+import core.data.repository.DefaultNoticeRepository
 import core.data.repository.DefaultNotificationRepository
 import core.data.repository.DefaultSearchQueryRepository
 import core.data.repository.DefaultTokenRepository
+import core.data.repository.DefaultUniversityRepository
 import core.data.repository.DefaultUserRepository
-import core.data.repository.FakeCampusMapRepository
-import core.data.repository.FakeNoticeRepository
-import core.data.repository.FakeUniversityRepository
 import core.domain.repository.CampusMapRepository
 import core.domain.repository.NoticeRepository
 import core.domain.repository.NotificationRepository
@@ -18,16 +18,16 @@ import org.koin.dsl.module
 
 val repositoryModule = module {
     single<UniversityRepository> {
-        FakeUniversityRepository()
+        DefaultUniversityRepository(get())
     }
     single<NoticeRepository> {
-        FakeNoticeRepository(get())
+        DefaultNoticeRepository(get(), get())
     }
     single<CampusMapRepository> {
-        FakeCampusMapRepository()
+        DefaultCampusMapRepository(get())
     }
     single<UserRepository> {
-        DefaultUserRepository(get(), get())
+        DefaultUserRepository(get(), get(), get())
     }
     single<TokenRepository> {
         DefaultTokenRepository(get())

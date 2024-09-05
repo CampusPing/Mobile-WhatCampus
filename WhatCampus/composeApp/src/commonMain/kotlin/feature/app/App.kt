@@ -6,9 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,6 +14,7 @@ import coil3.annotation.ExperimentalCoilApi
 import coil3.compose.setSingletonImageLoaderFactory
 import core.common.extensions.showSnackbar
 import core.common.util.newImageLoader
+import core.designsystem.theme.LocalSnackbarHostState
 import core.designsystem.theme.WhatcamTheme
 import feature.app.components.WhatcamNavHost
 import feature.app.navigation.WhatcamNavigator.Companion.init
@@ -27,7 +26,6 @@ fun App(
     debug: Boolean = false,
 ) {
     val navigator = rememberWhatcamNavigator().also { init(whatcamNavigator = it) }
-    val snackBarState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
 
     setSingletonImageLoaderFactory { context ->
@@ -35,6 +33,8 @@ fun App(
     }
 
     WhatcamTheme {
+        val snackBarState = LocalSnackbarHostState.current
+
         Box(
             modifier = Modifier
                 .background(color = WhatcamTheme.colors.background)

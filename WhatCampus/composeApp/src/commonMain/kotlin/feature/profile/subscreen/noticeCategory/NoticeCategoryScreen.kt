@@ -7,6 +7,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import core.common.extensions.collectAsStateMultiplatform
+import core.common.extensions.collectUiEvent
 import core.designsystem.components.NoticeCategoryList
 import core.di.koinViewModel
 import feature.profile.subscreen.noticeCategory.components.NoticeCategoryTopBar
@@ -25,6 +26,7 @@ internal fun NoticeCategoryScreen(
     val uiState by viewModel.uiState.collectAsStateMultiplatform()
     val savedMessage = stringResource(Res.string.notice_category_saved_message)
     val savedActionLabel = stringResource(Res.string.notice_category_saved_action_label)
+    viewModel.commonUiEvent.collectUiEvent()
 
     Scaffold(
         modifier = modifier,

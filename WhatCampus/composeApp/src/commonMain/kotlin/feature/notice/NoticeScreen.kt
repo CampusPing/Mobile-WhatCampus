@@ -15,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import core.common.extensions.collectAsStateMultiplatform
+import core.common.extensions.collectUiEvent
 import core.di.koinViewModel
 import core.model.Notice
 import feature.notice.components.NoticeCategoryBar
@@ -23,13 +24,14 @@ import feature.notice.components.NoticeTopAppBar
 
 @Composable
 fun NoticeScreen(
-    noticeViewModel: NoticeViewModel = koinViewModel(),
+    viewModel: NoticeViewModel = koinViewModel(),
     onNoticeClick: (Notice) -> Unit,
     onClickNoticeSearch: () -> Unit,
     onClickNotificationArchive: () -> Unit,
     onClickProfile: () -> Unit,
 ) {
-    val uiState by noticeViewModel.uiState.collectAsStateMultiplatform()
+    val uiState by viewModel.uiState.collectAsStateMultiplatform()
+    viewModel.commonUiEvent.collectUiEvent()
 
     Scaffold(
         topBar = {
@@ -66,7 +68,7 @@ fun NoticeScreen(
                 NoticeCategoryBar(
                     noticeCategories = uiState.noticeCategories,
                     selectedCategory = uiState.selectedCategory,
-                    onClickCategory = noticeViewModel::selectCategory,
+                    onClickCategory = viewModel::selectCategory,
                 )
             }
         }

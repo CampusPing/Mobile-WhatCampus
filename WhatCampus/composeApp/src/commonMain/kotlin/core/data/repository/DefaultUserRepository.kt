@@ -3,18 +3,24 @@ package core.data.repository
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
-import com.mmk.kmpnotifier.notification.NotifierManager
+import core.data.common.safePost
+import core.data.model.MemberRegisterRequest
+import core.data.model.MemberRegisterResponse
 import core.datastore.key.UserKey
 import core.domain.repository.TokenRepository
 import core.domain.repository.UserRepository
+import core.model.Response
 import core.model.User
+import io.ktor.client.HttpClient
+import io.ktor.utils.io.InternalAPI
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 class DefaultUserRepository(
-    // private val ktorClient: KtorClient,
+    private val httpClient: HttpClient,
     private val dataStore: DataStore<Preferences>,
     private val tokenRepository: TokenRepository,
 ) : UserRepository {
@@ -40,29 +46,41 @@ class DefaultUserRepository(
             )
         }
 
-    override fun createUser(
+    @OptIn(InternalAPI::class)
+    override suspend fun createUser(
         universityId: Long,
         universityName: String,
         departmentId: Long,
         departmentName: String,
-    ): Flow<Long> {
-        return flow {
-            // ktorClient.saveUser(user) :: userId를 반환 할 예정
-            emit(1L)
-        }.map { userId ->
+        noticeCategoryIds: List<Long>,
+    ): Response<Long> {
+        val fcmToken = tokenRepository.getFcmToken().firstOrNull() ?: return Response.Failure.ClientError
+        tokenRepository.saveFcmToken(fcmToken)
+
+        val userRegisterResponse = httpClient.safePost<MemberRegisterResponse>("/api/v1/members") {
+            body = Json.encodeToString(
+                MemberRegisterRequest(
+                    fcmToken = fcmToken,
+                    campusId = universityId,
+                    departmentId = departmentId,
+                    categoryIds = noticeCategoryIds,
+                )
+            )
+        }
+
+        if (userRegisterResponse is Response.Success) {
+            clearUser()
             dataStore.edit { pref ->
-                pref[UserKey.userId] = userId
+                pref[UserKey.userId] = userRegisterResponse.body.memberId
                 pref[UserKey.universityId] = universityId
                 pref[UserKey.universityName] = universityName
                 pref[UserKey.departmentId] = departmentId
                 pref[UserKey.departmentName] = departmentName
                 pref[UserKey.isPushNotificationAllowed] = true
             }
-            val fcmToken = NotifierManager.getPushNotifier().getToken()
-            if (fcmToken != null) tokenRepository.saveFcmToken(fcmToken)
-
-            userId
         }
+
+        return userRegisterResponse.map(MemberRegisterResponse::memberId)
     }
 
     override suspend fun clearUser() {

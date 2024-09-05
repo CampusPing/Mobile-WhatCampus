@@ -29,7 +29,7 @@ class DefaultNotificationRepository(
     }
 
     override fun flowHasNewNotification(): Flow<Boolean> = dataStore.data
-        .map { pref -> pref[NotificationKey.hasNewNotification] ?: true }
+        .map { pref -> pref[NotificationKey.hasNewNotification] ?: false }
 
     override suspend fun updateHasNewNotification(hasNewNotification: Boolean) {
         dataStore.edit { pref ->

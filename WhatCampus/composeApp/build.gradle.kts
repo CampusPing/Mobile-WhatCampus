@@ -1,6 +1,8 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -11,6 +13,7 @@ plugins {
     alias(libs.plugins.room)
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.googleServices)
+    alias(libs.plugins.buildkonfig)
 }
 
 kotlin {
@@ -52,8 +55,6 @@ kotlin {
                 implementation(libs.room.runtime)
                 implementation(libs.sqlite.bundled)
                 implementation(libs.kotlinx.serialization.json)
-                implementation(libs.ktor.client.core)
-                implementation(libs.ktor.client.core.v300wasm2)
                 implementation(libs.coil.compose)
                 implementation(libs.coil.network.ktor)
                 implementation(libs.kotlinx.coroutines.core)
@@ -66,6 +67,7 @@ kotlin {
                 api(libs.datastore)
                 api(libs.moko.permissions)
                 api(libs.moko.permissions.compose)
+                implementation(libs.bundles.ktor.common)
             }
         }
 
@@ -77,7 +79,7 @@ kotlin {
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
             implementation(libs.kotlinx.coroutines.android)
-            implementation(libs.ktor.engine.android)
+            implementation(libs.ktor.client.okhttp)
         }
 
         iosMain.dependencies {
@@ -120,6 +122,22 @@ android {
     }
     dependencies {
         debugImplementation(compose.uiTooling)
+    }
+}
+
+buildkonfig {
+    packageName = "com.campus.whatcampus"
+
+    val localProperties = Properties().apply {
+        val propsFile = rootProject.file("local.properties")
+        if (propsFile.exists()) {
+            load(propsFile.inputStream())
+        }
+    }
+
+    defaultConfigs {
+        val whatCampusBaseUrlKey = "BASE_URL"
+        buildConfigField(STRING, whatCampusBaseUrlKey, localProperties[whatCampusBaseUrlKey].toString())
     }
 }
 

@@ -2,16 +2,14 @@ package feature.notice
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import core.domain.usecase.BookmarkNoticeUseCase
+import core.domain.repository.NoticeRepository
 import core.domain.usecase.IsBookmarkedNoticeUseCase
-import core.domain.usecase.UnbookmarkNoticeUseCase
 import core.model.Notice
 import feature.notice.model.NoticeDetailUiState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
@@ -23,9 +21,8 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class NoticeDetailViewModel(
-    private val isBookmarkedNoticeUseCase: IsBookmarkedNoticeUseCase,
-    private val bookmarkNoticeUseCase: BookmarkNoticeUseCase,
-    private val unbookmarkNoticeUseCase: UnbookmarkNoticeUseCase,
+    private val noticeRepository: NoticeRepository,
+    private val isBookmarkedNotice: IsBookmarkedNoticeUseCase,
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<NoticeDetailUiState> = MutableStateFlow(NoticeDetailUiState())
@@ -37,7 +34,7 @@ class NoticeDetailViewModel(
         _currentNotice
             .filterNotNull()
             .flatMapLatest { notice ->
-                isBookmarkedNoticeUseCase(notice).map { isBookmarked ->
+                isBookmarkedNotice(notice).map { isBookmarked ->
                     NoticeDetailUiState(bookmarkedNotice = if (isBookmarked) notice else null)
                 }
             }
@@ -51,11 +48,11 @@ class NoticeDetailViewModel(
 
     fun toggleBookmark(notice: Notice) {
         viewModelScope.launch {
-            val isBookmarked = isBookmarkedNoticeUseCase(notice).first()
+            val isBookmarked = isBookmarkedNotice(notice).first()
             if (isBookmarked) {
-                unbookmarkNoticeUseCase(notice).collect()
+                noticeRepository.unbookmarkNotice(notice)
             } else {
-                bookmarkNoticeUseCase(notice).collect()
+                noticeRepository.bookmarkNotice(notice)
             }
 
             _uiState.update { state ->

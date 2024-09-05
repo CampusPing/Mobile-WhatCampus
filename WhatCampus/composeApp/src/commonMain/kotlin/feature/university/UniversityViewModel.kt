@@ -2,14 +2,14 @@
 
 package feature.university
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import core.common.CommonViewModel
+import core.domain.repository.NoticeRepository
+import core.domain.repository.UniversityRepository
 import core.domain.repository.UserRepository
-import core.domain.usecase.GetNoticeCategoriesByUniversityIdUseCase
-import core.domain.usecase.GetUniversityUseCase
-import core.domain.usecase.SubscribeNoticeCategoriesUseCase
 import core.model.Department
 import core.model.NoticeCategory
+import core.model.Response
 import core.model.University
 import feature.university.model.UniversityUiEvent
 import feature.university.model.UniversityUiState
@@ -17,11 +17,11 @@ import kotlinx.collections.immutable.toPersistentList
 import kotlinx.collections.immutable.toPersistentSet
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
@@ -31,11 +31,10 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class UniversityViewModel(
-    getUniversityUseCase: GetUniversityUseCase,
-    private val getNoticeCategoriesByUniversityId: GetNoticeCategoriesByUniversityIdUseCase,
-    private val subscribeNoticeCategories: SubscribeNoticeCategoriesUseCase,
+    private val universityRepository: UniversityRepository,
+    private val noticeRepository: NoticeRepository,
     private val userRepository: UserRepository,
-) : ViewModel() {
+) : CommonViewModel() {
     private val _uiEvent = MutableSharedFlow<UniversityUiEvent>()
     val uiEvent = _uiEvent.asSharedFlow()
 
@@ -46,33 +45,41 @@ class UniversityViewModel(
     val universitySearchQuery = _universitySearchQuery.asStateFlow()
 
     init {
-        fetchNoticeCategories(universityId = 1L)
-
         universitySearchQuery
             .debounce(SEARCH_DEBOUNCE)
             .map { query -> query.trim() }
-            .flatMapLatest { query ->
-                getUniversityUseCase(query).onEach { universities ->
-                    _uiState.update { state ->
-                        state.copy(
-                            universities = universities.toPersistentList(),
-                            selectedUniversity = state.selectedUniversity,
-                        )
-                    }
-                }
-            }
-            .catch { _ -> _uiEvent.emit(UniversityUiEvent.UNIVERTITY_LOAD_FAILED) }
+            .flatMapLatest { query -> flowUniversities(query) }
             .launchIn(viewModelScope)
     }
 
-    private fun fetchNoticeCategories(universityId: Long) {
-        getNoticeCategoriesByUniversityId(universityId)
-            .onEach { noticeCategories ->
-                _uiState.update { state ->
+    private fun flowUniversities(query: String): Flow<Response<List<University>>> = universityRepository
+        .flowUniversity(query = query)
+        .onEach { universitiesResponse ->
+            when (universitiesResponse) {
+                is Response.Success -> _uiState.update { state ->
                     state.copy(
-                        noticeCategories = noticeCategories,
-                        selectedNoticeCategories = noticeCategories.toPersistentSet(),
+                        universities = universitiesResponse.body.toPersistentList(),
+                        selectedUniversity = state.selectedUniversity,
                     )
+                }
+
+                Response.Failure.NetworkError -> sendNetworkErrorEvent()
+                else -> _uiEvent.emit(UniversityUiEvent.UniversityLoadFailed)
+            }
+        }
+
+    private fun fetchNoticeCategories(universityId: Long) {
+        noticeRepository.flowNoticeCategory(universityId = universityId)
+            .onEach { noticeCategoriesResponse ->
+                when (noticeCategoriesResponse) {
+                    is Response.Success -> _uiState.update { state ->
+                        state.copy(
+                            noticeCategories = noticeCategoriesResponse.body,
+                            selectedNoticeCategories = noticeCategoriesResponse.body.toPersistentSet(),
+                        )
+                    }
+
+                    else -> _uiEvent.emit(UniversityUiEvent.UniversityLoadFailed)
                 }
             }
             .launchIn(viewModelScope)
@@ -113,26 +120,25 @@ class UniversityViewModel(
             val selectedDepartment = uiState.value.selectedDepartment
 
             if (selectedUniversity == null || selectedDepartment == null) {
-                _uiEvent.emit(UniversityUiEvent.USER_SAVE_FAILED)
+                sendOtherErrorEvent()
                 return@launch
             }
 
-            userRepository.clearUser()
-            userRepository.createUser(
+            val userCreateResponse = userRepository.createUser(
                 universityId = selectedUniversity.id,
                 universityName = selectedUniversity.name,
                 departmentId = selectedDepartment.id,
                 departmentName = selectedDepartment.name,
-            ).onEach { userId ->
-                subscribeNoticeCategories(
-                    userId = userId,
-                    noticeCategories = uiState.value.selectedNoticeCategories
-                )
-            }.catch {
-                _uiEvent.emit(UniversityUiEvent.USER_SAVE_FAILED)
-            }.onEach {
-                _uiEvent.emit(UniversityUiEvent.USER_SAVE_SUCCESS)
-            }.launchIn(this)
+                noticeCategoryIds = uiState.value.selectedNoticeCategories.map(NoticeCategory::id)
+            )
+
+            when (userCreateResponse) {
+                is Response.Success -> _uiEvent.emit(UniversityUiEvent.UserSaveSuccess)
+                Response.Failure.ClientError -> sendClientErrorEvent()
+                Response.Failure.ServerError -> sendServerErrorEvent()
+                Response.Failure.NetworkError -> sendNetworkErrorEvent()
+                is Response.Failure.OtherError<*> -> sendOtherErrorEvent()
+            }
         }
     }
 
