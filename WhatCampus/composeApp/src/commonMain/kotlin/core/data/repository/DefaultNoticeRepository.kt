@@ -1,5 +1,6 @@
 package core.data.repository
 
+import core.data.cache.NoticeCache
 import core.data.common.safeGet
 import core.data.common.safePatch
 import core.data.mapper.toNoticeCategories
@@ -28,25 +29,46 @@ class DefaultNoticeRepository(
     private val httpClient: HttpClient,
     private val noticeDao: NoticeDao,
 ) : NoticeRepository {
+    private val noticeCache = NoticeCache()
 
     override fun flowNoticesByCategoryId(
         universityId: Long,
         noticeCategoryId: Long,
     ): Flow<Response<List<Notice>>> = flow {
+        if (noticeCategoryId in noticeCache) {
+            emit(Response.Success(noticeCache[noticeCategoryId]))
+            return@flow
+        }
+
         val requestUrl = "/api/v1/notices/campuses/$universityId/categories/$noticeCategoryId"
         val campusNoticesResponse = httpClient.safeGet<CampusNoticesResponse>(requestUrl)
+        val notices = campusNoticesResponse.map(CampusNoticesResponse::toNotices)
 
-        emit(campusNoticesResponse.map(CampusNoticesResponse::toNotices))
+        if (notices is Response.Success) {
+            noticeCache[noticeCategoryId] = notices.body
+        }
+
+        emit(notices)
     }
 
     override fun flowNoticesByDepartmentId(
         universityId: Long,
         departmentId: Long,
     ): Flow<Response<List<Notice>>> = flow {
+        if (departmentId in noticeCache) {
+            emit(Response.Success(noticeCache[departmentId]))
+            return@flow
+        }
+
         val requestUrl = "/api/v1/notices/campuses/$universityId/departments/$departmentId"
         val departmentNoticesResponse = httpClient.safeGet<DepartmentNoticesResponse>(requestUrl)
+        val notices = departmentNoticesResponse.map(DepartmentNoticesResponse::toNotices)
 
-        emit(departmentNoticesResponse.map(DepartmentNoticesResponse::toNotices))
+        if (notices is Response.Success) {
+            noticeCache[departmentId] = notices.body
+        }
+
+        emit(notices)
     }
 
     override fun flowBookmarkedNotices(): Flow<List<Notice>> {
