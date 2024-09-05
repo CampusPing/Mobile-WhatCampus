@@ -1,4 +1,6 @@
-<img width=500 src="https://github.com/user-attachments/assets/0e060721-897e-4b0e-9a81-6b7d7df7af34"/>
+<p align="center">
+  <img width=300 src="https://github.com/user-attachments/assets/0e060721-897e-4b0e-9a81-6b7d7df7af34"/>
+</p>
 
 # 왓캠퍼스 - 대학 소식을 한 눈에
 
