@@ -9,6 +9,7 @@ import core.model.Notice
 import core.model.Response
 import core.model.User
 import feature.noticeSearch.model.NoticeSearchUiState
+import io.github.aakira.napier.Napier
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -73,6 +74,7 @@ class NoticeSearchViewModel(
     private suspend fun NoticeSearchViewModel.handleFilteredNoticesResponse(response: Response<List<Notice>>) {
         when (response) {
             is Response.Success -> _uiState.update { state ->
+                Napier.d { "Filtered notices: ${response.body}" }
                 state.copy(isLoading = false, searchedNotices = response.body)
             }
 

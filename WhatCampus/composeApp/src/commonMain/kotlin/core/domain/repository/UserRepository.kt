@@ -16,5 +16,6 @@ interface UserRepository {
     ): Response<Long>
 
     suspend fun clearUser()
+
     suspend fun updateUser(user: User)
 }
