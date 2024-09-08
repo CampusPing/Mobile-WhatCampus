@@ -16,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import core.common.extensions.collectAsStateMultiplatform
 import core.common.extensions.collectUiEvent
+import core.common.util.logScreenEvent
 import core.di.koinViewModel
 import core.model.Notice
 import feature.notice.components.NoticeCategoryBar
@@ -32,6 +33,8 @@ fun NoticeScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateMultiplatform()
     viewModel.commonUiEvent.collectUiEvent()
+
+    logScreenEvent(screenName = "NoticeScreen")
 
     Scaffold(
         topBar = {

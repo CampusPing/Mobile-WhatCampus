@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import core.common.extensions.collectAsStateMultiplatform
 import core.common.extensions.provideOrRequestNotificationPermission
+import core.common.util.logScreenEvent
 import core.designsystem.components.dialog.WhatcamDialog
 import core.designsystem.components.dialog.rememberDialogState
 import core.designsystem.theme.PaleGray
@@ -64,6 +65,8 @@ fun ProfileScreen(
     }
 
     val coroutineScope = rememberCoroutineScope()
+
+    logScreenEvent(screenName = "ProfileScreen")
 
     LaunchedEffect(Unit) {
         notificationPermissionState = permissionController.getPermissionState(Permission.REMOTE_NOTIFICATION)

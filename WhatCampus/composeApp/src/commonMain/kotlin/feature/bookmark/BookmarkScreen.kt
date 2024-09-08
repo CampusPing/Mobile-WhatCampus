@@ -9,6 +9,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import core.common.extensions.collectAsStateMultiplatform
+import core.common.util.logScreenEvent
 import core.designsystem.components.dialog.WhatcamDialog
 import core.designsystem.components.dialog.rememberDialogState
 import core.di.koinViewModel
@@ -32,6 +33,8 @@ internal fun BookmarkScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateMultiplatform()
     var isEditMode by rememberSaveable { mutableStateOf(false) }
+
+    logScreenEvent(screenName = "BookmarkScreen")
 
     BookmarkScreen(
         modifier = modifier,
