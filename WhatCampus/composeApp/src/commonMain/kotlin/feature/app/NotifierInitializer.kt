@@ -49,6 +49,11 @@ object NotifierInitializer : KoinComponent {
                 val pushTitle = data[KEY_PUSH_TITLE] as String
                 val pushMessage = data[KEY_PUSH_MESSAGE] as String
 
+                scope.launch {
+                    notificationRepository.updateHasNewNotification(hasNewNotification = true)
+                    notificationRepository.addNotification(data.toNotification())
+                }
+
                 if (data.isFromBackground()) {
                     val noticeDetailDeepLink = NoticeDetailDeepLink(notice = data.toNotice())
                     WhatcamNavigator.handleDeeplink(deepLink = noticeDetailDeepLink)
@@ -58,9 +63,6 @@ object NotifierInitializer : KoinComponent {
                 scope.launch {
                     val user = userRepository.flowUser().firstOrNull() ?: return@launch
                     if (user.isPushNotificationAllowed.not()) return@launch
-
-                    notificationRepository.updateHasNewNotification(hasNewNotification = true)
-                    notificationRepository.addNotification(data.toNotification())
 
                     NotifierManager.getLocalNotifier().notify(
                         id = pushTitle.hashCode(),
