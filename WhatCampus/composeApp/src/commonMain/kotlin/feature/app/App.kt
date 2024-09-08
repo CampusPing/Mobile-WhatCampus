@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import coil3.annotation.ExperimentalCoilApi
 import coil3.compose.setSingletonImageLoaderFactory
 import core.common.extensions.showSnackbar
+import core.common.util.logAppPlatformEvent
 import core.common.util.newImageLoader
 import core.designsystem.theme.LocalSnackbarHostState
 import core.designsystem.theme.WhatcamTheme
@@ -31,6 +32,8 @@ fun App(
     setSingletonImageLoaderFactory { context ->
         newImageLoader(context, debug)
     }
+
+    logAppPlatformEvent()
 
     WhatcamTheme {
         val snackBarState = LocalSnackbarHostState.current
