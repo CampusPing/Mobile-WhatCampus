@@ -32,6 +32,7 @@ internal fun OnboardingScreen(
     val sliderItems = OnboardingSliderItem.entries
     val pagerState = rememberPagerState { sliderItems.size }
     val horizontalPadding = PaddingValues(horizontal = 20.dp)
+
     Scaffold(
         topBar = { TopAppBar(title = {}) },
         modifier = modifier,
