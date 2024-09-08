@@ -68,6 +68,7 @@ kotlin {
                 api(libs.moko.permissions)
                 api(libs.moko.permissions.compose)
                 implementation(libs.bundles.ktor.common)
+                implementation(libs.firebase.analytics)
             }
         }
 
