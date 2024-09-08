@@ -1,30 +1,32 @@
 package feature.notificationArchive
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import core.common.CommonViewModel
 import core.domain.repository.NotificationRepository
+import core.domain.repository.UserRepository
+import core.model.Notification
+import core.model.Response
 import feature.notificationArchive.model.NotificationArchiveUiState
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.collections.immutable.PersistentList
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class NotificationArchiveViewModel(
+    private val userRepository: UserRepository,
     private val notificationRepository: NotificationRepository,
-) : ViewModel() {
+) : CommonViewModel() {
 
-    val uiState = notificationRepository.flowNotifications()
-        .map { notifications ->
-            NotificationArchiveUiState(
-                isLoading = false,
-                notifications = notifications,
-            )
+    private val _uiState = MutableStateFlow(NotificationArchiveUiState(isLoading = true))
+    val uiState = _uiState.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            fetchNotifications()
         }
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = NotificationArchiveUiState(isLoading = true),
-        )
+    }
 
     fun turnOffNewNotification() {
         viewModelScope.launch {
@@ -35,6 +37,22 @@ class NotificationArchiveViewModel(
     fun readNotification(notificationId: Long) {
         viewModelScope.launch {
             notificationRepository.readNotification(notificationId = notificationId)
+            fetchNotifications()
+        }
+    }
+
+    private suspend fun fetchNotifications() {
+        val user = userRepository.flowUser().firstOrNull() ?: return sendOtherErrorEvent()
+        notificationRepository.flowNotifications(userId = user.userId).collect(::handleResponse)
+    }
+
+    private suspend fun handleResponse(response: Response<PersistentList<Notification>>) {
+        when (response) {
+            is Response.Success -> _uiState.update { it.copy(isLoading = false, notifications = response.body) }
+            Response.Failure.ClientError -> sendClientErrorEvent()
+            Response.Failure.ServerError -> sendServerErrorEvent()
+            Response.Failure.NetworkError -> sendNetworkErrorEvent()
+            is Response.Failure.OtherError<*> -> sendOtherErrorEvent()
         }
     }
 }
