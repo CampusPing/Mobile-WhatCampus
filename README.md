@@ -14,12 +14,12 @@
 왓캠퍼스는 대학생들이 **학교 공지를 접하기 불편해하는 문제를 해결**하기 위해 출시되었어요.
 
 <p align="center">
-  <img width=300 src="https://github.com/user-attachments/assets/9c64d15e-dc4e-4a46-9fdc-78da310f4b27"/>
-  <img width=300 src="https://github.com/user-attachments/assets/bb257953-3d36-45da-ac52-22411a4f67f9"/>
-  <img width=300 src="https://github.com/user-attachments/assets/e7bc959b-b21e-48f4-bb99-90c0a6205be7"/>
-  <img width=300 src="https://github.com/user-attachments/assets/9cf0ce05-0898-4072-98f8-aeeb1f1b3dfa"/>
-  <img width=300 src="https://github.com/user-attachments/assets/9555eaa9-bd95-4c46-9936-662c3a8bf6a4"/>
-  <img width=300 src="https://github.com/user-attachments/assets/e3edd93c-cf67-4540-a48e-f4e07f308833"/>
+  <img width=200 src="https://github.com/user-attachments/assets/9c64d15e-dc4e-4a46-9fdc-78da310f4b27"/>
+  <img width=200 src="https://github.com/user-attachments/assets/bb257953-3d36-45da-ac52-22411a4f67f9"/>
+  <img width=200 src="https://github.com/user-attachments/assets/e7bc959b-b21e-48f4-bb99-90c0a6205be7"/>
+  <img width=200 src="https://github.com/user-attachments/assets/9cf0ce05-0898-4072-98f8-aeeb1f1b3dfa"/>
+  <img width=200 src="https://github.com/user-attachments/assets/9555eaa9-bd95-4c46-9936-662c3a8bf6a4"/>
+  <img width=200 src="https://github.com/user-attachments/assets/e3edd93c-cf67-4540-a48e-f4e07f308833"/>
 </p>
 
 ## 대학 공지 확인이 불편해요 🥺
