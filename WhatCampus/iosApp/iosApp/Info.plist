@@ -2,10 +2,22 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>BGTaskSchedulerPermittedIdentifiers</key>
-    <array>
-        <string>$(BUNDLE_ID)</string>
-    </array>
+	<key>IT</key>
+	<string></string>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>$(BUNDLE_ID)</string>
+	</array>
+	<key>NSContactsUsageDescription</key>
+	<string>This app needs access to your contacts to allow easier communication and contact management</string>
+	<key>NSMotionUsageDescription</key>
+	<string>This app uses motion data to enhance the user experience through activity tracking and gesture recognition</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app requires location access to provide location-based services when the app is in use</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>This app uses Bluetooth to connect and communicate with nearby devices, even when the app is running in the background</string>
+    <key>ITSAppUsesNonExemptEncryption</key>
+    <false/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
