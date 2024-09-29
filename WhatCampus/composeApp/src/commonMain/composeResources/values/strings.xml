@@ -76,6 +76,7 @@
 
     <!--  NotificationArchive  -->
     <string name="notification_archive_title">알림 보관함</string>
+    <string name="notification_archive_warning_message">공지는 최대 한 달간 보관돼요!</string>
 
     <!--  Chat  -->
     <string name="chat_title">왓챗</string>

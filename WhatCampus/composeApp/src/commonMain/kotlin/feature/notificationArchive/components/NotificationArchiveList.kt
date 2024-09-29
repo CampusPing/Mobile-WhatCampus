@@ -17,6 +17,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import core.common.util.defaultDateFormatter
@@ -29,6 +30,9 @@ import core.designsystem.theme.WhatcamTheme
 import core.designsystem.theme.White
 import core.model.Notification
 import kotlinx.collections.immutable.PersistentList
+import org.jetbrains.compose.resources.stringResource
+import whatcampus.composeapp.generated.resources.Res
+import whatcampus.composeapp.generated.resources.notification_archive_warning_message
 
 @Composable
 internal fun NotificationArchiveList(
@@ -37,6 +41,8 @@ internal fun NotificationArchiveList(
     onClickNewNoticeNotification: (Notification.NewNotice) -> Unit,
 ) {
     LazyColumn(modifier = modifier) {
+        item { NoticeArchiveWarningText() }
+
         itemsIndexed(
             items = notifications,
             key = { _, notificationArchive -> notificationArchive.id }
@@ -53,6 +59,19 @@ internal fun NotificationArchiveList(
             }
         }
     }
+}
+
+@Composable
+private fun NoticeArchiveWarningText(
+    modifier: Modifier = Modifier,
+) {
+    Text(
+        text = stringResource(Res.string.notification_archive_warning_message),
+        style = WhatcamTheme.typography.titleSmallR,
+        color = Gray,
+        textAlign = TextAlign.Center,
+        modifier = modifier.fillMaxWidth()
+    )
 }
 
 @Composable
