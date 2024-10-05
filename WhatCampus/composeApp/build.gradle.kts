@@ -68,6 +68,7 @@ kotlin {
                 api(libs.moko.permissions)
                 api(libs.moko.permissions.compose)
                 implementation(libs.bundles.ktor.common)
+                implementation(libs.firebase.analytics)
             }
         }
 
@@ -100,8 +101,8 @@ android {
         applicationId = "com.campus.whatcampus"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.0.0-beta"
     }
     packaging {
         resources {

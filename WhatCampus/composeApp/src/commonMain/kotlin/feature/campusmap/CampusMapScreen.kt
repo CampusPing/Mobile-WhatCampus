@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import core.common.extensions.collectAsStateMultiplatform
 import core.common.extensions.collectUiEvent
+import core.common.util.logScreenEvent
 import core.di.koinViewModel
 import feature.campusmap.components.ZoomableImage
 import org.jetbrains.compose.resources.stringResource
@@ -16,6 +17,8 @@ internal fun CampusMapScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateMultiplatform()
     viewModel.commonUiEvent.collectUiEvent()
+
+    logScreenEvent(screenName = "CampusMapScreen")
 
     ZoomableImage(
         image = uiState.campusMapUrl,

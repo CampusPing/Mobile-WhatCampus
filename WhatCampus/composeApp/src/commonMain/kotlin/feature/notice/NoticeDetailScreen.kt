@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import core.common.extensions.collectAsStateMultiplatform
 import core.common.util.UrlSharer
+import core.common.util.logScreenEvent
 import core.designsystem.components.WebView
 import core.designsystem.icons.filled.Bookmark
 import core.designsystem.icons.outlined.Bookmark
@@ -41,6 +42,8 @@ internal fun NoticeDetailScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateMultiplatform()
     viewModel.setup(notice)
+
+    logScreenEvent(screenName = "NoticeDetailScreen")
 
     NoticeDetailScreen(
         modifier = modifier,
