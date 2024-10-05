@@ -10,7 +10,7 @@ internal data class NotificationsDto(
 @Serializable
 internal data class NotificationDto(
     val notificationId: Long,
-    val notificationContent: String,
+    val notificationMessage: String,
     val isRead: Boolean,
     val sendDateTime: String,
     val noticeId: Long,

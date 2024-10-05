@@ -22,7 +22,7 @@ internal fun NotificationsDto.toNotifications(): PersistentList<Notification> = 
 
 private fun NotificationDto.toNotification(): Notification = Notification.NewNotice(
     notificationId = notificationId,
-    content = notificationContent,
+    content = notificationMessage,
     isRead = isRead,
     receivedDatetime = sendDateTime.parse(notificationDateTimeFormatter),
     notice = Notice(
