@@ -14,5 +14,8 @@ interface NotificationRepository {
 
     suspend fun updateHasNewNotification(hasNewNotification: Boolean)
 
-    suspend fun readNotification(notificationId: Long)
+    suspend fun readNotification(
+        userId: Long,
+        notificationId: Long,
+    )
 }

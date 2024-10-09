@@ -47,9 +47,13 @@ class DefaultNotificationRepository(
     }
 
     override suspend fun readNotification(
+        userId: Long,
         notificationId: Long,
     ) {
         val requestUrl = "/api/v1/notifications/$notificationId/read"
-        httpClient.safePatch<Unit>(requestUrl)
+        httpClient.safePatch<Unit>(
+            urlString = requestUrl,
+            block = { parameter("memberId", userId) },
+        )
     }
 }

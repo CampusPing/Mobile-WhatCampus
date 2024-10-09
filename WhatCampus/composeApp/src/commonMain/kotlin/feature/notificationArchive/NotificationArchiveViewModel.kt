@@ -36,7 +36,12 @@ class NotificationArchiveViewModel(
 
     fun readNotification(notificationId: Long) {
         viewModelScope.launch {
-            notificationRepository.readNotification(notificationId = notificationId)
+            val user = userRepository.flowUser().firstOrNull() ?: return@launch sendOtherErrorEvent()
+
+            notificationRepository.readNotification(
+                userId = user.userId,
+                notificationId = notificationId,
+            )
             fetchNotifications()
         }
     }
