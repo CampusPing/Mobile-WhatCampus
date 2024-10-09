@@ -55,8 +55,7 @@ data class GetAllNoticesUseCase(
                 universityNotices is Response.Failure -> universityNotices
                 departmentNotices is Response.Failure -> departmentNotices
                 universityNotices is Response.Success && departmentNotices is Response.Success -> {
-                    val combinedNotices =
-                        (universityNotices.body + departmentNotices.body).distinctBy { notice -> notice.id }
+                    val combinedNotices = (universityNotices.body + departmentNotices.body).distinct()
                     Response.Success(combinedNotices)
                 }
 
