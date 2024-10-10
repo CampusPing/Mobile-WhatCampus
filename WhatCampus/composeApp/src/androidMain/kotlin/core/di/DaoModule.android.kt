@@ -10,5 +10,4 @@ actual val daoModule: Module = module {
     single { getWhatcamDatabase(androidContext()) }
     single { get<WhatcamDatabase>().noticeDao() }
     single { get<WhatcamDatabase>().searchQueryDao() }
-    single { get<WhatcamDatabase>().notificationDao() }
 }

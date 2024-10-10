@@ -8,6 +8,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import core.common.extensions.collectAsStateMultiplatform
+import core.common.extensions.collectUiEvent
 import core.common.util.logScreenEvent
 import core.designsystem.components.LoadingScreen
 import core.di.koinViewModel
@@ -23,6 +24,7 @@ fun NotificationArchiveScreen(
     onClickNewNoticeNotification: (Notification.NewNotice) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateMultiplatform()
+    viewModel.commonUiEvent.collectUiEvent()
 
     logScreenEvent(screenName = "NotificationArchiveScreen")
 

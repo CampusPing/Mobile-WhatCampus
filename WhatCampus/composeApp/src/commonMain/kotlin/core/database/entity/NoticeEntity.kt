@@ -1,14 +1,16 @@
 package core.database.entity
 
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 import core.database.entity.NoticeEntity.Companion.TABLE_NAME
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDateTime
 
-@Entity(tableName = TABLE_NAME)
+@Entity(
+    tableName = TABLE_NAME,
+    primaryKeys = ["id", "url"],
+)
 data class NoticeEntity(
-    @PrimaryKey val id: Long,
+    val id: Long,
     val title: String,
     val datetime: LocalDateTime,
     val url: String,
