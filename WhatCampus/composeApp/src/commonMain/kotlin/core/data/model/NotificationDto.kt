@@ -15,6 +15,6 @@ internal data class NotificationDto(
     val sendDateTime: String,
     val noticeId: Long,
     val noticeTitle: String,
-    val noticeDateTime: String,
+    val noticeDate: String,
     val noticeUrl: String,
 )

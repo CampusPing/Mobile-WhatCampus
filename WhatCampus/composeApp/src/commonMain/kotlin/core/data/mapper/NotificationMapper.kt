@@ -28,7 +28,9 @@ private fun NotificationDto.toNotification(): Notification = Notification.NewNot
     notice = Notice(
         id = noticeId,
         title = noticeTitle,
-        datetime = noticeDateTime.parse(notificationDateTimeFormatter),
+        datetime = noticeDate.paddingTime().parse(notificationDateTimeFormatter),
         url = noticeUrl,
     ),
 )
+
+private fun String.paddingTime(): String = "$this 000000"
