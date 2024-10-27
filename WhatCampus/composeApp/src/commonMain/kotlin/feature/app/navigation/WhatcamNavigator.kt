@@ -4,12 +4,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import core.model.Notice
-import core.navigation.Route
+import core.navigation.MainRoute
 import feature.main.navigation.navigateMain
 import feature.notice.navigation.navigateNoticeDetail
-import feature.notificationArchive.navigation.navigateNotificationArchive
 import feature.noticeSearch.navigation.navigateNoticeSearch
+import feature.notificationArchive.navigation.navigateNotificationArchive
 import feature.onboarding.navigation.navigateOnboarding
 import feature.profile.navigation.navigateFaq
 import feature.profile.navigation.navigateNoticeCategory
@@ -26,15 +27,15 @@ import kotlinx.coroutines.launch
 class WhatcamNavigator(
     val navController: NavHostController,
 ) {
-    val startDestination: Route = Route.SplashRoute
-    val currentRoute: Route
-        get() = Route.fromDestination(navController.currentDestination)
+    val startDestination: MainRoute = MainRoute.SplashRoute
+    val currentRoute: MainRoute
+        get() = navController.currentBackStackEntry?.toRoute() ?: startDestination
 
     fun navigateUp() {
         navController.navigateUp()
     }
 
-    fun navigateOnboarding(popUpTargetRoute: Route? = null) {
+    fun navigateOnboarding(popUpTargetRoute: MainRoute? = null) {
         navController.navigateOnboarding(popUpTargetRoute = popUpTargetRoute)
     }
 
@@ -54,7 +55,7 @@ class WhatcamNavigator(
         navController.navigateUniversityComplete()
     }
 
-    fun navigateMain(popUpTargetRoute: Route? = null) {
+    fun navigateMain(popUpTargetRoute: MainRoute? = null) {
         navController.navigateMain(popUpTargetRoute = popUpTargetRoute)
     }
 

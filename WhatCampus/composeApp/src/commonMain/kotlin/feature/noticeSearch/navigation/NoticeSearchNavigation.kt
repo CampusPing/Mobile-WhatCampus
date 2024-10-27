@@ -4,18 +4,18 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import core.model.Notice
-import core.navigation.Route
+import core.navigation.MainRoute
 import feature.noticeSearch.NoticeSearchScreen
 
 fun NavController.navigateNoticeSearch() {
-    navigate(Route.NoticeSearch.route)
+    navigate(MainRoute.NoticeSearch)
 }
 
 fun NavGraphBuilder.noticeSearchNavGraph(
     onClickBack: () -> Unit,
     onClickNotice: (Notice) -> Unit,
 ) {
-    composable(Route.NoticeSearch.route) {
+    composable<MainRoute.NoticeSearch> {
         NoticeSearchScreen(
             onClickBack = onClickBack,
             onClickNotice = onClickNotice,

@@ -7,7 +7,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import core.navigation.Route
+import core.navigation.MainRoute
 import feature.university.DepartmentSelectivityScreen
 import feature.university.NoticeCategorySelectivityScreen
 import feature.university.UniversityCompleteScreen
@@ -15,19 +15,19 @@ import feature.university.UniversitySelectivityScreen
 import feature.university.UniversityViewModel
 
 fun NavController.navigateUniversitySelectivity() {
-    navigate(Route.UniversitySelectivityRoute.route)
+    navigate(MainRoute.UniversitySelectivityRoute)
 }
 
 fun NavController.navigateDepartmentSelectivity() {
-    navigate(Route.DepartmentSelectivityRoute.route)
+    navigate(MainRoute.DepartmentSelectivityRoute)
 }
 
 fun NavController.navigateNoticeCategorySelectivity() {
-    navigate(Route.NoticeCategorySelectivityRoute.route)
+    navigate(MainRoute.NoticeCategorySelectivityRoute)
 }
 
 fun NavController.navigateUniversityComplete() {
-    navigate(Route.UniversityCompleteRoute.route)
+    navigate(MainRoute.UniversityCompleteRoute)
 }
 
 fun NavGraphBuilder.universityNavGraph(
@@ -38,7 +38,7 @@ fun NavGraphBuilder.universityNavGraph(
     onClickSaveNoticeCategory: () -> Unit,
     onClickComplete: () -> Unit,
 ) {
-    composable(Route.UniversitySelectivityRoute.route) {
+    composable<MainRoute.UniversitySelectivityRoute> {
         UniversitySelectivityScreen(
             modifier = Modifier
                 .fillMaxSize()
@@ -48,7 +48,7 @@ fun NavGraphBuilder.universityNavGraph(
         )
     }
 
-    composable(Route.DepartmentSelectivityRoute.route) {
+    composable<MainRoute.DepartmentSelectivityRoute> {
         DepartmentSelectivityScreen(
             modifier = Modifier
                 .fillMaxSize()
@@ -59,7 +59,7 @@ fun NavGraphBuilder.universityNavGraph(
         )
     }
 
-    composable(Route.NoticeCategorySelectivityRoute.route) {
+    composable<MainRoute.NoticeCategorySelectivityRoute> {
         NoticeCategorySelectivityScreen(
             modifier = Modifier
                 .fillMaxSize()
@@ -70,7 +70,7 @@ fun NavGraphBuilder.universityNavGraph(
         )
     }
 
-    composable(Route.UniversityCompleteRoute.route) {
+    composable<MainRoute.UniversityCompleteRoute> {
         UniversityCompleteScreen(
             modifier = Modifier
                 .fillMaxSize()

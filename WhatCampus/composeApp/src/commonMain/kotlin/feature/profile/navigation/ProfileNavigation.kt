@@ -6,31 +6,31 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import core.common.extensions.navigateSingleTop
 import core.designsystem.components.SimpleWebScreen
-import core.navigation.Route
+import core.navigation.MainRoute
 import feature.profile.ProfileScreen
 import feature.profile.subscreen.noticeCategory.NoticeCategoryScreen
 
 fun NavController.navigateProfile() {
-    navigate(Route.Profile.route)
+    navigate(MainRoute.Profile)
 }
 
 fun NavController.navigateNoticeCategory() {
     navigateSingleTop(
-        route = ProfileRouteModel.NoticeCategory.route,
+        route = ProfileRouteModel.NoticeCategory,
         isPopUpToTargetRoute = false,
     )
 }
 
 fun NavController.navigateFaq() {
     navigateSingleTop(
-        ProfileRouteModel.Faq.route,
+        ProfileRouteModel.Faq,
         isPopUpToTargetRoute = false,
     )
 }
 
 fun NavController.navigatePrivacy() {
     navigateSingleTop(
-        ProfileRouteModel.Privacy.route,
+        ProfileRouteModel.Privacy,
         isPopUpToTargetRoute = false,
     )
 }
@@ -43,11 +43,10 @@ fun NavGraphBuilder.profileNavGraph(
     onClickFaq: () -> Unit,
     onClickPrivacy: () -> Unit,
 ) {
-    navigation(
-        startDestination = ProfileRouteModel.ProfileMain.route,
-        route = Route.Profile.route,
+    navigation<MainRoute.Profile>(
+        startDestination = ProfileRouteModel.ProfileMain
     ) {
-        composable(ProfileRouteModel.ProfileMain.route) {
+        composable<ProfileRouteModel.ProfileMain> {
             ProfileScreen(
                 onClickBack = onClickBack,
                 onClickNoticeCategory = onClickNoticeCategory,
@@ -57,18 +56,18 @@ fun NavGraphBuilder.profileNavGraph(
             )
         }
 
-        composable(ProfileRouteModel.NoticeCategory.route) {
+        composable<ProfileRouteModel.NoticeCategory> {
             NoticeCategoryScreen(
                 onClickBack = onClickBack,
                 onClickSave = onClickNoticeCategorySave,
             )
         }
 
-        composable(ProfileRouteModel.Faq.route) {
+        composable<ProfileRouteModel.Faq> {
             SimpleWebScreen(url = FAQ_URL)
         }
 
-        composable(ProfileRouteModel.Privacy.route) {
+        composable<ProfileRouteModel.Privacy> {
             SimpleWebScreen(url = PRIVACY_URL)
         }
     }

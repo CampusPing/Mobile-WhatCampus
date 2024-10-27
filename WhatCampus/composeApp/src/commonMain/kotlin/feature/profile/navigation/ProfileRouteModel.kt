@@ -1,10 +1,19 @@
 package feature.profile.navigation
 
-enum class ProfileRouteModel(
-    val route: String,
-) {
-    ProfileMain("profile_main"),
-    NoticeCategory("noticeCategory"),
-    Faq("faq"),
-    Privacy("privacy"),
+import core.navigation.Route
+import kotlinx.serialization.Serializable
+
+@Serializable
+sealed class ProfileRouteModel : Route() {
+    @Serializable
+    data object ProfileMain : ProfileRouteModel()
+
+    @Serializable
+    data object NoticeCategory : ProfileRouteModel()
+
+    @Serializable
+    data object Faq : ProfileRouteModel()
+
+    @Serializable
+    data object Privacy : ProfileRouteModel()
 }

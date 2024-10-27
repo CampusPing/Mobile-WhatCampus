@@ -1,14 +1,17 @@
 package core.common.extensions
 
 import androidx.navigation.NavController
+import core.navigation.Route
 
 fun NavController.navigateSingleTop(
-    route: String,
-    popUpTargetRoute: String? = graph.startDestinationRoute,
+    route: Route,
+    popUpTargetRoute: Route? = null,
     isPopUpToTargetRoute: Boolean = true,
     isInclusive: Boolean = false,
 ) {
     navigate(route) {
+        launchSingleTop = true
+
         if (isPopUpToTargetRoute) {
             popUpTargetRoute ?: return@navigate
 
@@ -16,6 +19,5 @@ fun NavController.navigateSingleTop(
                 inclusive = isInclusive
             }
         }
-        launchSingleTop = true
     }
 }
