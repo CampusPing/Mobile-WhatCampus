@@ -16,21 +16,21 @@ fun NavController.navigateProfile() {
 
 fun NavController.navigateNoticeCategory() {
     navigateSingleTop(
-        route = ProfileRouteModel.NoticeCategory,
+        route = ProfileRoute.NoticeCategory,
         isPopUpToTargetRoute = false,
     )
 }
 
 fun NavController.navigateFaq() {
     navigateSingleTop(
-        ProfileRouteModel.Faq,
+        ProfileRoute.Faq,
         isPopUpToTargetRoute = false,
     )
 }
 
 fun NavController.navigatePrivacy() {
     navigateSingleTop(
-        ProfileRouteModel.Privacy,
+        ProfileRoute.Privacy,
         isPopUpToTargetRoute = false,
     )
 }
@@ -44,9 +44,9 @@ fun NavGraphBuilder.profileNavGraph(
     onClickPrivacy: () -> Unit,
 ) {
     navigation<MainRoute.Profile>(
-        startDestination = ProfileRouteModel.ProfileMain
+        startDestination = ProfileRoute.ProfileMain
     ) {
-        composable<ProfileRouteModel.ProfileMain> {
+        composable<ProfileRoute.ProfileMain> {
             ProfileScreen(
                 onClickBack = onClickBack,
                 onClickNoticeCategory = onClickNoticeCategory,
@@ -56,18 +56,18 @@ fun NavGraphBuilder.profileNavGraph(
             )
         }
 
-        composable<ProfileRouteModel.NoticeCategory> {
+        composable<ProfileRoute.NoticeCategory> {
             NoticeCategoryScreen(
                 onClickBack = onClickBack,
                 onClickSave = onClickNoticeCategorySave,
             )
         }
 
-        composable<ProfileRouteModel.Faq> {
+        composable<ProfileRoute.Faq> {
             SimpleWebScreen(url = FAQ_URL)
         }
 
-        composable<ProfileRouteModel.Privacy> {
+        composable<ProfileRoute.Privacy> {
             SimpleWebScreen(url = PRIVACY_URL)
         }
     }
