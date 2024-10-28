@@ -22,7 +22,7 @@ import kotlinx.coroutines.flow.collectLatest
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.KoinContext
 import whatcampus.composeapp.generated.resources.Res
-import whatcampus.composeapp.generated.resources.university_load_success_message
+import whatcampus.composeapp.generated.resources.university_load_failed_message
 import whatcampus.composeapp.generated.resources.user_save_success_message
 
 @Composable
@@ -100,14 +100,14 @@ private fun SharedFlow<UniversityUiEvent>.collectUniversityUiEvent(
     onShowSnackbar: (message: String, actionLabel: String?) -> Unit,
     navigator: WhatcamNavigator,
 ) {
-    val universityLoadSuccessMessage = stringResource(Res.string.university_load_success_message)
+    val universityLoadFailedMessage = stringResource(Res.string.university_load_failed_message)
     val userSaveSuccessMessage = stringResource(Res.string.user_save_success_message)
 
     LaunchedEffect(this) {
         collectLatest { uiEvent ->
             when (uiEvent) {
                 is UniversityUiEvent.UniversityLoadFailed -> onShowSnackbar(
-                    universityLoadSuccessMessage,
+                    universityLoadFailedMessage,
                     null
                 )
 
