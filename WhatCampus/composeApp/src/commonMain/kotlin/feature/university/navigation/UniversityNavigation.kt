@@ -7,6 +7,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
 import core.navigation.MainRoute
 import feature.university.DepartmentSelectivityScreen
 import feature.university.NoticeCategorySelectivityScreen
@@ -15,19 +16,19 @@ import feature.university.UniversitySelectivityScreen
 import feature.university.UniversityViewModel
 
 fun NavController.navigateUniversitySelectivity() {
-    navigate(MainRoute.UniversitySelectivityRoute)
+    navigate(UniversityRoute.UniversitySelectivityRoute)
 }
 
 fun NavController.navigateDepartmentSelectivity() {
-    navigate(MainRoute.DepartmentSelectivityRoute)
+    navigate(UniversityRoute.DepartmentSelectivityRoute)
 }
 
 fun NavController.navigateNoticeCategorySelectivity() {
-    navigate(MainRoute.NoticeCategorySelectivityRoute)
+    navigate(UniversityRoute.NoticeCategorySelectivityRoute)
 }
 
 fun NavController.navigateUniversityComplete() {
-    navigate(MainRoute.UniversityCompleteRoute)
+    navigate(UniversityRoute.UniversityCompleteRoute)
 }
 
 fun NavGraphBuilder.universityNavGraph(
@@ -38,45 +39,49 @@ fun NavGraphBuilder.universityNavGraph(
     onClickSaveNoticeCategory: () -> Unit,
     onClickComplete: () -> Unit,
 ) {
-    composable<MainRoute.UniversitySelectivityRoute> {
-        UniversitySelectivityScreen(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 8.dp),
-            viewModel = viewModel,
-            onClickUniversity = onClickUniversity,
-        )
-    }
+    navigation<MainRoute.UniversityRoute>(
+        startDestination = UniversityRoute.UniversitySelectivityRoute,
+    ) {
+        composable<UniversityRoute.UniversitySelectivityRoute> {
+            UniversitySelectivityScreen(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 8.dp),
+                viewModel = viewModel,
+                onClickUniversity = onClickUniversity,
+            )
+        }
 
-    composable<MainRoute.DepartmentSelectivityRoute> {
-        DepartmentSelectivityScreen(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 8.dp),
-            viewModel = viewModel,
-            onClickDepartment = onClickDepartment,
-            onClickBack = onClickBack,
-        )
-    }
+        composable<UniversityRoute.DepartmentSelectivityRoute> {
+            DepartmentSelectivityScreen(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 8.dp),
+                viewModel = viewModel,
+                onClickDepartment = onClickDepartment,
+                onClickBack = onClickBack,
+            )
+        }
 
-    composable<MainRoute.NoticeCategorySelectivityRoute> {
-        NoticeCategorySelectivityScreen(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 8.dp, bottom = 40.dp),
-            viewModel = viewModel,
-            onClickSave = onClickSaveNoticeCategory,
-            onClickBack = onClickBack,
-        )
-    }
+        composable<UniversityRoute.NoticeCategorySelectivityRoute> {
+            NoticeCategorySelectivityScreen(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 8.dp, bottom = 40.dp),
+                viewModel = viewModel,
+                onClickSave = onClickSaveNoticeCategory,
+                onClickBack = onClickBack,
+            )
+        }
 
-    composable<MainRoute.UniversityCompleteRoute> {
-        UniversityCompleteScreen(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 8.dp, bottom = 40.dp),
-            onClickComplete = onClickComplete,
-            onClickBack = onClickBack,
-        )
+        composable<UniversityRoute.UniversityCompleteRoute> {
+            UniversityCompleteScreen(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 8.dp, bottom = 40.dp),
+                onClickComplete = onClickComplete,
+                onClickBack = onClickBack,
+            )
+        }
     }
 }

@@ -15,16 +15,7 @@ sealed class MainRoute : Route() {
     data object OnboardingRoute : MainRoute()
 
     @Serializable
-    data object UniversitySelectivityRoute : MainRoute()
-
-    @Serializable
-    data object DepartmentSelectivityRoute : MainRoute()
-
-    @Serializable
-    data object NoticeCategorySelectivityRoute : MainRoute()
-
-    @Serializable
-    data object UniversityCompleteRoute : MainRoute()
+    data object UniversityRoute : MainRoute()
 
     @Serializable
     data object HomeRoute : MainRoute()
