@@ -7,7 +7,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import core.navigation.Route
+import androidx.navigation.compose.navigation
+import core.navigation.MainRoute
 import feature.university.DepartmentSelectivityScreen
 import feature.university.NoticeCategorySelectivityScreen
 import feature.university.UniversityCompleteScreen
@@ -15,19 +16,19 @@ import feature.university.UniversitySelectivityScreen
 import feature.university.UniversityViewModel
 
 fun NavController.navigateUniversitySelectivity() {
-    navigate(Route.UniversitySelectivityRoute.route)
+    navigate(UniversityRoute.UniversitySelectivityRoute)
 }
 
 fun NavController.navigateDepartmentSelectivity() {
-    navigate(Route.DepartmentSelectivityRoute.route)
+    navigate(UniversityRoute.DepartmentSelectivityRoute)
 }
 
 fun NavController.navigateNoticeCategorySelectivity() {
-    navigate(Route.NoticeCategorySelectivityRoute.route)
+    navigate(UniversityRoute.NoticeCategorySelectivityRoute)
 }
 
 fun NavController.navigateUniversityComplete() {
-    navigate(Route.UniversityCompleteRoute.route)
+    navigate(UniversityRoute.UniversityCompleteRoute)
 }
 
 fun NavGraphBuilder.universityNavGraph(
@@ -38,45 +39,49 @@ fun NavGraphBuilder.universityNavGraph(
     onClickSaveNoticeCategory: () -> Unit,
     onClickComplete: () -> Unit,
 ) {
-    composable(Route.UniversitySelectivityRoute.route) {
-        UniversitySelectivityScreen(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 8.dp),
-            viewModel = viewModel,
-            onClickUniversity = onClickUniversity,
-        )
-    }
+    navigation<MainRoute.UniversityRoute>(
+        startDestination = UniversityRoute.UniversitySelectivityRoute,
+    ) {
+        composable<UniversityRoute.UniversitySelectivityRoute> {
+            UniversitySelectivityScreen(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 8.dp),
+                viewModel = viewModel,
+                onClickUniversity = onClickUniversity,
+            )
+        }
 
-    composable(Route.DepartmentSelectivityRoute.route) {
-        DepartmentSelectivityScreen(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 8.dp),
-            viewModel = viewModel,
-            onClickDepartment = onClickDepartment,
-            onClickBack = onClickBack,
-        )
-    }
+        composable<UniversityRoute.DepartmentSelectivityRoute> {
+            DepartmentSelectivityScreen(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 8.dp),
+                viewModel = viewModel,
+                onClickDepartment = onClickDepartment,
+                onClickBack = onClickBack,
+            )
+        }
 
-    composable(Route.NoticeCategorySelectivityRoute.route) {
-        NoticeCategorySelectivityScreen(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 8.dp, bottom = 40.dp),
-            viewModel = viewModel,
-            onClickSave = onClickSaveNoticeCategory,
-            onClickBack = onClickBack,
-        )
-    }
+        composable<UniversityRoute.NoticeCategorySelectivityRoute> {
+            NoticeCategorySelectivityScreen(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 8.dp, bottom = 40.dp),
+                viewModel = viewModel,
+                onClickSave = onClickSaveNoticeCategory,
+                onClickBack = onClickBack,
+            )
+        }
 
-    composable(Route.UniversityCompleteRoute.route) {
-        UniversityCompleteScreen(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 8.dp, bottom = 40.dp),
-            onClickComplete = onClickComplete,
-            onClickBack = onClickBack,
-        )
+        composable<UniversityRoute.UniversityCompleteRoute> {
+            UniversityCompleteScreen(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 8.dp, bottom = 40.dp),
+                onClickComplete = onClickComplete,
+                onClickBack = onClickBack,
+            )
+        }
     }
 }

@@ -5,7 +5,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.compose.NavHost
 import core.common.extensions.collectUiEvent
 import core.di.koinViewModel
-import core.navigation.Route
+import core.navigation.MainRoute
 import feature.app.navigation.WhatcamNavigator
 import feature.main.navigation.mainNavGraph
 import feature.notice.navigation.noticeDetailNavGraph
@@ -22,7 +22,7 @@ import kotlinx.coroutines.flow.collectLatest
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.KoinContext
 import whatcampus.composeapp.generated.resources.Res
-import whatcampus.composeapp.generated.resources.university_load_success_message
+import whatcampus.composeapp.generated.resources.university_load_failed_message
 import whatcampus.composeapp.generated.resources.user_save_success_message
 
 @Composable
@@ -41,13 +41,13 @@ internal fun WhatcamNavHost(
 
         NavHost(
             navController = navigator.navController,
-            startDestination = navigator.startDestination.route,
+            startDestination = navigator.startDestination,
         ) {
             splashNavGraph { shouldOnboarding ->
                 if (shouldOnboarding) {
-                    navigator.navigateOnboarding()
+                    navigator.navigateOnboarding(popUpTargetRoute = MainRoute.SplashRoute)
                 } else {
-                    navigator.navigateMain()
+                    navigator.navigateMain(popUpTargetRoute = MainRoute.SplashRoute)
                 }
             }
             onboardingNavGraph(
@@ -87,7 +87,7 @@ internal fun WhatcamNavHost(
                     navigator.navigateUp()
                     onShowSnackbar(savedMessage, actionLabel)
                 },
-                onClickUniversityChange = { navigator.navigateOnboarding(popUpTargetRoute = Route.MainRoute) },
+                onClickUniversityChange = { navigator.navigateOnboarding(popUpTargetRoute = MainRoute.HomeRoute) },
                 onClickFaq = navigator::navigateFaq,
                 onClickPrivacy = navigator::navigatePrivacy,
             )
@@ -100,20 +100,20 @@ private fun SharedFlow<UniversityUiEvent>.collectUniversityUiEvent(
     onShowSnackbar: (message: String, actionLabel: String?) -> Unit,
     navigator: WhatcamNavigator,
 ) {
-    val universityLoadSuccessMessage = stringResource(Res.string.university_load_success_message)
+    val universityLoadFailedMessage = stringResource(Res.string.university_load_failed_message)
     val userSaveSuccessMessage = stringResource(Res.string.user_save_success_message)
 
     LaunchedEffect(this) {
         collectLatest { uiEvent ->
             when (uiEvent) {
                 is UniversityUiEvent.UniversityLoadFailed -> onShowSnackbar(
-                    universityLoadSuccessMessage,
+                    universityLoadFailedMessage,
                     null
                 )
 
                 is UniversityUiEvent.UserSaveSuccess -> {
                     onShowSnackbar(userSaveSuccessMessage, null)
-                    navigator.navigateMain(popUpTargetRoute = Route.OnboardingRoute)
+                    navigator.navigateMain(popUpTargetRoute = MainRoute.OnboardingRoute)
                 }
             }
         }

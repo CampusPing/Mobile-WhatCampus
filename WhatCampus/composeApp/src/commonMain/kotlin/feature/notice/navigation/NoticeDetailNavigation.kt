@@ -9,36 +9,17 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
+import androidx.navigation.toRoute
 import core.common.extensions.navigateSingleTop
-import core.common.util.defaultDatetimeFormatter
-import core.common.util.format
-import core.common.util.parse
 import core.model.Notice
-import core.navigation.Route
+import core.navigation.MainRoute
 import feature.notice.NoticeDetailScreen
-import io.ktor.util.decodeBase64String
-import io.ktor.util.encodeBase64
-import kotlinx.datetime.Clock
-import kotlinx.datetime.TimeZone.Companion.currentSystemDefault
-import kotlinx.datetime.toLocalDateTime
-
-private const val NOTICE_ID_ARGUMENT = "noticeId"
-private const val NOTICE_TITLE_ARGUMENT = "noticeTitle"
-private const val NOTICE_DATETIME_ARGUMENT = "noticeDateTime"
-private const val NOTICE_URL_ARGUMENT = "noticeUrl"
+import kotlin.reflect.typeOf
 
 fun NavController.navigateNoticeDetail(notice: Notice) {
-    val routeWithArgs = Route.NoticeDetail.route +
-            "/${notice.id}" +
-            "/${notice.title}" +
-            "/${notice.datetime.format(formatter = defaultDatetimeFormatter).encodeBase64()}" +
-            "/${notice.url.encodeBase64()}"
-
     navigateSingleTop(
-        route = routeWithArgs,
+        route = MainRoute.NoticeDetail(notice),
         isPopUpToTargetRoute = false,
     )
 }
@@ -46,41 +27,16 @@ fun NavController.navigateNoticeDetail(notice: Notice) {
 fun NavGraphBuilder.noticeDetailNavGraph(
     onClickBack: () -> Unit,
 ) {
-    composable(
-        route = Route.NoticeDetail.route +
-                "/{$NOTICE_ID_ARGUMENT}" +
-                "/{$NOTICE_TITLE_ARGUMENT}" +
-                "/{$NOTICE_DATETIME_ARGUMENT}" +
-                "/{$NOTICE_URL_ARGUMENT}",
-        arguments = listOf(
-            navArgument(NOTICE_ID_ARGUMENT) {
-                type = NavType.LongType
-                nullable = false
-            },
-            navArgument(NOTICE_URL_ARGUMENT) {
-                type = NavType.StringType
-                nullable = false
-            }
-        ),
+    composable<MainRoute.NoticeDetail>(
         enterTransition = { slidingStartEnterTransition() },
         exitTransition = { slidingEndOutTransition() },
+        typeMap = mapOf(typeOf<Notice>() to NoticeNavType),
     ) { backStackEntry ->
-        val noticeId = backStackEntry.arguments?.getLong(NOTICE_ID_ARGUMENT)
-        val noticeTitle = backStackEntry.arguments?.getString(NOTICE_TITLE_ARGUMENT)
-        val noticeDatetime = backStackEntry.arguments?.getString(NOTICE_DATETIME_ARGUMENT)
-            ?.decodeBase64String()
-            ?.parse(formatter = defaultDatetimeFormatter)
-        val noticeUrl = backStackEntry.arguments?.getString(NOTICE_URL_ARGUMENT)?.decodeBase64String()
-        val notice = Notice(
-            id = noticeId ?: 0,
-            title = noticeTitle.orEmpty(),
-            datetime = noticeDatetime ?: Clock.System.now().toLocalDateTime(currentSystemDefault()),
-            url = noticeUrl.orEmpty(),
-        )
+        val noticeDetailRoute = backStackEntry.toRoute<MainRoute.NoticeDetail>()
 
         NoticeDetailScreen(
             modifier = Modifier.fillMaxSize(),
-            notice = notice,
+            notice = noticeDetailRoute.notice,
             onClickBack = onClickBack,
         )
     }

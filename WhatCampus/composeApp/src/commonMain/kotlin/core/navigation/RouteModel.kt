@@ -1,25 +1,34 @@
 package core.navigation
 
-import androidx.navigation.NavDestination
+import core.model.Notice
+import kotlinx.serialization.Serializable
 
-enum class Route(
-    val route: String,
-) {
-    SplashRoute("splash"),
-    OnboardingRoute("onboarding"),
-    UniversitySelectivityRoute("universitySelectivity"),
-    DepartmentSelectivityRoute("departmentSelectivity"),
-    NoticeCategorySelectivityRoute("noticeCategorySelectivity"),
-    UniversityCompleteRoute("universityComplete"),
-    MainRoute("main"),
-    NoticeDetail("noticeDetail"),
-    NoticeSearch("noticeSearch"),
-    NotificationArchive("notificationArchive"),
-    Profile("profile");
+@Serializable
+open class Route
 
-    companion object {
-        fun fromDestination(destination: NavDestination?): Route {
-            return entries.find { it.route == destination?.route } ?: SplashRoute
-        }
-    }
+@Serializable
+sealed class MainRoute : Route() {
+    @Serializable
+    data object SplashRoute : MainRoute()
+
+    @Serializable
+    data object OnboardingRoute : MainRoute()
+
+    @Serializable
+    data object UniversityRoute : MainRoute()
+
+    @Serializable
+    data object HomeRoute : MainRoute()
+
+    @Serializable
+    data class NoticeDetail(val notice: Notice) : MainRoute()
+
+    @Serializable
+    data object NoticeSearch : MainRoute()
+
+    @Serializable
+    data object NotificationArchive : MainRoute()
+
+    @Serializable
+    data object Profile : MainRoute()
 }

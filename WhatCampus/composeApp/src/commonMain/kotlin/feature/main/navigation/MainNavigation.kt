@@ -7,13 +7,13 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import core.common.extensions.navigateSingleTop
 import core.model.Notice
-import core.navigation.Route
+import core.navigation.MainRoute
 import feature.main.MainScreen
 
-fun NavController.navigateMain(popUpTargetRoute: Route?) {
+fun NavController.navigateMain(popUpTargetRoute: MainRoute?) {
     navigateSingleTop(
-        route = Route.MainRoute.route,
-        popUpTargetRoute = popUpTargetRoute?.route ?: graph.startDestinationRoute,
+        route = MainRoute.HomeRoute,
+        popUpTargetRoute = popUpTargetRoute,
         isPopUpToTargetRoute = true,
         isInclusive = true,
     )
@@ -25,7 +25,7 @@ fun NavGraphBuilder.mainNavGraph(
     onClickNotificationArchive: () -> Unit,
     onClickProfile: () -> Unit,
 ) {
-    composable(Route.MainRoute.route) {
+    composable<MainRoute.HomeRoute> {
         MainScreen(
             modifier = Modifier.fillMaxSize(),
             onNoticeClick = onNoticeClick,

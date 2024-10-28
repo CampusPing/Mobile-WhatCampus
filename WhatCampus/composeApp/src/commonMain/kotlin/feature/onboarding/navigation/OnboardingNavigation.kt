@@ -8,13 +8,13 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import core.common.extensions.navigateSingleTop
-import core.navigation.Route
+import core.navigation.MainRoute
 import feature.onboarding.OnboardingScreen
 
-fun NavController.navigateOnboarding(popUpTargetRoute: Route? = null) {
+fun NavController.navigateOnboarding(popUpTargetRoute: MainRoute? = null) {
     navigateSingleTop(
-        route = Route.OnboardingRoute.route,
-        popUpTargetRoute = popUpTargetRoute?.route ?: graph.startDestinationRoute,
+        route = MainRoute.OnboardingRoute,
+        popUpTargetRoute = popUpTargetRoute,
         isPopUpToTargetRoute = true,
         isInclusive = true,
     )
@@ -23,7 +23,7 @@ fun NavController.navigateOnboarding(popUpTargetRoute: Route? = null) {
 fun NavGraphBuilder.onboardingNavGraph(
     onboardingComplete: () -> Unit,
 ) {
-    composable(Route.OnboardingRoute.route) {
+    composable<MainRoute.OnboardingRoute> {
         OnboardingScreen(
             modifier = Modifier
                 .fillMaxSize()
