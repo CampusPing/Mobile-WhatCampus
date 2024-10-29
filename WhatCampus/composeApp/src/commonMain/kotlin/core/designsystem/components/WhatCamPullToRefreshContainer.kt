@@ -1,6 +1,7 @@
 package core.designsystem.components
 
-import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
 import androidx.compose.material3.pulltorefresh.PullToRefreshState
@@ -11,13 +12,16 @@ import core.designsystem.theme.WhatcamTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BoxScope.WhatCamPullToRefreshContainer(
+fun WhatCamPullToRefreshContainer(
+    modifier: Modifier = Modifier,
     refreshState: PullToRefreshState,
 ) {
-    PullToRefreshContainer(
-        state = refreshState,
-        modifier = Modifier.align(Alignment.TopCenter),
-        containerColor = WhatcamTheme.colors.primaryContainer,
-        contentColor = WhatcamTheme.colors.primary,
-    )
+    Box(modifier = modifier.fillMaxWidth()) {
+        PullToRefreshContainer(
+            state = refreshState,
+            modifier = Modifier.align(Alignment.TopCenter),
+            containerColor = WhatcamTheme.colors.primaryContainer,
+            contentColor = WhatcamTheme.colors.primary,
+        )
+    }
 }
