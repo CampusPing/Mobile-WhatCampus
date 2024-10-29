@@ -52,7 +52,7 @@ fun NoticeScreen(
     LaunchedEffect(Unit) {
         viewModel.uiEvent.collectLatest { uiEvent ->
             when (uiEvent) {
-                NoticeUiEvent.NOTICE_FETCHED -> refreshState.endRefresh()
+                NoticeUiEvent.REFRESH_COMPLETE -> refreshState.endRefresh()
             }
         }
     }

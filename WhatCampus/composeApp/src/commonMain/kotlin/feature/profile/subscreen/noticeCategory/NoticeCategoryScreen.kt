@@ -44,7 +44,7 @@ internal fun NoticeCategoryScreen(
     LaunchedEffect(Unit) {
         viewModel.uiEvent.collectLatest { uiEvent ->
             when (uiEvent) {
-                NoticeCategoryUiEvent.NOTICE_FETCHED -> refreshState.endRefresh()
+                NoticeCategoryUiEvent.REFRESH_COMPLETE -> refreshState.endRefresh()
             }
         }
     }

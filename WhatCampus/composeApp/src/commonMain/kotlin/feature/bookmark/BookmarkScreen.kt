@@ -53,7 +53,7 @@ internal fun BookmarkScreen(
     LaunchedEffect(Unit) {
         viewModel.uiEvent.collectLatest { uiEvent ->
             when (uiEvent) {
-                BookmarkUiEvent.NOTICE_FETCHED -> refreshState.endRefresh()
+                BookmarkUiEvent.REFRESH_COMPLETE -> refreshState.endRefresh()
             }
         }
     }

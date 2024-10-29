@@ -51,7 +51,7 @@ class NoticeCategoryViewModel(
                     handleNoticeCategoriesResponse(subscribedNoticeCategoriesResponse, noticeCategoriesResponse, user)
                 }
             }
-            .onEach { _uiEvent.emit(NoticeCategoryUiEvent.NOTICE_FETCHED) }
+            .onEach { _uiEvent.emit(NoticeCategoryUiEvent.REFRESH_COMPLETE) }
             .launchIn(viewModelScope)
     }
 

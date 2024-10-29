@@ -44,7 +44,7 @@ fun NotificationArchiveScreen(
         viewModel.turnOffNewNotification()
         viewModel.uiEvent.collectLatest { uiEvent ->
             when (uiEvent) {
-                NotificationArchiveUiEvent.NOTICE_FETCHED -> refreshState.endRefresh()
+                NotificationArchiveUiEvent.REFRESH_COMPLETE -> refreshState.endRefresh()
             }
         }
     }

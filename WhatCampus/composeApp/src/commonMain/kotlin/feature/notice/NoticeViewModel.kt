@@ -111,7 +111,7 @@ class NoticeViewModel(
                     is Response.Failure.NetworkError -> sendNetworkErrorEvent()
                     is Response.Failure.OtherError<*> -> sendOtherErrorEvent()
                 }
-                _uiEvent.emit(NoticeUiEvent.NOTICE_FETCHED)
+                _uiEvent.emit(NoticeUiEvent.REFRESH_COMPLETE)
             }
             .launchIn(viewModelScope)
     }

@@ -37,7 +37,7 @@ class BookmarkViewModel(
     fun fetchBookmarkedNotices() {
         getAllBookmarkedNotices()
             .map { bookmarkedNotices -> _uiState.update { uiState -> uiState.copy(notices = bookmarkedNotices) } }
-            .onEach { _uiEvent.emit(BookmarkUiEvent.NOTICE_FETCHED) }
+            .onEach { _uiEvent.emit(BookmarkUiEvent.REFRESH_COMPLETE) }
             .launchIn(viewModelScope)
     }
 

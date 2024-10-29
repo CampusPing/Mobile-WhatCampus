@@ -48,7 +48,7 @@ class NotificationArchiveViewModel(
             .onEach { user ->
                 if (user == null) {
                     sendOtherErrorEvent()
-                    _uiEvent.emit(NotificationArchiveUiEvent.NOTICE_FETCHED)
+                    _uiEvent.emit(NotificationArchiveUiEvent.REFRESH_COMPLETE)
                 }
             }
             .filterNotNull()
@@ -68,13 +68,13 @@ class NotificationArchiveViewModel(
             .onEach { user ->
                 if (user == null) {
                     sendOtherErrorEvent()
-                    _uiEvent.emit(NotificationArchiveUiEvent.NOTICE_FETCHED)
+                    _uiEvent.emit(NotificationArchiveUiEvent.REFRESH_COMPLETE)
                 }
             }
             .filterNotNull()
             .flatMapLatest { user -> notificationRepository.flowNotifications(userId = user.userId) }
             .onEach(::handleResponse)
-            .onEach { _uiEvent.emit(NotificationArchiveUiEvent.NOTICE_FETCHED) }
+            .onEach { _uiEvent.emit(NotificationArchiveUiEvent.REFRESH_COMPLETE) }
             .launchIn(viewModelScope)
     }
 
