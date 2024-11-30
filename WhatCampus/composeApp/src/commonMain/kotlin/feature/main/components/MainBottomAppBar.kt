@@ -26,8 +26,9 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 internal fun MainBottomAppBar(navigator: MainNavigator) {
     BottomAppBar(
-        tonalElevation = 0.dp,
         modifier = Modifier.fillMaxWidth(),
+        containerColor = WhatcamTheme.colors.primaryContainer,
+        tonalElevation = 0.dp,
         actions = {
             MainTab.entries.forEach { tab ->
                 MainBottomBarItem(
