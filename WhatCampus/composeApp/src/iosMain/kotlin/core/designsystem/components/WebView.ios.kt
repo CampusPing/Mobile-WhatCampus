@@ -33,9 +33,6 @@ actual fun WebView(
 
     val navigationDelegate = remember {
         object : NSObject(), WKNavigationDelegateProtocol {
-            override fun webView(webView: WKWebView, didStartProvisionalNavigation: WKNavigation?) {
-                isLoading = true
-            }
 
             override fun webView(webView: WKWebView, didFinishNavigation: WKNavigation?) {
                 isLoading = false
