@@ -68,10 +68,10 @@ internal fun WhatcamNavHost(
                 onClickProfile = navigator::navigateProfile,
             )
             noticeDetailNavGraph(
-                onClickBack = { navigator.navigateUp() },
+                onClickBack = navigator::navigateUp,
             )
             noticeSearchNavGraph(
-                onClickBack = { navigator.navigateUp() },
+                onClickBack = navigator::navigateUp,
                 onClickNotice = navigator::navigateNoticeDetail
             )
             notificationArchiveNavGraph(
